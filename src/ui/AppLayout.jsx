@@ -8,10 +8,12 @@ function AppLayout() {
   return (
     <div>
       <Header />
-      <Sidebar />
-      <Main type="primary">
-        <Outlet />
-      </Main>
+      <div className="min-h-screens flex w-full">
+        <Sidebar />
+        <Main type="primary">
+          <Outlet />
+        </Main>
+      </div>
     </div>
   );
 }

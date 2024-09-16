@@ -18,10 +18,9 @@ function App() {
       <Routes>
         <Route>
           <Route element={<AppLayout />}>
-            <Route index element={<Navigate replace to="all-themes" />} />\
-            <Route path="all-themes" element={<AllThemes />} />
-            {/* preparation route  */}
-            <Route path="preparation-theme" element={<PreparationTheme />} />
+            <Route index element={<Navigate replace to="themes" />} />\
+            <Route path="themes" element={<AllThemes />} />
+            <Route path="themes/:slug" element={<PreparationTheme />} />
             <Route
               path="consolidated-readings"
               element={<ConsolidatedReadings />}

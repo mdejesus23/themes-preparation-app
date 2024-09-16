@@ -7,7 +7,7 @@ function LoginForm() {
   function handleSumbit() {}
 
   return (
-    <Form onSubmit={handleSumbit}>
+    <Form onSubmit={handleSumbit} type="primary">
       <h1 className="mb-12 font-headfont text-4xl font-bold md:text-4xl">
         Login
       </h1>
@@ -31,7 +31,7 @@ function LoginForm() {
       </FormRow>
       <Button type="primary">Login</Button>
       <div className="mt-10 flex w-full justify-center">
-        <Button to="/signup" type="secondary">
+        <Button to="/signup" type="tertiary">
           Signup
         </Button>
       </div>

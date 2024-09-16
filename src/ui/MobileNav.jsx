@@ -14,9 +14,9 @@ function MobileNav({ setIsOpen }) {
         <li className="w-full">
           <NavLink
             onClick={handleNavLinkClick}
-            to="/all-themes"
+            to="/themes"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }
@@ -29,7 +29,7 @@ function MobileNav({ setIsOpen }) {
             onClick={handleNavLinkClick}
             to="/admin-themes"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }
@@ -42,7 +42,7 @@ function MobileNav({ setIsOpen }) {
             onClick={handleNavLinkClick}
             to="/admin-results"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }
@@ -55,7 +55,7 @@ function MobileNav({ setIsOpen }) {
             onClick={handleNavLinkClick}
             to="/admin-create-theme"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }
@@ -69,7 +69,7 @@ function MobileNav({ setIsOpen }) {
             onClick={handleNavLinkClick}
             to="/admin-settings"
             className={({ isActive }) =>
-              `flex w-full justify-center gap-x-2 px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }
@@ -83,7 +83,7 @@ function MobileNav({ setIsOpen }) {
             onClick={handleNavLinkClick}
             to="/logout"
             className={({ isActive }) =>
-              `flex w-full justify-center gap-x-2 px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }

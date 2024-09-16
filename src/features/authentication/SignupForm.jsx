@@ -6,7 +6,7 @@ import Button from '../../ui/Button';
 function SignupForm() {
   function handleSubmit() {}
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} type="primary">
       <h1 className="mb-12 font-headfont text-4xl font-bold md:text-4xl">
         Signup
       </h1>

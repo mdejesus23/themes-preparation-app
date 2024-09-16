@@ -7,7 +7,7 @@ function UpdateUserDataForm() {
   function handleSubmit() {}
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} type="secondary">
       <FormRow name="currentPassword" label="Current Password">
         <Input
           reqired

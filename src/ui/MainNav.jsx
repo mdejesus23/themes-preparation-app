@@ -8,9 +8,9 @@ function MainNav() {
       <ul className="flex w-full flex-col items-center text-white">
         <li className="w-full">
           <NavLink
-            to="/all-themes"
+            to="/themes"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }
@@ -22,7 +22,7 @@ function MainNav() {
           <NavLink
             to="/admin-themes"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }
@@ -34,7 +34,7 @@ function MainNav() {
           <NavLink
             to="/admin-results"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }
@@ -46,7 +46,7 @@ function MainNav() {
           <NavLink
             to="/admin-create-theme"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }
@@ -59,7 +59,7 @@ function MainNav() {
           <NavLink
             to="/admin-settings"
             className={({ isActive }) =>
-              `flex w-full justify-center gap-x-2 px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }
@@ -72,7 +72,7 @@ function MainNav() {
           <NavLink
             to="/logout"
             className={({ isActive }) =>
-              `absolute bottom-0 flex w-full justify-center gap-x-2 px-2 py-5 text-lg font-semibold hover:bg-yellow ${
+              `absolute bottom-0 flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
               }`
             }
