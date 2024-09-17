@@ -8,7 +8,6 @@ import PageNotFound from './pages/PageNotFound';
 import AppLayout from './ui/AppLayout';
 import MyThemes from './pages/MyThemes';
 import MyResults from './pages/MyResults';
-import CreateTheme from './pages/CreateTheme';
 import Settings from './pages/Settings';
 import UpdateUserPassword from './pages/UpdateUserPassword';
 
@@ -28,7 +27,6 @@ function App() {
             {/* admin routes */}
             <Route path="admin-themes" element={<MyThemes />} />
             <Route path="admin-results" element={<MyResults />} />
-            <Route path="admin-create-theme" element={<CreateTheme />} />
             <Route path="admin-settings" element={<Settings />} />
           </Route>
         </Route>

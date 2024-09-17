@@ -18,7 +18,7 @@ function ThemeItem({ theme }) {
         </Modal.Open>
 
         <Modal.Window name="passcode-form">
-          <PasscodeForm />
+          <PasscodeForm title={theme.title} />
         </Modal.Window>
       </Modal>
     </li>

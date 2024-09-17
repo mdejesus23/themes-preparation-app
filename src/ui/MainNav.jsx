@@ -42,18 +42,6 @@ function MainNav() {
             My results
           </NavLink>
         </li>
-        <li className="w-full">
-          <NavLink
-            to="/admin-create-theme"
-            className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
-                isActive ? 'bg-yellow text-dark' : ''
-              }`
-            }
-          >
-            Create theme
-          </NavLink>
-        </li>
 
         <li className="w-full">
           <NavLink
