@@ -10,6 +10,7 @@ import MyThemes from './pages/MyThemes';
 import MyResults from './pages/MyResults';
 import Settings from './pages/Settings';
 import UpdateUserPassword from './pages/UpdateUserPassword';
+import AdminThemeWithReadings from './features/admin/AdminThemeWithReadings';
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
             />
             {/* admin routes */}
             <Route path="admin-themes" element={<MyThemes />} />
+            <Route
+              path="admin-themes/:slug"
+              element={<AdminThemeWithReadings />}
+            />
             <Route path="admin-results" element={<MyResults />} />
             <Route path="admin-settings" element={<Settings />} />
           </Route>

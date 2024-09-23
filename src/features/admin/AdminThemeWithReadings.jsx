@@ -1,9 +1,12 @@
 import { formatDate } from '../../utils/formatDate';
 
 import ThemeWithReading from '../../data/themeWithReadings';
-import CategorizeReadings from './CategorizeReadings';
+import AdminCatogirzeReadings from './AdminCategorizeReading';
 import { useState } from 'react';
 import CategoryMenu from '../../ui/CategoryMenu';
+import Button from '../../ui/Button';
+import Modal from '../../ui/Modal';
+import AddReadingForm from './AddReadingForm';
 
 const historical = ThemeWithReading.readings.filter(
   (reading) => reading.category === 'Historical',
@@ -21,7 +24,7 @@ const gospel = ThemeWithReading.readings.filter(
   (reading) => reading.category === 'Gospel',
 );
 
-function ThemeDetails() {
+function AdminThemeWithReadings() {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
 
   const showAllReadings = isCategoryShow === 'all';
@@ -39,26 +42,41 @@ function ThemeDetails() {
         {formatDate(ThemeWithReading.createdAt)}
       </p>
       <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
+
+      <div className="flex items-center justify-center">
+        <Modal>
+          <Modal.Open opens="add-reading-form">
+            <Button type="secondary">Add reading</Button>
+          </Modal.Open>
+
+          <Modal.Window name="add-reading-form">
+            <AddReadingForm />
+          </Modal.Window>
+        </Modal>
+      </div>
+
       <div className="my-11 grid w-full border-spacing-1 grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
         {showAllReadings && (
           <>
             {' '}
-            <CategorizeReadings readings={historical} />
-            <CategorizeReadings readings={prophetical} />
-            <CategorizeReadings readings={epistle} />
-            <CategorizeReadings readings={gospel} />
+            <AdminCatogirzeReadings readings={historical} />
+            <AdminCatogirzeReadings readings={prophetical} />
+            <AdminCatogirzeReadings readings={epistle} />
+            <AdminCatogirzeReadings readings={gospel} />
           </>
         )}
 
-        {showHistoricalReadings && <CategorizeReadings readings={historical} />}
-        {showPropheticalReadings && (
-          <CategorizeReadings readings={prophetical} />
+        {showHistoricalReadings && (
+          <AdminCatogirzeReadings readings={historical} />
         )}
-        {showEpistleReadings && <CategorizeReadings readings={epistle} />}
-        {showGospelReadings && <CategorizeReadings readings={gospel} />}
+        {showPropheticalReadings && (
+          <AdminCatogirzeReadings readings={prophetical} />
+        )}
+        {showEpistleReadings && <AdminCatogirzeReadings readings={epistle} />}
+        {showGospelReadings && <AdminCatogirzeReadings readings={gospel} />}
       </div>
     </div>
   );
 }
 
-export default ThemeDetails;
+export default AdminThemeWithReadings;

@@ -2,8 +2,9 @@ import ConfirmDelete from '../../ui/ConfirmDelete';
 import { formatDate } from '../../utils/formatDate';
 import Modal from '../../ui/Modal';
 import Menus from '../../ui/Menus';
-import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
+import { HiPencil, HiEye, HiTrash } from 'react-icons/hi2';
 import AddThemeForm from './AddThemeForm';
+import Button from '../../ui/Button';
 
 function AdminThemeItem({ theme }) {
   const { id, title, createdAt } = theme;
@@ -19,6 +20,13 @@ function AdminThemeItem({ theme }) {
             <Menus.Toggle id={id} />
 
             <Menus.List id={id}>
+              {/* <Modal.Open opens="view">
+                <Menus.Button icon={<HiEye />}>View</Menus.Button>
+              </Modal.Open> */}
+              <Button to={theme.slug}>
+                <HiEye /> View
+              </Button>
+
               <Modal.Open opens="edit">
                 <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
               </Modal.Open>
@@ -33,7 +41,7 @@ function AdminThemeItem({ theme }) {
             </Modal.Window>
 
             <Modal.Window name="delete">
-              <ConfirmDelete />
+              <ConfirmDelete resourceName="themes" />
             </Modal.Window>
           </Menus>
         </Modal>

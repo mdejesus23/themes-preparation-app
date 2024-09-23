@@ -13,6 +13,7 @@ export default {
       lightGrey: '#f6f8f9',
       backdropColor: 'rgba(0, 0, 0, 0.5)',
       green: '#54e37a',
+      red: '#c7342a',
     },
     fontFamily: {
       headfont: ['Merriweather Sans Variable', 'sans-serif;'],

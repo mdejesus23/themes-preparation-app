@@ -1,4 +1,4 @@
-import Button from '../../ui/Button';
+import Button from './Button';
 
 function CategoryMenu({ setIsCategoryShow }) {
   return (

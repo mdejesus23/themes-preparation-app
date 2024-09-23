@@ -10,9 +10,9 @@ function AddThemeForm({ themeToEdit = {} }) {
   function handleSubmit() {}
   return (
     <Form onSubmit={handleSubmit} type="tertiary">
-      <h1 className="mb-12 font-headfont text-4xl font-bold md:text-4xl">
+      {/* <h1 className="mb-12 font-headfont text-4xl font-bold md:text-4xl">
         Add Theme
-      </h1>
+      </h1> */}
       <FormRow name="title" label="Title">
         <Input
           required
@@ -40,7 +40,9 @@ function AddThemeForm({ themeToEdit = {} }) {
           placeholder="Theme Passcode"
         />
       </FormRow>
-      <Button type="primary">Add</Button>
+      <div>
+        <Button type="primary">Create new theme</Button>
+      </div>
     </Form>
   );
 }

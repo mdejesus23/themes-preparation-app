@@ -36,7 +36,7 @@ function Window({ children, name }) {
   return createPortal(
     <ModalOverlay>
       <StyledModal reference={ref}>
-        <Button type="cancel" onClick={close}>
+        <Button type="close" onClick={close}>
           <HiXMark />
         </Button>
 
