@@ -1,17 +1,56 @@
 import resultArray from '../../data/results';
+import ConfirmDelete from '../../ui/ConfirmDelete';
+import Menus from '../../ui/Menus';
+import Modal from '../../ui/Modal';
 import { formatDate } from '../../utils/formatDate';
+import { HiPencil, HiTrash } from 'react-icons/hi2';
+import ResultForm from './ResultForm';
 
 function Results() {
   return (
     <ul className="my-12 grid w-full grid-cols-1 gap-12 sm:grid-cols-2 xl:grid-cols-3">
       {resultArray.map((item) => {
+        const { id, title, createdAt } = item;
         return (
           <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-lightGrey bg-white p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
-            <div>
-              <h2 className="font-headfont text-lg">{item.title}</h2>
-              <p className="text-xs text-grey">{formatDate(item.createdAt)}</p>
+            <div className="mb-5 flex w-full justify-between">
+              <div>
+                <h2 className="font-headfont text-xl font-semibold">
+                  {item.title}
+                </h2>
+                <p className="text-xs text-grey">
+                  {formatDate(item.createdAt)}
+                </p>
+              </div>
+              <Modal>
+                <Menus>
+                  <Menus.Toggle id={id} />
+
+                  <Menus.List id={id}>
+                    <Modal.Open opens="edit">
+                      <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+                    </Modal.Open>
+
+                    <Modal.Open opens="delete">
+                      <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                    </Modal.Open>
+                  </Menus.List>
+
+                  <Modal.Window name="delete">
+                    <ConfirmDelete resourceName="Prep result" />
+                  </Modal.Window>
+
+                  <Modal.Window name="edit">
+                    <ResultForm resultToEdit={item} />
+                  </Modal.Window>
+                </Menus>
+              </Modal>
             </div>
 
+            <div className="flex w-full gap-x-2">
+              <p className="font-headfont">Entrance Song:</p>
+              <p>{item.entranceSong}</p>
+            </div>
             <div className="flex w-full gap-x-2">
               <p className="font-headfont">First reading:</p>
               <p>{item.firstReading}</p>
@@ -40,7 +79,6 @@ function Results() {
               <p className="font-headfont">Gospel:</p>
               <p>{item.gospel}</p>
             </div>
-
             <div className="flex w-full gap-x-2">
               <p className="font-headfont">Final song:</p>
               <p>{item.finalSong}</p>

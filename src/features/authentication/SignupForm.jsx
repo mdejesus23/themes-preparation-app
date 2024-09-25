@@ -2,6 +2,7 @@ import Form from '../../ui/Form';
 import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
+import Separator from '../../ui/Separator';
 
 function SignupForm() {
   function handleSubmit() {}
@@ -47,6 +48,14 @@ function SignupForm() {
         />
       </FormRow>
       <Button type="primary">Signup</Button>
+
+      <Separator>or</Separator>
+
+      <div className="mt-5 flex w-full justify-center">
+        <Button to="/login" type="tertiary">
+          Login
+        </Button>
+      </div>
     </Form>
   );
 }

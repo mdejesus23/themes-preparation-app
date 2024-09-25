@@ -2,6 +2,7 @@ import Button from '../../ui/Button';
 import Form from '../../ui/Form';
 import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
+import Separator from '../../ui/Separator';
 
 function LoginForm() {
   function handleSumbit() {}
@@ -29,8 +30,16 @@ function LoginForm() {
           placeholder="Your password"
         />
       </FormRow>
+      <div>
+        <Button to="/forgot-password" type="link">
+          Forgot password?
+        </Button>
+      </div>
       <Button type="primary">Login</Button>
-      <div className="mt-10 flex w-full justify-center">
+
+      <Separator>or</Separator>
+
+      <div className="mt-5 flex w-full justify-center">
         <Button to="/signup" type="tertiary">
           Signup
         </Button>

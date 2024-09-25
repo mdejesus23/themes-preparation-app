@@ -1,26 +1,19 @@
 import { useState } from 'react';
 import { formatDate } from '../../utils/formatDate';
+
+import themeData from '../../data/votedReading';
+
+import CategorizeReadingWithVotes from './CategorizeReadingWithVotes';
 import Button from '../../ui/Button';
-import ThemeWithReading from '../../data/themeWithReadings';
-import CategorizeReadings from './CategorizeReadings';
 import CategoryMenu from '../../ui/CategoryMenu';
+import Modal from '../../ui/Modal';
+import ResultForm from '../admin/ResultForm';
 
-const data = ThemeWithReading.readings.map((themeReading) => {
-  return { ...themeReading, done: false };
-});
+const data = themeData.readings;
 
-function ThemeDetails() {
+function ReadingVotesList() {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
   const [themeReadings, SetThemeReadings] = useState(data);
-
-  function toggleDone(id) {
-    console.log('click', id);
-    SetThemeReadings((prevReading) =>
-      prevReading.map((reading) =>
-        reading.id === id ? { ...reading, done: !reading.done } : reading,
-      ),
-    );
-  }
 
   const historical = themeReadings.filter(
     (reading) => reading.category === 'Historical',
@@ -48,53 +41,50 @@ function ThemeDetails() {
     <>
       <div className="w-full">
         <h1 className="text-center font-headfont text-3xl font-bold md:text-4xl">
-          {ThemeWithReading.title}
+          {themeData.title}
         </h1>
         <p className="text-center text-xs text-grey">
-          {formatDate(ThemeWithReading.createdAt)}
+          {formatDate(themeData.createdAt)}
         </p>
         <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
         <div className="my-11 grid w-full border-spacing-1 grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
           {showAllReadings && (
             <>
               {' '}
-              <CategorizeReadings
-                toggleDone={toggleDone}
-                readings={historical}
-              />
-              <CategorizeReadings
-                toggleDone={toggleDone}
-                readings={prophetical}
-              />
-              <CategorizeReadings toggleDone={toggleDone} readings={epistle} />
-              <CategorizeReadings toggleDone={toggleDone} readings={gospel} />
+              <CategorizeReadingWithVotes readings={historical} />
+              <CategorizeReadingWithVotes readings={prophetical} />
+              <CategorizeReadingWithVotes readings={epistle} />
+              <CategorizeReadingWithVotes readings={gospel} />
             </>
           )}
 
           {showHistoricalReadings && (
-            <CategorizeReadings toggleDone={toggleDone} readings={historical} />
+            <CategorizeReadingWithVotes readings={historical} />
           )}
           {showPropheticalReadings && (
-            <CategorizeReadings
-              toggleDone={toggleDone}
-              readings={prophetical}
-            />
+            <CategorizeReadingWithVotes readings={prophetical} />
           )}
           {showEpistleReadings && (
-            <CategorizeReadings toggleDone={toggleDone} readings={epistle} />
+            <CategorizeReadingWithVotes readings={epistle} />
           )}
           {showGospelReadings && (
-            <CategorizeReadings toggleDone={toggleDone} readings={gospel} />
+            <CategorizeReadingWithVotes readings={gospel} />
           )}
         </div>
       </div>
       <div className="mt-40">
-        <Button to={`reading-votes`} type="secondary">
-          View reading votes
-        </Button>
+        <Modal>
+          <Modal.Open opens="result-form">
+            <Button type="secondary">Save final result</Button>
+          </Modal.Open>
+
+          <Modal.Window name="result-form">
+            <ResultForm />
+          </Modal.Window>
+        </Modal>
       </div>
     </>
   );
 }
 
-export default ThemeDetails;
+export default ReadingVotesList;

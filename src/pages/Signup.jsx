@@ -4,7 +4,7 @@ import SignupForm from '../features/authentication/SignupForm';
 function Signup() {
   return (
     <Main type="secondary">
-      <div className="mx-auto flex flex-col items-center justify-center">
+      <div className="mx-auto flex w-full flex-col items-center justify-center">
         <img
           className="mx-auto max-w-72 object-cover"
           src="/bibleLogo.png"

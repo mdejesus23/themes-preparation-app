@@ -59,11 +59,7 @@ function MainNav() {
         <li className="w-full">
           <NavLink
             to="/logout"
-            className={({ isActive }) =>
-              `absolute bottom-0 flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow ${
-                isActive ? 'bg-yellow text-dark' : ''
-              }`
-            }
+            className="absolute bottom-0 flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow"
           >
             <MdLogout size={32} />
             <span>Logout</span>

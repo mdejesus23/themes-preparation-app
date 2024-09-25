@@ -20,9 +20,6 @@ function AdminThemeItem({ theme }) {
             <Menus.Toggle id={id} />
 
             <Menus.List id={id}>
-              {/* <Modal.Open opens="view">
-                <Menus.Button icon={<HiEye />}>View</Menus.Button>
-              </Modal.Open> */}
               <Button to={theme.slug}>
                 <HiEye /> View
               </Button>
