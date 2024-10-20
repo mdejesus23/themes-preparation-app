@@ -1,58 +1,154 @@
+import { useState } from 'react';
 import Form from '../../ui/Form';
 import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
 import Separator from '../../ui/Separator';
+import { useCreateUser } from './useCreateUser';
+import { useForm } from 'react-hook-form';
+import Loader from '../../ui/Loader';
+import { useNavigate } from 'react-router-dom';
+
+import { HiEye } from 'react-icons/hi2';
+import { HiEyeSlash } from 'react-icons/hi2';
 
 function SignupForm() {
-  function handleSubmit() {}
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
+  const { isCreating, createUser } = useCreateUser();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    getValues,
+  } = useForm();
+  const navigate = useNavigate();
+
+  function togglePassVisibility() {
+    setIsShowPassword((prev) => !prev);
+  }
+
+  function toggleConfirmPassVisibility() {
+    setIsShowConfirmPassword((prev) => !prev);
+  }
+
+  function onSubmit(data) {
+    console.log('user data', data);
+    // Call createUser with data here if needed
+    createUser(data, {
+      onSuccess: (data) => {
+        console.log('Received data:', data);
+        navigate('/');
+        reset();
+      },
+    });
+  }
+
+  if (isCreating) return <Loader />;
+
   return (
-    <Form onSubmit={handleSubmit} type="primary">
+    <Form onSubmit={handleSubmit(onSubmit)} type="primary">
       <h1 className="mb-12 font-headfont text-4xl font-bold md:text-4xl">
         Signup
       </h1>
-      <FormRow name="email" label="Email">
+      <FormRow error={errors.email?.message} name="email" label="Email">
         <Input
-          required
           type="email"
           id="email"
-          name="email"
           placeholder="Your Email"
+          register={{
+            ...register('email', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="username" label="Username">
+      <FormRow
+        error={errors.username?.message}
+        name="username"
+        label="Username"
+      >
         <Input
-          required
-          type="username"
+          type="text"
           id="username"
-          name="username"
           placeholder="Your Username"
+          register={{
+            ...register('username', {
+              required: 'This field is required',
+              maxLength: {
+                value: 10,
+                message: 'Maximum length is 10 characters.',
+              },
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="password" label="Password">
+      <FormRow
+        error={errors.password?.message}
+        name="password"
+        label="Password"
+      >
         <Input
-          required
-          type="password"
+          type={isShowPassword ? 'text' : 'password'}
           id="password"
-          name="password"
           placeholder="Your password"
+          autoComplete="on"
+          register={{
+            ...register('password', {
+              required: 'This field is required',
+              minLength: {
+                value: 8,
+                message: 'Password must be at least 8 characters.',
+              },
+            }),
+          }}
         />
+        <button
+          type="button"
+          onClick={togglePassVisibility}
+          className="absolute right-5 top-10 text-2xl"
+        >
+          {isShowPassword ? <HiEye /> : <HiEyeSlash />}
+        </button>
       </FormRow>
-      <FormRow name="confirmpassword" label="Confirm Password">
+      <FormRow
+        error={errors.confirmPassword?.message} // Ensure this is correctly checking for confirmPassword
+        name="confirmPassword"
+        label="Confirm Password"
+      >
         <Input
-          required
-          type="confirmpassword"
-          id="confirmpassword"
-          name="confirmpassword"
+          type={isShowConfirmPassword ? 'text' : 'password'}
+          id="confirmPassword"
           placeholder="Confirm password"
+          autoComplete="on"
+          register={{
+            ...register('confirmPassword', {
+              required: 'This field is required',
+              validate: (value) => {
+                const password = getValues('password'); // Get the value of password field
+                return value === password || 'Passwords do not match'; // Validation logic
+              },
+            }),
+          }}
         />
+        <button
+          type="button"
+          onClick={toggleConfirmPassVisibility}
+          className="absolute right-5 top-10 text-2xl"
+        >
+          {isShowConfirmPassword ? <HiEye /> : <HiEyeSlash />}
+        </button>
       </FormRow>
-      <Button type="primary">Signup</Button>
+
+      <Button type="submit" style="primary" disabled={isCreating}>
+        {isCreating ? 'Creating...' : 'Signup'}
+      </Button>
 
       <Separator>or</Separator>
 
       <div className="mt-5 flex w-full justify-center">
-        <Button to="/login" type="tertiary">
+        <Button to="/login" style="tertiary">
           Login
         </Button>
       </div>

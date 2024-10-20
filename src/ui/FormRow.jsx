@@ -1,13 +1,16 @@
 function FormRow({ label, error, children, name }) {
   return (
-    <div className="mb-6 w-full">
+    <div className="relative mb-6 w-full">
       {label && (
-        <label for={name} className="font-bodyfont text-projectDesc mb-2 block">
+        <label
+          htmlFor={name}
+          className="font-bodyfont text-projectDesc mb-2 block"
+        >
           {label}
         </label>
       )}
       {children}
-      {error && <p className="error-message">{error}</p>}
+      {error && <p className="text-red">{error}</p>}
     </div>
   );
 }

@@ -16,7 +16,9 @@ function ForgotPasswordForm() {
           placeholder="Your Email"
         />
       </FormRow>
-      <Button type="primary">Submit</Button>
+      <Button type="submit" style="primary">
+        Submit
+      </Button>
     </Form>
   );
 }

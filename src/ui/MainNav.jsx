@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { MdLogout } from 'react-icons/md';
 import { FaRegUser } from 'react-icons/fa';
+import Logout from '../features/authentication/Logout';
 
 function MainNav() {
   return (
@@ -56,7 +57,7 @@ function MainNav() {
             <span>Settings</span>
           </NavLink>
         </li>
-        <li className="w-full">
+        {/* <li className="w-full">
           <NavLink
             to="/logout"
             className="absolute bottom-0 flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow"
@@ -64,7 +65,8 @@ function MainNav() {
             <MdLogout size={32} />
             <span>Logout</span>
           </NavLink>
-        </li>
+        </li> */}
+        <Logout />
       </ul>
     </nav>
   );

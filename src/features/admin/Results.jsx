@@ -10,9 +10,12 @@ function Results() {
   return (
     <ul className="my-12 grid w-full grid-cols-1 gap-12 sm:grid-cols-2 xl:grid-cols-3">
       {resultArray.map((item) => {
-        const { id, title, createdAt } = item;
+        const { _id: id, title, createdAt } = item;
         return (
-          <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-lightGrey bg-white p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
+          <li
+            key={id}
+            className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-lightGrey bg-white p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl"
+          >
             <div className="mb-5 flex w-full justify-between">
               <div>
                 <h2 className="font-headfont text-xl font-semibold">

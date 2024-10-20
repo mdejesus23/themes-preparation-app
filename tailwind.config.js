@@ -12,8 +12,8 @@ export default {
       grey: '#494f55',
       lightGrey: '#f6f8f9',
       backdropColor: 'rgba(0, 0, 0, 0.5)',
-      green: '#54e37a',
-      lightGreen: '#cdf7d9',
+      green: '#13954c',
+      lightGreen: '#5bcd7f',
       red: '#c7342a',
     },
     fontFamily: {

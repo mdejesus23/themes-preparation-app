@@ -1,11 +1,22 @@
 import { HiDocumentPlus } from 'react-icons/hi2';
+import { useAdminThemes } from './useAdminThemes';
 
 import Modal from '../../ui/Modal';
-import myThemes from '../../data/myThemesData';
+// import myThemes from '../../data/myThemesData';
 import AdminThemeItem from './AdminThemeItem';
 import AddThemeForm from './AddThemeForm';
+import Loader from '../../ui/Loader';
 
 function AdminThemes() {
+  const { isPending, data, error } = useAdminThemes();
+
+  // Handle loading state
+  if (isPending) return <Loader />;
+
+  if (error) return <p>{error.message}</p>;
+  console.log(error);
+
+  const myThemes = data?.data;
   return (
     <>
       <Modal>

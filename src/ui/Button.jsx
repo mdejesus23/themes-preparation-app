@@ -1,6 +1,15 @@
 import { Link } from 'react-router-dom';
 
-function Button({ children, disabled, to, type, onClick, className, active }) {
+function Button({
+  children,
+  disabled,
+  to,
+  type = 'button',
+  style,
+  onClick,
+  className,
+  active,
+}) {
   const styles = {
     primary:
       'w-full rounded-sm border-2 border-none bg-yellow px-4 py-2 font-semibold text-dark transition-colors duration-300 hover:bg-lightYellow',
@@ -17,14 +26,14 @@ function Button({ children, disabled, to, type, onClick, className, active }) {
 
   if (to)
     return (
-      <Link to={to} className={styles[type]}>
+      <Link to={to} className={styles[style]}>
         {children}
       </Link>
     );
 
   if (onClick)
     return (
-      <button onClick={onClick} disabled={disabled} className={styles[type]}>
+      <button onClick={onClick} disabled={disabled} className={styles[style]}>
         {children}
       </button>
     );
@@ -38,7 +47,7 @@ function Button({ children, disabled, to, type, onClick, className, active }) {
   }
 
   return (
-    <button disabled={disabled} className={styles[type]}>
+    <button disabled={disabled} className={styles[style]}>
       {children}
     </button>
   );

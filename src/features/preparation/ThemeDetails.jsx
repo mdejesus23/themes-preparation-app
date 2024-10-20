@@ -1,41 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../../utils/formatDate';
 import Button from '../../ui/Button';
-import ThemeWithReading from '../../data/themeWithReadings';
 import CategorizeReadings from './CategorizeReadings';
 import CategoryMenu from '../../ui/CategoryMenu';
-
-const data = ThemeWithReading.readings.map((themeReading) => {
-  return { ...themeReading, done: false };
-});
+import useThemeStore from '../../store/themeStore';
 
 function ThemeDetails() {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
-  const [themeReadings, SetThemeReadings] = useState(data);
+  const navigate = useNavigate();
+  const { slug } = useParams();
 
-  function toggleDone(id) {
-    console.log('click', id);
-    SetThemeReadings((prevReading) =>
-      prevReading.map((reading) =>
-        reading.id === id ? { ...reading, done: !reading.done } : reading,
-      ),
-    );
-  }
+  const themeWithReadings = useThemeStore((state) => state.themeWithReadings);
+  const { readings, title, createdAt, slug: themeSlug } = themeWithReadings;
 
-  const historical = themeReadings.filter(
-    (reading) => reading.category === 'Historical',
+  useEffect(() => {
+    if (slug !== themeSlug) {
+      navigate(`/themes`);
+    }
+  }, [slug, themeSlug, navigate]);
+
+  const historical = useMemo(
+    () => readings.filter((reading) => reading.category === 'Historical'),
+    [readings],
   );
 
-  const prophetical = themeReadings.filter(
-    (reading) => reading.category === 'Prophetical',
+  const prophetical = useMemo(
+    () => readings.filter((reading) => reading.category === 'Prophetical'),
+    [readings],
   );
 
-  const epistle = themeReadings.filter(
-    (reading) => reading.category === 'Epistle',
+  const epistle = useMemo(
+    () => readings.filter((reading) => reading.category === 'Epistle'),
+    [readings],
   );
 
-  const gospel = themeReadings.filter(
-    (reading) => reading.category === 'Gospel',
+  const gospel = useMemo(
+    () => readings.filter((reading) => reading.category === 'Gospel'),
+    [readings],
   );
 
   const showAllReadings = isCategoryShow === 'all';
@@ -48,44 +51,29 @@ function ThemeDetails() {
     <>
       <div className="w-full">
         <h1 className="text-center font-headfont text-3xl font-bold md:text-4xl">
-          {ThemeWithReading.title}
+          {title}
         </h1>
-        <p className="text-center text-xs text-grey">
-          {formatDate(ThemeWithReading.createdAt)}
-        </p>
+        <p className="text-center text-xs text-grey">{formatDate(createdAt)}</p>
         <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
         <div className="my-11 grid w-full border-spacing-1 grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
           {showAllReadings && (
             <>
               {' '}
-              <CategorizeReadings
-                toggleDone={toggleDone}
-                readings={historical}
-              />
-              <CategorizeReadings
-                toggleDone={toggleDone}
-                readings={prophetical}
-              />
-              <CategorizeReadings toggleDone={toggleDone} readings={epistle} />
-              <CategorizeReadings toggleDone={toggleDone} readings={gospel} />
+              <CategorizeReadings readings={historical} />
+              <CategorizeReadings readings={prophetical} />
+              <CategorizeReadings readings={epistle} />
+              <CategorizeReadings readings={gospel} />
             </>
           )}
 
           {showHistoricalReadings && (
-            <CategorizeReadings toggleDone={toggleDone} readings={historical} />
+            <CategorizeReadings readings={historical} />
           )}
           {showPropheticalReadings && (
-            <CategorizeReadings
-              toggleDone={toggleDone}
-              readings={prophetical}
-            />
+            <CategorizeReadings readings={prophetical} />
           )}
-          {showEpistleReadings && (
-            <CategorizeReadings toggleDone={toggleDone} readings={epistle} />
-          )}
-          {showGospelReadings && (
-            <CategorizeReadings toggleDone={toggleDone} readings={gospel} />
-          )}
+          {showEpistleReadings && <CategorizeReadings readings={epistle} />}
+          {showGospelReadings && <CategorizeReadings readings={gospel} />}
         </div>
       </div>
       <div className="mt-40">
