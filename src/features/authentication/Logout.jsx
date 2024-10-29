@@ -3,15 +3,18 @@ import { MdLogout } from 'react-icons/md';
 import Loader from '../../ui/Loader';
 import { useLogoutUser } from './useUserLogout';
 import { useNavigate } from 'react-router-dom';
+import useUserStore from '../../store/userStore';
 
 function Logout() {
   const { isLoggingOut, logoutUser } = useLogoutUser();
   const navigate = useNavigate();
+  const clearUser = useUserStore((state) => state.clearUser);
 
   if (isLoggingOut) return <Loader />;
 
   const handleLogout = async (e) => {
     await logoutUser();
+    clearUser();
     navigate('/login');
   };
 

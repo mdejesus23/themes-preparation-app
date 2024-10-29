@@ -5,7 +5,7 @@ function Button({
   disabled,
   to,
   type = 'button',
-  style,
+  design,
   onClick,
   className,
   active,
@@ -21,33 +21,40 @@ function Button({
     categorySelector: `text-sm xl:text-lg h-12 w-full p-1 md:p-3 text-center hover:bg-yellow hover:text-dark ${active ? 'bg-yellow text-dark' : ''}`,
     danger: 'bg-red text-white rounded-md py-2 px-3 hover:text-dark',
     cancel: 'bg-lightGrey border border-grey rounded-md py-2 px-3',
-    link: 'hover:bg-gray-50 flex w-full items-center gap-4 border-none bg-none p-3 text-left text-lg text-sm font-semibold underline transition-all',
+    link: 'flex hover:bg-gray-50 flex w-full items-center gap-4 border-none bg-none p-3 text-left text-lg text-sm font-semibold underline transition-all',
+    link2:
+      'hover:bg-gray-50 flex w-full items-center gap-4 border-none bg-none p-3 text-left text-sm transition-all',
   };
 
   if (to)
     return (
-      <Link to={to} className={styles[style]}>
+      <Link to={to} className={styles[design]}>
         {children}
       </Link>
     );
 
   if (onClick)
     return (
-      <button onClick={onClick} disabled={disabled} className={styles[style]}>
+      <button
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+        className={styles[design]}
+      >
         {children}
       </button>
     );
 
   if (className) {
     return (
-      <button disabled={disabled} className={className}>
+      <button type={type} disabled={disabled} className={className}>
         {children}
       </button>
     );
   }
 
   return (
-    <button disabled={disabled} className={styles[style]}>
+    <button type={type} disabled={disabled} className={styles[design]}>
       {children}
     </button>
   );

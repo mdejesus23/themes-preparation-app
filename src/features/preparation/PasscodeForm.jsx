@@ -7,15 +7,14 @@ import { useForm } from 'react-hook-form';
 import { useAccessTheme } from './useAccessTheme';
 import useThemeStore from '../../store/themeStore';
 import Loader from '../../ui/Loader';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
 function PasscodeForm({ theme, onCloseModal }) {
-  const { id: themeId, title } = theme;
+  const { id: themeId, title, slug } = theme;
   const navigate = useNavigate();
-  const themeWithReadings = useThemeStore((state) => state.themeWithReadings);
+  // const themeWithReadings = useThemeStore((state) => state.themeWithReadings);
   const setThemeData = useThemeStore((state) => state.setThemeData);
-
-  const { accessTheme, isAccessing } = useAccessTheme();
+  const { accessTheme, isAccessing } = useAccessTheme(slug);
 
   const {
     register,
@@ -29,9 +28,8 @@ function PasscodeForm({ theme, onCloseModal }) {
     accessTheme(
       { themeId, passcode },
       {
+        // data in onSuccess is a response data
         onSuccess: (data) => {
-          console.log('Received data:', data); // Log the received data
-
           setThemeData(data.themeWithReadings);
           reset();
           onCloseModal?.();
@@ -41,11 +39,15 @@ function PasscodeForm({ theme, onCloseModal }) {
     );
   }
 
-  useEffect(() => {
-    if (themeWithReadings) {
-      console.log('Updated themeWithReadings:', themeWithReadings);
-    }
-  }, [themeWithReadings]);
+  // useEffect(() => {
+  //   if (themeWithReadings) {
+  //     // if the theme already stored in the global state ignore sending request.
+  //     if (themeId === themeWithReadings.id) {
+  //       navigate(`/themes/${themeWithReadings.slug}`);
+  //       return;
+  //     }
+  //   }
+  // }, [themeWithReadings, themeId, navigate]);
 
   function onError(errors) {
     // console.log(errors);
@@ -68,6 +70,7 @@ function PasscodeForm({ theme, onCloseModal }) {
             type="password"
             id="passcode"
             placeholder="Theme passcode"
+            autoComplete="new-password"
             register={{
               ...register('passcode', {
                 required: 'This field is required',
@@ -79,7 +82,9 @@ function PasscodeForm({ theme, onCloseModal }) {
             }}
           />
         </FormRow>
-        <Button style="primary">Submit</Button>
+        <Button type="submit" design="primary">
+          Submit
+        </Button>
       </Form>
     </>
   );

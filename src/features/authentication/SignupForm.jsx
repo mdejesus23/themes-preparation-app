@@ -8,6 +8,7 @@ import { useCreateUser } from './useCreateUser';
 import { useForm } from 'react-hook-form';
 import Loader from '../../ui/Loader';
 import { useNavigate } from 'react-router-dom';
+import useUserStore from '../../store/userStore';
 
 import { HiEye } from 'react-icons/hi2';
 import { HiEyeSlash } from 'react-icons/hi2';
@@ -24,6 +25,7 @@ function SignupForm() {
     getValues,
   } = useForm();
   const navigate = useNavigate();
+  const setUser = useUserStore((state) => state.setUser);
 
   function togglePassVisibility() {
     setIsShowPassword((prev) => !prev);
@@ -34,11 +36,15 @@ function SignupForm() {
   }
 
   function onSubmit(data) {
-    console.log('user data', data);
     // Call createUser with data here if needed
     createUser(data, {
       onSuccess: (data) => {
-        console.log('Received data:', data);
+        const user = {
+          emai: data.data.user.email,
+          username: data.data.user.username,
+          votedReadingIds: data.data.user.votedReadingIds,
+        };
+        setUser(user);
         navigate('/');
         reset();
       },
@@ -141,14 +147,14 @@ function SignupForm() {
         </button>
       </FormRow>
 
-      <Button type="submit" style="primary" disabled={isCreating}>
+      <Button type="submit" design="primary" disabled={isCreating}>
         {isCreating ? 'Creating...' : 'Signup'}
       </Button>
 
       <Separator>or</Separator>
 
       <div className="mt-5 flex w-full justify-center">
-        <Button to="/login" style="tertiary">
+        <Button to="/login" design="tertiary">
           Login
         </Button>
       </div>

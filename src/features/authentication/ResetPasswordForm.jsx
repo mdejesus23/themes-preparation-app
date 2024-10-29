@@ -36,7 +36,7 @@ function ResetPasswordForm() {
           placeholder="Confirm New Password"
         />
       </FormRow>
-      <Button type="primary">Reset Password</Button>
+      <Button design="primary">Reset Password</Button>
     </Form>
   );
 }

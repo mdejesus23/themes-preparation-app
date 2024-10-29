@@ -10,13 +10,12 @@ import Loader from '../../ui/Loader';
 function AdminThemes() {
   const { isPending, data, error } = useAdminThemes();
 
-  // Handle loading state
   if (isPending) return <Loader />;
 
   if (error) return <p>{error.message}</p>;
-  console.log(error);
 
   const myThemes = data?.data;
+
   return (
     <>
       <Modal>
@@ -30,11 +29,15 @@ function AdminThemes() {
           <AddThemeForm />
         </Modal.Window>
       </Modal>
-      <ul className="my-12 grid w-full grid-cols-1 gap-12 sm:grid-cols-2 xl:grid-cols-3">
-        {myThemes.map((theme, ind) => (
-          <AdminThemeItem theme={theme} key={ind} />
-        ))}
-      </ul>
+      {myThemes.length === 0 ? (
+        <h2 className="mt-10 text-xl font-bold">No Themes Yet!</h2>
+      ) : (
+        <ul className="my-12 grid w-full grid-cols-1 gap-12 sm:grid-cols-2 xl:grid-cols-3">
+          {myThemes.map((theme, ind) => (
+            <AdminThemeItem theme={theme} key={ind} />
+          ))}
+        </ul>
+      )}
     </>
   );
 }

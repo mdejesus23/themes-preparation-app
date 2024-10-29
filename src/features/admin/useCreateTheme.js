@@ -1,22 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { postAccessTheme } from '../../services/apiPreparation';
+import { postTheme } from '../../services/apiAdmin';
 
-export function useAccessTheme(slug) {
+export function useCreateTheme() {
   const queryClient = useQueryClient();
 
-  const { isPending: isAccessing, mutate: accessTheme } = useMutation({
-    mutationFn: postAccessTheme,
+  const { isPending: isCreating, mutate: createTheme } = useMutation({
+    mutationFn: postTheme,
 
     onSuccess: () => {
       toast.success('Successfully Access Theme!');
 
       queryClient.invalidateQueries({
-        queryKey: ['accessed-theme', slug],
+        queryKey: ['admin-themes'],
       });
     },
     onError: (err) => toast.error(err.response.data.message),
   });
 
-  return { isAccessing, accessTheme };
+  return { isCreating, createTheme };
 }

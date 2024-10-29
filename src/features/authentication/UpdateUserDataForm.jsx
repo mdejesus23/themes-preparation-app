@@ -37,7 +37,7 @@ function UpdateUserDataForm() {
           placeholder="Confirm New Password"
         />
       </FormRow>
-      <Button type="primary">Update Password</Button>
+      <Button design="primary">Update Password</Button>
     </Form>
   );
 }

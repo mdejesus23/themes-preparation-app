@@ -10,10 +10,10 @@ function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
       </p>
 
       <div className="mx-auto flex justify-center gap-x-7">
-        <Button type="cancel" disabled={disabled} onClick={onCloseModal}>
+        <Button design="cancel" disabled={disabled} onClick={onCloseModal}>
           Cancel
         </Button>
-        <Button type="danger" disabled={disabled} onClick={onConfirm}>
+        <Button design="danger" disabled={disabled} onClick={onConfirm}>
           Delete
         </Button>
       </div>

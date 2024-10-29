@@ -4,7 +4,7 @@ import { getPrepThemes } from '../../services/apiPreparation';
 
 export function useThemes() {
   const { isPending, data, error } = useQuery({
-    queryKey: ['prep-themes'],
+    queryKey: ['preparation-themes'],
     queryFn: getPrepThemes,
     onError: (err) => toast.error(err.message),
   });

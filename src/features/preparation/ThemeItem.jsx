@@ -15,7 +15,7 @@ function ThemeItem({ theme }) {
 
       <Modal>
         <Modal.Open opens="passcode-form">
-          <Button style="secondary">Use this theme</Button>
+          <Button design="secondary">Use this theme</Button>
         </Modal.Open>
 
         <Modal.Window name="passcode-form">

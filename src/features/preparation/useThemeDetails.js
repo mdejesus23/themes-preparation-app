@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { getReadings } from '../../services/apiPreparation';
-import toast from 'react-hot-toast';
 
 export function useThemeDetails(slug) {
   const { data, error, isPending } = useQuery({

@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom';
-import { MdLogout } from 'react-icons/md';
 import { FaRegUser } from 'react-icons/fa';
 import Logout from '../features/authentication/Logout';
 

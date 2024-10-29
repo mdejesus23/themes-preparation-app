@@ -3,45 +3,125 @@ import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
 import Textarea from '../../ui/Textarea';
+import { useForm } from 'react-hook-form';
 
-function AddThemeForm({ themeToEdit = {} }) {
-  const { id: editId, editValues } = themeToEdit;
+import { useCreateTheme } from './useCreateTheme';
+import { useEditTheme } from './useEditTheme';
 
-  function handleSubmit() {}
+function AddThemeForm({ themeToEdit = {}, onCloseModal }) {
+  const { isCreating, createTheme } = useCreateTheme();
+  const { isEditing, editTheme } = useEditTheme();
+  const isWorking = isCreating || isEditing;
+
+  const { id: editId, title, description, passcode } = themeToEdit;
+  const isEditSession = Boolean(editId);
+
+  if (isEditSession) {
+    console.log('editing mode', isEditSession);
+
+    console.log(themeToEdit);
+  }
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: isEditSession
+      ? {
+          title,
+          description,
+          passcode,
+        }
+      : {},
+  });
+
+  function onSubmit(data) {
+    if (isEditSession) {
+      editTheme(
+        { newThemeData: data, id: editId },
+        {
+          onSuccess: (data) => {
+            console.log('edited theme data', data);
+            onCloseModal?.();
+            reset();
+          },
+        },
+      );
+    } else {
+      createTheme(data, {
+        onSuccess: (data) => {
+          console.log('admin created data', data);
+          onCloseModal?.();
+          reset();
+        },
+      });
+    }
+  }
+
   return (
-    <Form onSubmit={handleSubmit} type="tertiary">
-      {/* <h1 className="mb-12 font-headfont text-4xl font-bold md:text-4xl">
-        Add Theme
-      </h1> */}
-      <FormRow name="title" label="Title">
+    <Form onSubmit={handleSubmit(onSubmit)} type="tertiary">
+      <h1 className="mb-12 text-center font-headfont text-4xl font-bold md:text-4xl">
+        Create Theme
+      </h1>
+      <FormRow name="title" label="Title" error={errors?.title?.message}>
         <Input
-          required
+          disabled={isWorking}
           type="text"
           id="title"
-          name="title"
           placeholder="Theme title "
+          register={{
+            ...register('title', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="description" label="Description">
+      <FormRow
+        name="description"
+        label="Description"
+        error={errors?.description?.message}
+      >
         <Textarea
-          required
+          disabled={isWorking}
           type="text"
           id="description"
-          name="description"
           placeholder="Theme Description"
+          register={{
+            ...register('description', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="passcode" label="Theme Passcode">
+      <FormRow
+        name="passcode"
+        label="Theme Passcode"
+        error={errors?.passcode?.message}
+      >
         <Input
-          required
+          disabled={isWorking}
           type="password"
           id="passcode"
-          name="passcode"
           placeholder="Theme Passcode"
+          autoComplete="current-passcode"
+          register={{
+            ...register('passcode', {
+              required: 'This field is required',
+              maxLength: {
+                value: 10,
+                message:
+                  'A theme passcode must have less or equal than 10 characters.',
+              },
+            }),
+          }}
         />
       </FormRow>
       <div>
-        <Button type="primary">Create new theme</Button>
+        <Button type="submit" design="secondary">
+          Create new theme
+        </Button>
       </div>
     </Form>
   );

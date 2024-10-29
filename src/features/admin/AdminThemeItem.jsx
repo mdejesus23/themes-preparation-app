@@ -5,13 +5,14 @@ import Menus from '../../ui/Menus';
 import { HiPencil, HiEye, HiTrash } from 'react-icons/hi2';
 import AddThemeForm from './AddThemeForm';
 import Button from '../../ui/Button';
+import { Link } from 'react-router-dom';
 
-import { useDeleteTheme } from './useDeleteTheme';
+// import { useDeleteTheme } from './useDeleteTheme';
 
 function AdminThemeItem({ theme }) {
   const { id: themeId, title, createdAt } = theme;
 
-  const { isDeleting, deleteTheme } = useDeleteTheme();
+  // const { isDeleting, deleteTheme } = useDeleteTheme();
 
   return (
     <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-lightGrey bg-white p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
@@ -24,9 +25,13 @@ function AdminThemeItem({ theme }) {
             <Menus.Toggle id={themeId} />
 
             <Menus.List id={themeId}>
-              <Button type="link" to={theme.slug}>
-                <HiEye /> View
-              </Button>
+              <Link
+                to={theme.slug}
+                className="hover:bg-gray-50 flex w-full items-center gap-4 border-none bg-none p-3 text-left text-sm transition-all"
+              >
+                <HiEye />
+                <span>View</span>
+              </Link>
 
               <Modal.Open opens="edit">
                 <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
@@ -43,7 +48,7 @@ function AdminThemeItem({ theme }) {
 
             <Modal.Window name="delete">
               <ConfirmDelete
-                onConfirm={() => deleteTheme(themeId)}
+                // onConfirm={() => deleteTheme(themeId)}
                 resourceName="themes"
               />
             </Modal.Window>

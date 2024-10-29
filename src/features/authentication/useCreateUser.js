@@ -15,8 +15,6 @@ export function useCreateUser() {
       });
     },
     onError: (err) => {
-      console.log('error in query', err.response.data);
-
       const errorMessage =
         err.response?.data?.message || 'Failed to create user.';
 

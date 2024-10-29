@@ -3,7 +3,6 @@ import ThemeReading from './ThemeReading';
 import ReadingVoteItem from './ReadingVoteItem';
 
 function CategorizeReadings({ readings }) {
-  console.log('CategorizeReadings render');
   return (
     <ul className="w-full">
       <h2 className="text-center font-headfont text-xl font-bold">

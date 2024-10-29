@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../../utils/formatDate';
@@ -21,25 +21,17 @@ function ThemeDetails() {
     }
   }, [slug, themeSlug, navigate]);
 
-  const historical = useMemo(
-    () => readings.filter((reading) => reading.category === 'Historical'),
-    [readings],
+  const historical = readings.filter(
+    (reading) => reading.category === 'Historical',
   );
 
-  const prophetical = useMemo(
-    () => readings.filter((reading) => reading.category === 'Prophetical'),
-    [readings],
+  const prophetical = readings.filter(
+    (reading) => reading.category === 'Prophetical',
   );
 
-  const epistle = useMemo(
-    () => readings.filter((reading) => reading.category === 'Epistle'),
-    [readings],
-  );
+  const epistle = readings.filter((reading) => reading.category === 'Epistle');
 
-  const gospel = useMemo(
-    () => readings.filter((reading) => reading.category === 'Gospel'),
-    [readings],
-  );
+  const gospel = readings.filter((reading) => reading.category === 'Gospel');
 
   const showAllReadings = isCategoryShow === 'all';
   const showHistoricalReadings = isCategoryShow === 'historical';

@@ -5,6 +5,7 @@ import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import Separator from '../../ui/Separator';
 import Loader from '../../ui/Loader';
+import useUserStore from '../../store/userStore';
 
 import { HiEye } from 'react-icons/hi2';
 import { HiEyeSlash } from 'react-icons/hi2';
@@ -22,21 +23,26 @@ function LoginForm() {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+  const setUser = useUserStore((state) => state.setUser);
 
   function onSubmit(data) {
-    const email = data.email;
-    const password = data.password;
-    console.log(`email:${email} password:${password}`);
-
     loginUser(data, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        const user = {
+          emai: data.data.user.email,
+          username: data.data.user.username,
+          votedReadingIds: data.data.user.votedReadingIds,
+        };
+        setUser(user);
+
         navigate('/');
         reset();
       },
     });
   }
 
-  function toggleShowPassword() {
+  function toggleShowPassword(e) {
+    e.preventDefault();
     setIsShowPassword((prev) => !prev);
   }
 
@@ -76,6 +82,7 @@ function LoginForm() {
           }}
         />
         <button
+          type="button"
           onClick={toggleShowPassword}
           className="absolute right-5 top-10 text-2xl"
         >
@@ -87,14 +94,14 @@ function LoginForm() {
           Forgot password?
         </Button>
       </div>
-      <Button type="submit" style="primary">
+      <Button type="submit" design="primary">
         Login
       </Button>
 
       <Separator>or</Separator>
 
       <div className="mt-5 flex w-full justify-center">
-        <Button to="/signup" style="tertiary">
+        <Button to="/signup" design="tertiary">
           Signup
         </Button>
       </div>
