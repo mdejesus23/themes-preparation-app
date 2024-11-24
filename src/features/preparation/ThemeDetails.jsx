@@ -10,16 +10,16 @@ import useThemeStore from '../../store/themeStore';
 function ThemeDetails() {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
   const navigate = useNavigate();
-  const { slug } = useParams();
+  const { themeId } = useParams();
 
   const themeWithReadings = useThemeStore((state) => state.themeWithReadings);
-  const { readings, title, createdAt, slug: themeSlug } = themeWithReadings;
+  const { readings, title, createdAt, _id: id } = themeWithReadings;
 
   useEffect(() => {
-    if (slug !== themeSlug) {
+    if (themeId !== id) {
       navigate(`/themes`);
     }
-  }, [slug, themeSlug, navigate]);
+  }, [themeId, id, navigate]);
 
   const historical = readings.filter(
     (reading) => reading.category === 'Historical',
@@ -69,7 +69,7 @@ function ThemeDetails() {
         </div>
       </div>
       <div className="mt-40">
-        <Button to={`reading-votes`} type="secondary">
+        <Button to={`reading-votes`} design="secondary">
           View reading votes
         </Button>
       </div>

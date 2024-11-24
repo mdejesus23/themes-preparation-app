@@ -6,7 +6,6 @@ import Button from '../../ui/Button';
 import { useForm } from 'react-hook-form';
 import { useAccessTheme } from './useAccessTheme';
 import useThemeStore from '../../store/themeStore';
-import Loader from '../../ui/Loader';
 // import { useEffect } from 'react';
 
 function PasscodeForm({ theme, onCloseModal }) {
@@ -33,7 +32,7 @@ function PasscodeForm({ theme, onCloseModal }) {
           setThemeData(data.themeWithReadings);
           reset();
           onCloseModal?.();
-          navigate(`/themes/${data.themeWithReadings.slug}`);
+          navigate(`/themes/${data.themeId}`);
         },
       },
     );
@@ -53,7 +52,7 @@ function PasscodeForm({ theme, onCloseModal }) {
     // console.log(errors);
   }
 
-  if (isAccessing) return <Loader />;
+  // if (isAccessing) return <Loader />;
 
   return (
     <>
@@ -83,7 +82,7 @@ function PasscodeForm({ theme, onCloseModal }) {
           />
         </FormRow>
         <Button type="submit" design="primary">
-          Submit
+          {isAccessing ? 'Submitting..' : 'Submit'}
         </Button>
       </Form>
     </>

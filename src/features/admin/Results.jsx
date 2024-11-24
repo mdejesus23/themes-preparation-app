@@ -1,12 +1,23 @@
-import resultArray from '../../data/results';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 import Menus from '../../ui/Menus';
 import Modal from '../../ui/Modal';
 import { formatDate } from '../../utils/formatDate';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
 import ResultForm from './ResultForm';
+import { useAdminResults } from './useAdminResults';
+import Loader from '../../ui/Loader';
 
 function Results() {
+  const { isPending, data, error } = useAdminResults();
+
+  if (isPending) return <Loader />;
+
+  if (error) return <p>{error.message}</p>;
+
+  const resultArray = data?.data || []; // Default to an empty array
+
+  console.log('resultArray', resultArray);
+
   return (
     <ul className="my-12 grid w-full grid-cols-1 gap-12 sm:grid-cols-2 xl:grid-cols-3">
       {resultArray.map((item) => {

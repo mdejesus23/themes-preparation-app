@@ -35,15 +35,15 @@ function App() {
             <Route element={<AppLayout />}>
               <Route index element={<Navigate replace to="themes" />} />\
               <Route path="themes" element={<AllThemes />} />
-              <Route path="themes/:slug" element={<PreparationTheme />} />
+              <Route path="themes/:themeId" element={<PreparationTheme />} />
               <Route
-                path="themes/:slug/reading-votes"
+                path="themes/:themeId/reading-votes"
                 element={<ReadingVotes />}
               />
               {/* admin routes */}
               <Route path="admin-themes" element={<MyThemes />} />
               <Route
-                path="admin-themes/:slug"
+                path="admin-themes/:themeId"
                 element={<AdminThemeWithReadings />}
               />
               <Route path="admin-results" element={<MyResults />} />

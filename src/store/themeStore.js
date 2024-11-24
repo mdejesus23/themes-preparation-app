@@ -29,6 +29,19 @@ const useThemeStore = create((set) => ({
         ),
       },
     })),
+
+  // Action to toggle vote/unvote for a specific reading
+  toggleVoteReading: (readingId) =>
+    set((state) => ({
+      themeWithReadings: {
+        ...state.themeWithReadings,
+        readings: state.themeWithReadings.readings.map((reading) =>
+          reading._id === readingId
+            ? { ...reading, voteCount: reading.voteCount > 0 ? 0 : 1 }
+            : reading,
+        ),
+      },
+    })),
 }));
 
 export default useThemeStore;

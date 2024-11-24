@@ -2,97 +2,245 @@ import Form from '../../ui/Form';
 import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
+import { useForm } from 'react-hook-form';
+import { useCreateResult } from './useCreateReesult';
 
-function ResultForm({ formToEdit = {} }) {
-  function handleSubmit() {}
+function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
+  const { isCreating, createPrepResult } = useCreateResult();
+
+  const { title, readings } = themeWithReadingsVotes;
+
+  const highestHistorical = readings
+    .filter((reading) => reading.category === 'Historical')
+    .reduce((highest, reading) => {
+      return reading.voteCount > highest.voteCount ? reading : highest;
+    }, themeWithReadingsVotes.readings[0]);
+
+  const highestProphetical = readings
+    .filter((reading) => reading.category === 'Prophetical')
+    .reduce((highest, reading) => {
+      return reading.voteCount > highest.voteCount ? reading : highest;
+    }, themeWithReadingsVotes.readings[0]);
+
+  const highestEpistle = readings
+    .filter((reading) => reading.category === 'Epistle')
+    .reduce((highest, reading) => {
+      return reading.voteCount > highest.voteCount ? reading : highest;
+    }, themeWithReadingsVotes.readings[0]);
+
+  const highestGospel = readings
+    .filter((reading) => reading.category === 'Gospel')
+    .reduce((highest, reading) => {
+      return reading.voteCount > highest.voteCount ? reading : highest;
+    }, themeWithReadingsVotes.readings[0]);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: title,
+      firstReading: highestHistorical.reading,
+      secondReading: highestProphetical.reading,
+      thirdReading: highestEpistle.reading,
+      gospel: highestGospel.reading,
+    },
+  });
+
+  function onSubmit(data) {
+    console.log('onSubmit', data);
+
+    createPrepResult(data, {
+      onSuccess: (data) => {
+        console.log('created data', data);
+        onCloseModal?.();
+        reset();
+      },
+    });
+  }
+
+  // function onError(errors) {
+  //   // console.log(errors);
+  // }
+
   return (
-    <Form onSubmit={handleSubmit} type="tertiary">
+    // <p>test</p>
+    <Form onSubmit={handleSubmit(onSubmit)} type="tertiary">
       {/* <h1 className="mb-12 font-headfont text-4xl font-bold md:text-4xl">
         Add Theme
       </h1> */}
-      <FormRow name="title" label="Title">
+      <FormRow name="title" label="Title" error={errors?.title?.message}>
         <Input
-          required
           type="text"
           id="title"
           name="title"
           placeholder="Theme title "
+          register={{
+            ...register('title', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="entrance-song" label="Theme entrance-song">
+      <FormRow
+        name="entranceSong"
+        label="Theme entranceSong"
+        error={errors?.title?.message}
+      >
         <Input
-          required
           type="text"
-          id="entrance-song"
-          name="entrance-song"
-          placeholder="Theme entrance-song"
+          id="entranceSong"
+          name="entranceSong"
+          placeholder="Theme entranceSong"
+          register={{
+            ...register('entranceSong', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="first-reading" label="First Reading">
+      <FormRow
+        name="firstReading"
+        label="First Reading"
+        error={errors?.firstReading?.message}
+      >
         <Input
-          required
           type="text"
-          id="first-reading"
-          name="first-reading"
+          id="firstReading"
+          name="firstReading"
           placeholder="First Reading"
+          register={{
+            ...register('firstReading', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="first-psalm" label="First psalm">
+      <FormRow
+        name="firstPsalm"
+        label="First psalm"
+        error={errors?.firstPsalm?.message}
+      >
         <Input
-          required
           type="text"
-          id="first-psalm"
-          name="first-psalm"
+          id="firstPsalm"
+          name="firstPsalm"
           placeholder="First psalm"
+          register={{
+            ...register('firstPsalm', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="second-reading" label="Second Reading">
+      <FormRow
+        name="secondReading"
+        label="Second Reading"
+        error={errors?.secondReading?.message}
+      >
         <Input
-          required
           type="text"
-          id="second-reading"
-          name="second-reading"
+          id="secondReading"
+          name="secondReading"
           placeholder="Second Reading"
+          register={{
+            ...register('secondReading', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="second-psalm" label="Second psalm">
+      <FormRow
+        name="secondPsalm"
+        label="Second psalm"
+        error={errors?.secondPsalm?.message}
+      >
         <Input
-          required
           type="text"
-          id="second-psalm"
-          name="second-psalm"
+          id="secondPsalm"
+          name="secondPsalm"
           placeholder="Second psalm"
+          register={{
+            ...register('secondPsalm', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="third-reading" label="third Reading">
+      <FormRow
+        name="thirdReading"
+        label="third Reading"
+        error={errors?.thirdReading?.message}
+      >
         <Input
-          required
           type="text"
-          id="third-reading"
-          name="third-reading"
+          id="thirdReading"
+          name="thirdReading"
           placeholder="third Reading"
+          register={{
+            ...register('thirdReading', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="third-psalm" label="third psalm">
+      <FormRow
+        name="thirdPsalm"
+        label="third psalm"
+        error={errors?.thirdPsalm?.message}
+      >
         <Input
-          required
           type="text"
-          id="third-psalm"
-          name="third-psalm"
+          id="thirdPsalm"
+          name="thirdPsalm"
           placeholder="third psalm"
+          register={{
+            ...register('thirdPsalm', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
-      <FormRow name="gospel" label="Gospel Reading">
+      <FormRow
+        name="gospel"
+        label="Gospel Reading"
+        error={errors?.gospel?.message}
+      >
         <Input
-          required
           type="text"
           id="gospel"
           name="gospel"
           placeholder="Gospel Reading"
+          register={{
+            ...register('gospel', {
+              required: 'This field is required',
+            }),
+          }}
+        />
+      </FormRow>
+      <FormRow
+        name="finalSong"
+        label="Gospel Reading"
+        error={errors?.finalSong?.message}
+      >
+        <Input
+          type="text"
+          id="finalSong"
+          name="finalSong"
+          placeholder="Gospel Reading"
+          register={{
+            ...register('finalSong', {
+              required: 'This field is required',
+            }),
+          }}
         />
       </FormRow>
       <div>
-        <Button type="primary">Create Preparation Result</Button>
+        <Button type="submit" design="primary">
+          Create Preparation Result
+        </Button>
       </div>
     </Form>
   );

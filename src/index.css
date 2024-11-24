@@ -47,3 +47,18 @@
     }
   }
 }
+
+.styled-modal::-webkit-scrollbar {
+  width: 6px; /* Set the width of the scrollbar */
+}
+.styled-modal::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Background of the scrollbar track */
+  border-radius: 10px;
+}
+.styled-modal::-webkit-scrollbar-thumb {
+  background: #b0b0b0; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners for the thumb */
+}
+.styled-modal::-webkit-scrollbar-thumb:hover {
+  background: #888; /* Change thumb color on hover */
+}

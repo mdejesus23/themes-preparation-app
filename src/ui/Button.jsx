@@ -39,7 +39,7 @@ function Button({
         type={type}
         onClick={onClick}
         disabled={disabled}
-        className={styles[design]}
+        className={styles[design] || className}
       >
         {children}
       </button>

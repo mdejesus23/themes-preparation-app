@@ -57,3 +57,15 @@ export async function voteReading(readingId) {
     throw error;
   }
 }
+
+export async function getThemeWithReadingsAndVotes(themeId) {
+  try {
+    const response = await api.get(
+      `/api/v1/preparation/theme/${themeId}/reading-votes`,
+    );
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+    throw error;
+  }
+}

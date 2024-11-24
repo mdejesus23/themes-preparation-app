@@ -2,8 +2,16 @@ import { HiTrash } from 'react-icons/hi2';
 import Button from '../../ui/Button';
 import Modal from '../../ui/Modal';
 import ConfirmDelete from '../../ui/ConfirmDelete';
+import { useDeleteReading } from './useDeleteReading';
 
-function AdminCatogirzeReadings({ readings }) {
+function AdminCatogirzeReadings({ themeId, readings }) {
+  const { isDeleting, deleteReading } = useDeleteReading(themeId);
+
+  if (readings.length === 0) {
+    return <p className="text-center">No readings available</p>;
+  }
+
+  console.log('AdminCatogirzeReadings', readings);
   return (
     <ul className="w-full">
       <h2 className="text-center font-headfont text-xl font-bold">
@@ -24,7 +32,11 @@ function AdminCatogirzeReadings({ readings }) {
               </Modal.Open>
 
               <Modal.Window name="delete-reading">
-                <ConfirmDelete resourceName="Reading" />
+                <ConfirmDelete
+                  disabled={isDeleting}
+                  resourceName="Reading"
+                  onConfirm={() => deleteReading(reading._id)}
+                />
               </Modal.Window>
             </Modal>
           </div>

@@ -1,23 +1,23 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { deleteTheme as deleteThemeApi } from '../../services/apiAdmin';
+import { deleteReading as deleteReadingApi } from '../../services/apiAdminThemeWithReadings';
 
-export function useDeleteTheme() {
+export function useDeleteReading(themeId) {
   const queryClient = useQueryClient();
 
-  const { isPending: isDeleting, mutate: deleteTheme } = useMutation({
-    mutationFn: deleteThemeApi,
+  const { isPending: isDeleting, mutate: deleteReading } = useMutation({
+    mutationFn: deleteReadingApi,
 
     onSuccess: () => {
-      toast.success('Theme successfully deleted!');
+      toast.success('Reading successfully deleted!');
       // invalidateQueries is use to invalidate cache data and inorder to refresh or refetch again.
       // refetching the data through this function.
       queryClient.invalidateQueries({
-        qieryKey: ['admin-themes'],
+        qieryKey: ['admin-themes', themeId],
       });
     },
     onError: (err) => toast.error(err.message),
   });
 
-  return { isDeleting, deleteTheme };
+  return { isDeleting, deleteReading };
 }
