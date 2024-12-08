@@ -63,6 +63,32 @@ export async function createPrepResult(data) {
   }
 }
 
+export async function updatePrepResult(data, id) {
+  console.log('updateResult', data, id);
+  try {
+    const response = await api.patch(`/api/v1/results/${id}`, data);
+    // console.log(response.data);
+    return response.data; // Return the data if needed
+  } catch (error) {
+    console.error('Error fetching data:', error); // Handle error
+    handleApiError(error);
+    throw error;
+  }
+}
+
+export async function deleteResult(id) {
+  console.log('deleteResult', id);
+  try {
+    const response = await api.delete(`/api/v1/results/${id}`);
+    // console.log(response.data);
+    return response.data; // Return the data if needed
+  } catch (error) {
+    console.error('Error fetching data:', error); // Handle error
+    handleApiError(error);
+    throw error;
+  }
+}
+
 export async function getAdminResults() {
   try {
     const response = await api.get('/api/v1/results');

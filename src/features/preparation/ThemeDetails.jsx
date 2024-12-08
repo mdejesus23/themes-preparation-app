@@ -9,11 +9,20 @@ import useThemeStore from '../../store/themeStore';
 
 function ThemeDetails() {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
+  const [isAllReadingsIsDone, setIsAllReadingsIsDone] = useState(false);
+
   const navigate = useNavigate();
   const { themeId } = useParams();
 
   const themeWithReadings = useThemeStore((state) => state.themeWithReadings);
   const { readings, title, createdAt, _id: id } = themeWithReadings;
+
+  useEffect(() => {
+    // Check if all readings are done
+    const allDone = readings.every((reading) => reading.isDone);
+
+    setIsAllReadingsIsDone(allDone);
+  }, [readings]); // Dependency array to run whenever 'readings' changes
 
   useEffect(() => {
     if (themeId !== id) {
@@ -68,8 +77,14 @@ function ThemeDetails() {
           {showGospelReadings && <CategorizeReadings readings={gospel} />}
         </div>
       </div>
-      <div className="mt-40">
-        <Button to={`reading-votes`} design="secondary">
+      <div
+        className={`mt-40 ${isAllReadingsIsDone === false ? 'hidden' : 'block'}`}
+      >
+        <Button
+          to={`reading-votes`}
+          design="secondary"
+          disabled={!isAllReadingsIsDone}
+        >
           View reading votes
         </Button>
       </div>

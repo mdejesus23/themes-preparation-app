@@ -1,16 +1,25 @@
-import Loader from "../../ui/Loader";
-import { useUser } from "./useUser";
+import { Navigate } from 'react-router-dom';
+import Loader from '../../ui/Loader';
+import { useUser } from './useUser';
 
 function ProtectedRoute({ children }) {
-  // 1. Load the authenticated user
-  const {user, isLoadding} = useUser()
+  const { isLoading, user } = useUser();
 
-  // 2. While Loading, show a spinner
-  if (isLoadding) return <Loader/>
+  console.log('ProtectedRoute state:', { isLoading, user });
 
-  // 3. If there is NO authenticated user, redirect to the /login
+  // 1. While Loading, show a spinner
+  if (isLoading) {
+    return <Loader />;
+  }
 
-  // 4. If there IS a user, render the app
+  // 2. If user is undefined (not authenticated), redirect to login
+  if (!user) {
+    console.log('ProtectedRoute: user not found');
+    return <Navigate to="/login" replace />;
+  }
+
+  // 3. If user exists, render children
+  console.log('ProtectedRoute: user authenticated');
   return children;
 }
 

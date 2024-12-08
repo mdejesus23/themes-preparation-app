@@ -29,13 +29,13 @@ export async function postLogoutUser() {
   }
 }
 
-// Get preparation themes
 export async function getCurrentUser() {
   try {
-    const response = await api.get(`/api/v1/users`);
-    return response.data; // Return the data if needed
+    const response = await api.get(`/api/v1/users/me`);
+    console.log('API Response in getCurrentUser:', response.data.data); // Should log user data
+    return response.data.data; // Return the user data
   } catch (error) {
-    handleApiError(error); // Handle error with custom function
-    throw error; // Rethrow the error for further handling
+    console.error('Error in getCurrentUser:', error);
+    throw error; // Ensure errors propagate to React Query
   }
 }

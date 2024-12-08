@@ -16,11 +16,14 @@ import ReadingVotes from './pages/ReadingVotes';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import { Toaster } from 'react-hot-toast';
+import ProtectedRoute from './features/authentication/ProtectedRoute';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 60 * 1000,
+      retry: 1, // Retry failed requests once
+      refetchOnWindowFocus: false, // Avoid unnecessary refetches
     },
   },
 });
@@ -32,7 +35,13 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route>
-            <Route element={<AppLayout />}>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route index element={<Navigate replace to="themes" />} />\
               <Route path="themes" element={<AllThemes />} />
               <Route path="themes/:themeId" element={<PreparationTheme />} />

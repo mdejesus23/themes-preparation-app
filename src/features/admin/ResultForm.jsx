@@ -3,36 +3,76 @@ import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
 import { useForm } from 'react-hook-form';
-import { useCreateResult } from './useCreateReesult';
 
-function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
+import { useCreateResult } from './useCreateResult';
+import { useEditResult } from './useEditResult';
+
+function ResultForm({
+  onCloseModal,
+  themeWithReadingsVotes,
+  resultToEdit = {},
+}) {
   const { isCreating, createPrepResult } = useCreateResult();
+  const { isEditing, editResult } = useEditResult();
+  const isWorking = isCreating || isEditing;
 
-  const { title, readings } = themeWithReadingsVotes;
+  const {
+    _id: editId,
+    title: resultTitle,
+    entranceSong,
+    firstReading,
+    firstPsalm,
+    secondReading,
+    secondPsalm,
+    thirdReading,
+    thirdPsalm,
+    gospel,
+    finalSong,
+  } = resultToEdit;
+  const isEditSession = Boolean(editId);
 
-  const highestHistorical = readings
-    .filter((reading) => reading.category === 'Historical')
-    .reduce((highest, reading) => {
-      return reading.voteCount > highest.voteCount ? reading : highest;
-    }, themeWithReadingsVotes.readings[0]);
+  let title,
+    readings,
+    highestHistorical,
+    highestProphetical,
+    highestEpistle,
+    highestGospel;
 
-  const highestProphetical = readings
-    .filter((reading) => reading.category === 'Prophetical')
-    .reduce((highest, reading) => {
-      return reading.voteCount > highest.voteCount ? reading : highest;
-    }, themeWithReadingsVotes.readings[0]);
+  if (isEditSession) {
+    console.log('editing mode', isEditSession);
+    console.log(resultToEdit);
+  } else {
+    console.log('creating mode', isEditSession);
 
-  const highestEpistle = readings
-    .filter((reading) => reading.category === 'Epistle')
-    .reduce((highest, reading) => {
-      return reading.voteCount > highest.voteCount ? reading : highest;
-    }, themeWithReadingsVotes.readings[0]);
+    const { title: themeTitle, readings: themeReadings } =
+      themeWithReadingsVotes;
+    title = themeTitle;
+    readings = themeReadings;
 
-  const highestGospel = readings
-    .filter((reading) => reading.category === 'Gospel')
-    .reduce((highest, reading) => {
-      return reading.voteCount > highest.voteCount ? reading : highest;
-    }, themeWithReadingsVotes.readings[0]);
+    highestHistorical = readings
+      .filter((reading) => reading.category === 'Historical')
+      .reduce((highest, reading) => {
+        return reading.voteCount > highest.voteCount ? reading : highest;
+      }, themeWithReadingsVotes.readings[0]);
+
+    highestProphetical = readings
+      .filter((reading) => reading.category === 'Prophetical')
+      .reduce((highest, reading) => {
+        return reading.voteCount > highest.voteCount ? reading : highest;
+      }, themeWithReadingsVotes.readings[0]);
+
+    highestEpistle = readings
+      .filter((reading) => reading.category === 'Epistle')
+      .reduce((highest, reading) => {
+        return reading.voteCount > highest.voteCount ? reading : highest;
+      }, themeWithReadingsVotes.readings[0]);
+
+    highestGospel = readings
+      .filter((reading) => reading.category === 'Gospel')
+      .reduce((highest, reading) => {
+        return reading.voteCount > highest.voteCount ? reading : highest;
+      }, themeWithReadingsVotes.readings[0]);
+  }
 
   const {
     register,
@@ -40,25 +80,49 @@ function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      title: title,
-      firstReading: highestHistorical.reading,
-      secondReading: highestProphetical.reading,
-      thirdReading: highestEpistle.reading,
-      gospel: highestGospel.reading,
-    },
+    defaultValues: isEditSession
+      ? {
+          title: resultTitle,
+          entranceSong: entranceSong,
+          firstReading: firstReading,
+          firstPsalm: firstPsalm,
+          secondReading: secondReading,
+          secondPsalm: secondPsalm,
+          thirdReading: thirdReading,
+          thirdPsalm: thirdPsalm,
+          gospel: gospel,
+          finalSong: finalSong,
+        }
+      : {
+          title: title,
+          firstReading: highestHistorical.reading,
+          secondReading: highestProphetical.reading,
+          thirdReading: highestEpistle.reading,
+          gospel: highestGospel.reading,
+        },
   });
 
   function onSubmit(data) {
-    console.log('onSubmit', data);
-
-    createPrepResult(data, {
-      onSuccess: (data) => {
-        console.log('created data', data);
-        onCloseModal?.();
-        reset();
-      },
-    });
+    if (isEditSession) {
+      editResult(
+        { newResultData: data, id: editId },
+        {
+          onSuccess: (data) => {
+            console.log('edited result data', data);
+            onCloseModal?.();
+            reset();
+          },
+        },
+      );
+    } else {
+      createPrepResult(data, {
+        onSuccess: (data) => {
+          console.log('created data', data);
+          onCloseModal?.();
+          reset();
+        },
+      });
+    }
   }
 
   // function onError(errors) {
@@ -68,11 +132,9 @@ function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
   return (
     // <p>test</p>
     <Form onSubmit={handleSubmit(onSubmit)} type="tertiary">
-      {/* <h1 className="mb-12 font-headfont text-4xl font-bold md:text-4xl">
-        Add Theme
-      </h1> */}
       <FormRow name="title" label="Title" error={errors?.title?.message}>
         <Input
+          disabled={isWorking}
           type="text"
           id="title"
           name="title"
@@ -87,9 +149,10 @@ function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
       <FormRow
         name="entranceSong"
         label="Theme entranceSong"
-        error={errors?.title?.message}
+        error={errors?.entranceSong?.message}
       >
         <Input
+          disabled={isWorking}
           type="text"
           id="entranceSong"
           name="entranceSong"
@@ -107,6 +170,7 @@ function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
         error={errors?.firstReading?.message}
       >
         <Input
+          disabled={isWorking}
           type="text"
           id="firstReading"
           name="firstReading"
@@ -124,6 +188,7 @@ function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
         error={errors?.firstPsalm?.message}
       >
         <Input
+          disabled={isWorking}
           type="text"
           id="firstPsalm"
           name="firstPsalm"
@@ -141,6 +206,7 @@ function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
         error={errors?.secondReading?.message}
       >
         <Input
+          disabled={isWorking}
           type="text"
           id="secondReading"
           name="secondReading"
@@ -158,6 +224,7 @@ function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
         error={errors?.secondPsalm?.message}
       >
         <Input
+          disabled={isWorking}
           type="text"
           id="secondPsalm"
           name="secondPsalm"
@@ -175,6 +242,7 @@ function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
         error={errors?.thirdReading?.message}
       >
         <Input
+          disabled={isWorking}
           type="text"
           id="thirdReading"
           name="thirdReading"
@@ -192,6 +260,7 @@ function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
         error={errors?.thirdPsalm?.message}
       >
         <Input
+          disabled={isWorking}
           type="text"
           id="thirdPsalm"
           name="thirdPsalm"
@@ -209,6 +278,7 @@ function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
         error={errors?.gospel?.message}
       >
         <Input
+          disabled={isWorking}
           type="text"
           id="gospel"
           name="gospel"
@@ -222,10 +292,11 @@ function ResultForm({ onCloseModal, themeWithReadingsVotes }) {
       </FormRow>
       <FormRow
         name="finalSong"
-        label="Gospel Reading"
+        label="Final Song"
         error={errors?.finalSong?.message}
       >
         <Input
+          disabled={isWorking}
           type="text"
           id="finalSong"
           name="finalSong"

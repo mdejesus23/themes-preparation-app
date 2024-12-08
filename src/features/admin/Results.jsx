@@ -6,35 +6,46 @@ import { HiPencil, HiTrash } from 'react-icons/hi2';
 import ResultForm from './ResultForm';
 import { useAdminResults } from './useAdminResults';
 import Loader from '../../ui/Loader';
+import { useDeleteResult } from './useDeleteResult';
 
 function Results() {
   const { isPending, data, error } = useAdminResults();
+  const { isDeleting, deleteResult } = useDeleteResult();
 
   if (isPending) return <Loader />;
 
   if (error) return <p>{error.message}</p>;
 
-  const resultArray = data?.data || []; // Default to an empty array
-
-  console.log('resultArray', resultArray);
+  const resultArray = data?.data || [];
 
   return (
-    <ul className="my-12 grid w-full grid-cols-1 gap-12 sm:grid-cols-2 xl:grid-cols-3">
+    <ul className="my-12 grid w-full grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3">
       {resultArray.map((item) => {
-        const { _id: id, title, createdAt } = item;
+        const {
+          _id: id,
+          title,
+          createdAt,
+          entranceSong,
+          firstReading,
+          firstPsalm,
+          secondReading,
+          secondPsalm,
+          thirdReading,
+          thirdPsalm,
+          gospel,
+          finalSong,
+        } = item;
+
         return (
           <li
             key={id}
-            className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-lightGrey bg-white p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl"
+            className="flex flex-col rounded-lg border border-lightGrey bg-white shadow-md transition-transform hover:scale-[1.03] hover:shadow-xl"
           >
-            <div className="mb-5 flex w-full justify-between">
+            {/* Header Section */}
+            <div className="flex w-full items-center justify-between border-b border-lightGrey p-4">
               <div>
-                <h2 className="font-headfont text-xl font-semibold">
-                  {item.title}
-                </h2>
-                <p className="text-xs text-grey">
-                  {formatDate(item.createdAt)}
-                </p>
+                <h2 className="text-gray-800 text-lg font-semibold">{title}</h2>
+                <p className="text-gray-500 text-xs">{formatDate(createdAt)}</p>
               </div>
               <Modal>
                 <Menus>
@@ -51,7 +62,11 @@ function Results() {
                   </Menus.List>
 
                   <Modal.Window name="delete">
-                    <ConfirmDelete resourceName="Prep result" />
+                    <ConfirmDelete
+                      disabled={isDeleting}
+                      onConfirm={() => deleteResult(id)}
+                      resourceName="Prep result"
+                    />
                   </Modal.Window>
 
                   <Modal.Window name="edit">
@@ -61,41 +76,48 @@ function Results() {
               </Modal>
             </div>
 
-            <div className="flex w-full gap-x-2">
-              <p className="font-headfont">Entrance Song:</p>
-              <p>{item.entranceSong}</p>
-            </div>
-            <div className="flex w-full gap-x-2">
-              <p className="font-headfont">First reading:</p>
-              <p>{item.firstReading}</p>
-            </div>
-            <div className="flex w-full gap-x-2">
-              <p className="font-headfont">First psalm:</p>
-              <p>{item.firstPsalm}</p>
-            </div>
-            <div className="flex w-full gap-x-2">
-              <p className="font-headfont">Second reading:</p>
-              <p>{item.secondReading}</p>
-            </div>
-            <div className="flex w-full gap-x-2">
-              <p className="font-headfont">Second psalm:</p>
-              <p>{item.secondPsalm}</p>
-            </div>
-            <div className="flex w-full gap-x-2">
-              <p className="font-headfont">Third reading:</p>
-              <p>{item.thirdReading}</p>
-            </div>
-            <div className="flex w-full gap-x-2">
-              <p className="font-headfont">Third psalm:</p>
-              <p>{item.thirdPsalm}</p>
-            </div>
-            <div className="flex w-full gap-x-2">
-              <p className="font-headfont">Gospel:</p>
-              <p>{item.gospel}</p>
-            </div>
-            <div className="flex w-full gap-x-2">
-              <p className="font-headfont">Final song:</p>
-              <p>{item.finalSong}</p>
+            {/* Table-Like Content Section */}
+            <div className="p-4">
+              <table className="text-gray-700 w-full text-left text-sm">
+                <tbody>
+                  <tr className="border-b">
+                    <td className="py-2 font-semibold">Entrance Song:</td>
+                    <td className="py-2">{entranceSong || 'N/A'}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-2 font-semibold">First Reading:</td>
+                    <td className="py-2">{firstReading || 'N/A'}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-2 font-semibold">First Psalm:</td>
+                    <td className="py-2">{firstPsalm || 'N/A'}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-2 font-semibold">Second Reading:</td>
+                    <td className="py-2">{secondReading || 'N/A'}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-2 font-semibold">Second Psalm:</td>
+                    <td className="py-2">{secondPsalm || 'N/A'}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-2 font-semibold">Third Reading:</td>
+                    <td className="py-2">{thirdReading || 'N/A'}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-2 font-semibold">Third Psalm:</td>
+                    <td className="py-2">{thirdPsalm || 'N/A'}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-2 font-semibold">Gospel:</td>
+                    <td className="py-2">{gospel || 'N/A'}</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 font-semibold">Final Song:</td>
+                    <td className="py-2">{finalSong || 'N/A'}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </li>
         );
