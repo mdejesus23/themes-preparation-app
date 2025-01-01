@@ -1,7 +1,7 @@
 import axios from 'axios';
-
+const apiUrl = import.meta.env.VITE_API_URL;
 // Set default axios configuration
-axios.defaults.baseURL = 'https://prep-app.onrender.com';
+axios.defaults.baseURL = apiUrl;
 axios.defaults.withCredentials = true;
 
 // Create an axios instance to ensure consistent settings
