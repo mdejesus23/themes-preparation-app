@@ -9,7 +9,7 @@ export function useCreateTheme() {
     mutationFn: postTheme,
 
     onSuccess: () => {
-      toast.success('Successfully Access Theme!');
+      toast.success('Successfully Created Theme!');
 
       queryClient.invalidateQueries({
         queryKey: ['admin-themes'],

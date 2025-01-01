@@ -9,7 +9,7 @@ export function useCreateResult() {
     mutationFn: createResultApi,
 
     onSuccess: () => {
-      toast.success('Successfully Access Theme!');
+      toast.success('Result created!');
 
       queryClient.invalidateQueries({
         queryKey: ['admin-results'],

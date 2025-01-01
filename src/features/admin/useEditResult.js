@@ -9,7 +9,7 @@ export function useEditResult() {
   const { isLoading: isEditing, mutate: editResult } = useMutation({
     mutationFn: ({ newResultData, id }) => updatePrepResult(newResultData, id),
     onSuccess: () => {
-      toast.success('Theme successfully edited!');
+      toast.success('Result successfully edited!');
       // invalidateQueries is use to invalidate cache data and inorder to refresh or refetch again.
       // refetching the data through this function.
       queryClient.invalidateQueries({

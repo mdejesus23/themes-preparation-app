@@ -9,7 +9,7 @@ export function useDeleteResult() {
     mutationFn: deleteResultApi,
 
     onSuccess: () => {
-      toast.success('Theme successfully deleted!');
+      toast.success('Result successfully deleted!');
       // invalidateQueries is use to invalidate cache data and inorder to refresh or refetch again.
       // refetching the data through this function.
       queryClient.invalidateQueries({

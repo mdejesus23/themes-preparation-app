@@ -9,7 +9,7 @@ export function useResetVotes() {
     mutationFn: resetVotesApi,
 
     onSuccess: () => {
-      toast.success('Successfully Access Theme!');
+      toast.success('Vote reset!');
 
       queryClient.invalidateQueries({
         queryKey: ['admin-themes'],
