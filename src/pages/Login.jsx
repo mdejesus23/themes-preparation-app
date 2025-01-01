@@ -27,8 +27,8 @@ function Login() {
         />
 
         {/* Display the current Bible verse */}
-        <div className="my-4 text-center">
-          <p className="text-lg font-semibold">{currentVerse.reference}</p>
+        <div className="my-4 max-w-[45rem] text-center">
+          <p className="mb-2 text-lg font-semibold">{currentVerse.reference}</p>
           <p className="text-sm italic">{currentVerse.text}</p>
           <button onClick={handleNewVerse} className="mt-4 rounded px-4 py-2">
             <HiArrowPath size={20} />
