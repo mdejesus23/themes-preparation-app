@@ -88,13 +88,13 @@ const PrivacyPolicy = () => {
             href="mailto:privacy@example.com"
             className="text-blue-500 hover:underline"
           >
-            privacy@example.com
+            dejesusmelnard@gmail.com
           </a>
           .
         </p>
 
         <p className="text-gray-500 mt-6 text-sm">
-          Last updated: [Insert Date]
+          Last updated: December 2024
         </p>
       </div>
     </div>

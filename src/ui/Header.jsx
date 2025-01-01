@@ -9,7 +9,7 @@ function Header() {
   return (
     <>
       <header className="flex items-center justify-between bg-dark px-4 py-2 text-white md:hidden">
-        <a href="/all-themes">
+        <a href="/themes">
           <img className="w-16" src="/bibleLogo.png" alt="logo" />
         </a>
         <button onClick={() => setIsOpen((prev) => !prev)}>
