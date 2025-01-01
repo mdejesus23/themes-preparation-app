@@ -19,8 +19,6 @@ function AdminThemeWithReadings() {
   if (error) return <p>{error.message}</p>;
 
   const myThemesWithReadings = data?.data;
-  // console.log('myThemesWithReadings', myThemesWithReadings.title);
-  // console.log('myThemesWithReadings', myThemesWithReadings.readings);
 
   let noReadingsElement;
   if (myThemesWithReadings.readings.length === 0) {
@@ -44,8 +42,6 @@ function AdminThemeWithReadings() {
   const gospel = myThemesWithReadings.readings.filter(
     (reading) => reading.category === 'Gospel',
   );
-
-  console.log('gospel', gospel);
 
   const showAllReadings = isCategoryShow === 'all';
   const showHistoricalReadings = isCategoryShow === 'historical';

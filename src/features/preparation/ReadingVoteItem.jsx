@@ -1,8 +1,8 @@
 function ReadingVoteItem({ reading }) {
-  const { id, reading: verse, voteCount } = reading;
+  const { _id, reading: verse, voteCount } = reading;
   return (
     <li
-      key={id}
+      key={_id}
       className={`mt-4 flex w-full items-center justify-between gap-x-1 rounded-xl border p-2`}
     >
       <p className="font-bodyFont font-semibold">{verse}</p>

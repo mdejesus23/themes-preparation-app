@@ -10,13 +10,16 @@ import PageNotFound from './pages/PageNotFound';
 import AppLayout from './ui/AppLayout';
 import MyThemes from './pages/MyThemes';
 import MyResults from './pages/MyResults';
-import Settings from './pages/Settings';
+import User from './pages/User';
 import AdminThemeWithReadings from './features/admin/AdminThemeWithReadings';
 import ReadingVotes from './pages/ReadingVotes';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import { Toaster } from 'react-hot-toast';
 import ProtectedRoute from './features/authentication/ProtectedRoute';
+import TermsOfService from './pages/TermsOfService';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Contact from './pages/Contact';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -56,10 +59,14 @@ function App() {
                 element={<AdminThemeWithReadings />}
               />
               <Route path="admin-results" element={<MyResults />} />
-              <Route path="admin-settings" element={<Settings />} />
+              <Route path="admin-user" element={<User />} />
+              <Route path="terms-of-service" element={<TermsOfService />} />
+              <Route path="privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="contact" element={<Contact />} />
             </Route>
           </Route>
 
+          {/* place applayout for these components  */}
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="forgot-password" element={<ForgotPassword />} />

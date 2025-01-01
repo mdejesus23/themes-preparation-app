@@ -53,7 +53,7 @@ function LoginForm() {
       <h1 className="mb-12 font-headfont text-4xl font-bold md:text-4xl">
         Login
       </h1>
-      <FormRow name="email" label="Email" error={errors?.passcode?.message}>
+      <FormRow name="email" label="Email" error={errors?.email?.message}>
         <Input
           type="email"
           id="email"
@@ -68,7 +68,7 @@ function LoginForm() {
       <FormRow
         name="password"
         label="Password"
-        error={errors?.passcode?.message}
+        error={errors?.password?.message}
       >
         <Input
           autoComplete="on"

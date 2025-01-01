@@ -5,7 +5,7 @@ function Main({ type, children }) {
   //   secondary: '',
   // };
   return (
-    <main className="relative flex h-screen min-h-screen w-full flex-1 flex-col items-center overflow-y-auto px-2 py-8 lg:px-12 lg:py-12">
+    <main className="relative flex h-full min-h-screen w-full flex-1 flex-col items-center overflow-y-auto px-4 py-8 lg:px-12 lg:py-12">
       {children}
     </main>
   );

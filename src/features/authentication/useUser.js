@@ -7,7 +7,5 @@ export function useUser() {
     queryFn: getCurrentUser,
   });
 
-  console.log('getCurrentUser in useUser', user); // what is the user object undifined here?
-
   return { isLoading, user };
 }

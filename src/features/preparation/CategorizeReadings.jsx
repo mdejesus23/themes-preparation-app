@@ -1,6 +1,5 @@
 import { memo } from 'react';
 import ThemeReading from './ThemeReading';
-import ReadingVoteItem from './ReadingVoteItem';
 
 function CategorizeReadings({ readings }) {
   return (

@@ -1,20 +1,18 @@
 import ConfirmDelete from '../../ui/ConfirmDelete';
+import ConfirmResetVotes from '../../ui/ConfirmResetVotes';
 import { formatDate } from '../../utils/formatDate';
 import Modal from '../../ui/Modal';
 import Menus from '../../ui/Menus';
-import { HiPencil, HiEye, HiTrash } from 'react-icons/hi2';
+import { HiPencil, HiEye, HiTrash, HiArrowPath } from 'react-icons/hi2';
 import AddThemeForm from './AddThemeForm';
-// import Button from '../../ui/Button';
 import { Link } from 'react-router-dom';
 import { useDeleteTheme } from './useDeleteTheme';
-
-// import { useDeleteTheme } from './useDeleteTheme';
+import { useResetVotes } from './useResetVotes';
 
 function AdminThemeItem({ theme }) {
   const { id: themeId, title, createdAt } = theme;
   const { isDeleting, deleteTheme } = useDeleteTheme();
-
-  console.log('theme', theme);
+  const { isReseting, resetVotes } = useResetVotes();
 
   return (
     <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-lightGrey bg-white p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
@@ -42,6 +40,10 @@ function AdminThemeItem({ theme }) {
               <Modal.Open opens="delete">
                 <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
               </Modal.Open>
+
+              <Modal.Open opens="reset-votes">
+                <Menus.Button icon={<HiArrowPath />}>Reset Votes</Menus.Button>
+              </Modal.Open>
             </Menus.List>
 
             <Modal.Window name="edit">
@@ -53,6 +55,14 @@ function AdminThemeItem({ theme }) {
                 disabled={isDeleting}
                 onConfirm={() => deleteTheme(themeId)}
                 resourceName="themes"
+              />
+            </Modal.Window>
+
+            <Modal.Window name="reset-votes">
+              <ConfirmResetVotes
+                disabled={isReseting}
+                onConfirm={() => resetVotes(themeId)}
+                themesTitle={title}
               />
             </Modal.Window>
           </Menus>

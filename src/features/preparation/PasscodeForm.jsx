@@ -6,14 +6,16 @@ import Button from '../../ui/Button';
 import { useForm } from 'react-hook-form';
 import { useAccessTheme } from './useAccessTheme';
 import useThemeStore from '../../store/themeStore';
-// import { useEffect } from 'react';
+import { HiEye } from 'react-icons/hi2';
+import { HiEyeSlash } from 'react-icons/hi2';
+import { useState } from 'react';
 
 function PasscodeForm({ theme, onCloseModal }) {
-  const { id: themeId, title, slug } = theme;
+  const [isShowPasscode, setIsShowPasscode] = useState(false);
+  const { id: themeId, title } = theme;
   const navigate = useNavigate();
-  // const themeWithReadings = useThemeStore((state) => state.themeWithReadings);
   const setThemeData = useThemeStore((state) => state.setThemeData);
-  const { accessTheme, isAccessing } = useAccessTheme(slug);
+  const { accessTheme, isAccessing } = useAccessTheme(themeId);
 
   const {
     register,
@@ -38,35 +40,24 @@ function PasscodeForm({ theme, onCloseModal }) {
     );
   }
 
-  // useEffect(() => {
-  //   if (themeWithReadings) {
-  //     // if the theme already stored in the global state ignore sending request.
-  //     if (themeId === themeWithReadings.id) {
-  //       navigate(`/themes/${themeWithReadings.slug}`);
-  //       return;
-  //     }
-  //   }
-  // }, [themeWithReadings, themeId, navigate]);
-
-  function onError(errors) {
-    // console.log(errors);
+  function toggleShowPasscode(e) {
+    e.preventDefault();
+    setIsShowPasscode((prev) => !prev);
   }
-
-  // if (isAccessing) return <Loader />;
 
   return (
     <>
       <h3 className="mt-4 text-center font-headfont text-xl font-semibold">
         {title}
       </h3>
-      <Form onSubmit={handleSubmit(onSubmit, onError)} type="tertiary">
+      <Form onSubmit={handleSubmit(onSubmit)} type="tertiary">
         <FormRow
           name="passcode"
           label="Passcode"
           error={errors?.passcode?.message}
         >
           <Input
-            type="password"
+            type={isShowPasscode ? 'text' : 'password'}
             id="passcode"
             placeholder="Theme passcode"
             autoComplete="new-password"
@@ -80,6 +71,13 @@ function PasscodeForm({ theme, onCloseModal }) {
               }),
             }}
           />
+          <button
+            type="button"
+            onClick={toggleShowPasscode}
+            className="absolute right-5 top-10 text-2xl"
+          >
+            {isShowPasscode ? <HiEye /> : <HiEyeSlash />}
+          </button>
         </FormRow>
         <Button type="submit" design="primary">
           {isAccessing ? 'Submitting..' : 'Submit'}

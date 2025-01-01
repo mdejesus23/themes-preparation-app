@@ -16,12 +16,6 @@ function AddThemeForm({ themeToEdit = {}, onCloseModal }) {
   const { id: editId, title, description, passcode } = themeToEdit;
   const isEditSession = Boolean(editId);
 
-  if (isEditSession) {
-    console.log('editing mode', isEditSession);
-
-    console.log(themeToEdit);
-  }
-
   const {
     register,
     handleSubmit,
@@ -42,8 +36,7 @@ function AddThemeForm({ themeToEdit = {}, onCloseModal }) {
       editTheme(
         { newThemeData: data, id: editId },
         {
-          onSuccess: (data) => {
-            console.log('edited theme data', data);
+          onSuccess: () => {
             onCloseModal?.();
             reset();
           },
@@ -51,8 +44,7 @@ function AddThemeForm({ themeToEdit = {}, onCloseModal }) {
       );
     } else {
       createTheme(data, {
-        onSuccess: (data) => {
-          console.log('admin created data', data);
+        onSuccess: () => {
           onCloseModal?.();
           reset();
         },

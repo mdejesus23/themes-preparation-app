@@ -1,22 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { postAccessTheme } from '../../services/apiPreparation';
+import { resetVotes as resetVotesApi } from '../../services/apiAdmin';
 
-export function useAccessTheme(themeId) {
+export function useResetVotes() {
   const queryClient = useQueryClient();
 
-  const { isPending: isAccessing, mutate: accessTheme } = useMutation({
-    mutationFn: postAccessTheme,
+  const { isPending: isReseting, mutate: resetVotes } = useMutation({
+    mutationFn: resetVotesApi,
 
     onSuccess: () => {
       toast.success('Successfully Access Theme!');
 
       queryClient.invalidateQueries({
-        queryKey: ['prep-theme', themeId],
+        queryKey: ['admin-themes'],
       });
     },
     onError: (err) => toast.error(err.response.data.message),
   });
 
-  return { isAccessing, accessTheme };
+  return { isReseting, resetVotes };
 }

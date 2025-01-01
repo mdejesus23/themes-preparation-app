@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Set default axios configuration
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = 'https://prep-app.onrender.com';
 axios.defaults.withCredentials = true;
 
 // Create an axios instance to ensure consistent settings

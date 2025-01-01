@@ -38,12 +38,7 @@ function ResultForm({
     highestEpistle,
     highestGospel;
 
-  if (isEditSession) {
-    console.log('editing mode', isEditSession);
-    console.log(resultToEdit);
-  } else {
-    console.log('creating mode', isEditSession);
-
+  if (!isEditSession) {
     const { title: themeTitle, readings: themeReadings } =
       themeWithReadingsVotes;
     title = themeTitle;
@@ -107,8 +102,7 @@ function ResultForm({
       editResult(
         { newResultData: data, id: editId },
         {
-          onSuccess: (data) => {
-            console.log('edited result data', data);
+          onSuccess: () => {
             onCloseModal?.();
             reset();
           },
@@ -116,18 +110,13 @@ function ResultForm({
       );
     } else {
       createPrepResult(data, {
-        onSuccess: (data) => {
-          console.log('created data', data);
+        onSuccess: () => {
           onCloseModal?.();
           reset();
         },
       });
     }
   }
-
-  // function onError(errors) {
-  //   // console.log(errors);
-  // }
 
   return (
     // <p>test</p>

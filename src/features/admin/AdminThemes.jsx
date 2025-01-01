@@ -2,19 +2,32 @@ import { HiDocumentPlus } from 'react-icons/hi2';
 import { useAdminThemes } from './useAdminThemes';
 
 import Modal from '../../ui/Modal';
-// import myThemes from '../../data/myThemesData';
 import AdminThemeItem from './AdminThemeItem';
 import AddThemeForm from './AddThemeForm';
 import Loader from '../../ui/Loader';
+import { useState } from 'react';
+import Pagination from '../../ui/Pagination';
 
 function AdminThemes() {
   const { isPending, data, error } = useAdminThemes();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // Define how many items to show per page
 
   if (isPending) return <Loader />;
 
   if (error) return <p>{error.message}</p>;
 
   const myThemes = data?.data;
+  const totalPages = Math.ceil(myThemes.length / itemsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const paginatedThemes = myThemes.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
 
   return (
     <>
@@ -29,14 +42,24 @@ function AdminThemes() {
           <AddThemeForm />
         </Modal.Window>
       </Modal>
-      {myThemes.length === 0 ? (
+      {paginatedThemes.length === 0 ? (
         <h2 className="mt-10 text-xl font-bold">No Themes Yet!</h2>
       ) : (
-        <ul className="my-12 grid w-full grid-cols-1 gap-12 sm:grid-cols-2 xl:grid-cols-3">
-          {myThemes.map((theme, ind) => (
-            <AdminThemeItem theme={theme} key={ind} />
-          ))}
-        </ul>
+        <>
+          <ul className="my-12 grid w-full grid-cols-1 gap-12 sm:grid-cols-2 xl:grid-cols-3">
+            {paginatedThemes.map((theme, ind) => (
+              <AdminThemeItem theme={theme} key={ind} />
+            ))}
+          </ul>
+
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
       )}
     </>
   );

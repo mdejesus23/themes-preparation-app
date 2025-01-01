@@ -8,10 +8,11 @@ export function useCreateUser() {
   const { isPending: isCreating, mutate: createUser } = useMutation({
     mutationFn: postCreateUser,
 
-    onSuccess: () => {
+    onSuccess: (data) => {
+      const userId = data.user.id;
       toast.success('Signup Successfully!');
       queryClient.invalidateQueries({
-        queryKey: ['user'],
+        queryKey: ['new-user', userId],
       });
     },
     onError: (err) => {

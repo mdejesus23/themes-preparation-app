@@ -3,7 +3,7 @@ import { getThemeWithReadingsAndVotes } from '../../services/apiPreparation';
 
 export function useThemeWithReadingsAndVotes(themeId) {
   const { data, error, isPending } = useQuery({
-    queryKey: ['theme-reading-votes', themeId],
+    queryKey: ['prep-theme', themeId],
     queryFn: async () => {
       const data = await getThemeWithReadingsAndVotes(themeId);
       return data;

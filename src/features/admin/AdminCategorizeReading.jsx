@@ -11,7 +11,6 @@ function AdminCatogirzeReadings({ themeId, readings }) {
     return <p className="text-center">No readings available</p>;
   }
 
-  console.log('AdminCatogirzeReadings', readings);
   return (
     <ul className="w-full">
       <h2 className="text-center font-headfont text-xl font-bold">

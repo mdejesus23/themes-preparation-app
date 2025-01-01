@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import { MdLogout } from 'react-icons/md';
 import { FaRegUser } from 'react-icons/fa';
+import Logout from '../features/authentication/Logout';
 
 function MobileNav({ setIsOpen }) {
   const handleNavLinkClick = () => {
@@ -54,7 +54,7 @@ function MobileNav({ setIsOpen }) {
         <li className="w-full">
           <NavLink
             onClick={handleNavLinkClick}
-            to="/admin-settings"
+            to="/admin-user"
             className={({ isActive }) =>
               `flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
@@ -65,19 +65,9 @@ function MobileNav({ setIsOpen }) {
             <span>Settings</span>
           </NavLink>
         </li>
-        <li className="w-full">
-          <NavLink
-            onClick={handleNavLinkClick}
-            to="/logout"
-            className={({ isActive }) =>
-              `flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow ${
-                isActive ? 'bg-yellow text-dark' : ''
-              }`
-            }
-          >
-            <MdLogout size={32} />
-            <span>Logout</span>
-          </NavLink>
+
+        <li className="relative mt-28 w-full">
+          <Logout />
         </li>
       </ul>
     </nav>

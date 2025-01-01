@@ -8,14 +8,13 @@ function ThemeReading({ reading }) {
   const { _id: id, reading: verse } = reading;
   const toggleReadingDone = useThemeStore((state) => state.toggleReadingDone);
   const toggleVoteReading = useThemeStore((state) => state.toggleVoteReading);
-  const { slug } = useParams();
-  const { isVoting, voteUnvoteReading } = useVoteReading(slug);
+  const { themeId } = useParams();
+  const { isVoting, voteUnvoteReading } = useVoteReading(themeId);
 
   const handleVoteToggle = (readingId) => {
     voteUnvoteReading(readingId, {
       // data in onSuccess is a response data
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: () => {
         toggleVoteReading(reading._id);
       },
     });

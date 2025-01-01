@@ -26,25 +26,6 @@ export async function postAccessTheme({ themeId, passcode }) {
   }
 }
 
-// Get readings based on the slug
-export async function getReadings(slug) {
-  try {
-    const response = await api.get(
-      `/api/v1/preparation/themes/${slug}/readings`,
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-    return response.data;
-  } catch (error) {
-    handleApiError(error);
-    throw error;
-  }
-}
-
 // Vote for a reading
 export async function voteReading(readingId) {
   try {

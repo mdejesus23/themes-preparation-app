@@ -9,7 +9,6 @@ import { useAddReading } from './useAddReading';
 const categoryOptions = ['Historical', 'Prophetical', 'Epistle', 'Gospel'];
 
 function AddReadingForm({ myThemesWithReadings, onCloseModal }) {
-  // console.log('myThemesWithReadings', myThemesWithReadings);
   const { id: themeId } = myThemesWithReadings;
   const { isAddingReading, addThemeReading } = useAddReading(themeId);
 
@@ -21,12 +20,10 @@ function AddReadingForm({ myThemesWithReadings, onCloseModal }) {
   } = useForm();
 
   function onSubmit(data) {
-    console.log('onSubmit', data);
     addThemeReading(
       { data, themeId },
       {
         onSuccess: (data) => {
-          console.log('admin created data', data);
           onCloseModal?.();
           reset();
         },
@@ -34,16 +31,12 @@ function AddReadingForm({ myThemesWithReadings, onCloseModal }) {
     );
   }
 
-  function onError(errors) {
-    // console.log(errors);
-  }
-
   return (
     <>
       <h3 className="mt-4 text-center font-headfont text-xl font-semibold">
         Add reading
       </h3>
-      <Form onSubmit={handleSubmit(onSubmit, onError)} type="tertiary">
+      <Form onSubmit={handleSubmit(onSubmit)} type="tertiary">
         <FormRow
           name="reading"
           label="Bible reading"

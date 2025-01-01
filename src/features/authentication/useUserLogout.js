@@ -10,7 +10,7 @@ export function useLogoutUser() {
 
     onSuccess: () => {
       toast.success('Logout!');
-      queryClient.invalidateQueries({ queryKey: ['user'] }); // Invalidate user queries
+      queryClient.invalidateQueries({ queryKey: ['active-session-user'] }); // Invalidate user queries
     },
     onError: (err) => {
       toast.error(

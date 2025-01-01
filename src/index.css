@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --custom-dark: #1c252c;
+    --custom-yellow: #ffa05c;
+    --custom-light-yellow: #fcb37e;
+    --custom-white: #ffffff;
+    --custom-grey: #494f55;
+    --custom-light-grey: #f6f8f9;
+    --custom-backdrop: rgba(0, 0, 0, 0.5);
+    --custom-green: #13954c;
+    --custom-light-green: #5bcd7f;
+    --custom-red: #c7342a;
+  }
+}
+
 @layer components {
   /* .input {
     @apply border-stone-200 placeholder:text-stone-400 focus:ring-yellow-400 rounded-full border px-4 py-2 text-sm transition-all duration-300 focus:outline-none focus:ring md:px-6 md:py-3;

@@ -45,7 +45,7 @@ function MainNav() {
 
         <li className="w-full">
           <NavLink
-            to="/admin-settings"
+            to="/admin-user"
             className={({ isActive }) =>
               `flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow ${
                 isActive ? 'bg-yellow text-dark' : ''
@@ -56,15 +56,7 @@ function MainNav() {
             <span>Settings</span>
           </NavLink>
         </li>
-        {/* <li className="w-full">
-          <NavLink
-            to="/logout"
-            className="absolute bottom-0 flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow"
-          >
-            <MdLogout size={32} />
-            <span>Logout</span>
-          </NavLink>
-        </li> */}
+
         <Logout />
       </ul>
     </nav>
