@@ -9,13 +9,15 @@ export function useCreateUser() {
     mutationFn: postCreateUser,
 
     onSuccess: (data) => {
-      const userId = data.user.id;
+      const userId = data.data.user.id;
       toast.success('Signup Successfully!');
       queryClient.invalidateQueries({
-        queryKey: ['new-user', userId],
+        queryKey: ['active-session-user', userId],
       });
     },
     onError: (err) => {
+      console.error('Mutation Error:', err); // Debugging line
+
       const errorMessage =
         err.response?.data?.message || 'Failed to create user.';
 
