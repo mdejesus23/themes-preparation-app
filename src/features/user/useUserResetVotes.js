@@ -10,9 +10,8 @@ export function useResetVotes() {
 
     onSuccess: () => {
       toast.success('Successfully reset user votes!');
-
       queryClient.invalidateQueries({
-        queryKey: ['active-session-user'],
+        queryKey: ['user'],
       });
     },
     onError: (err) => toast.error(err.response.data.message),

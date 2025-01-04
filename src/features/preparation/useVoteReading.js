@@ -14,7 +14,7 @@ export function useVoteReading(themeId) {
         queryKey: ['prep-theme', themeId],
       });
       queryClient.invalidateQueries({
-        queryKey: ['active-session-user'],
+        queryKey: ['user'],
       });
     },
     onError: (err) => toast.error(err.response.data.message),

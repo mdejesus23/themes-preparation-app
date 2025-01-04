@@ -9,11 +9,9 @@ export function useLoginUser() {
     mutationFn: postLoginUser,
 
     onSuccess: (data) => {
-      const userId = data.data.user.id;
+      const user = data.data.user;
       toast.success('Login Successfully!');
-      queryClient.invalidateQueries({
-        queryKey: ['active-session-user', userId],
-      });
+      queryClient.setQueryData(['user'], user);
     },
     onError: (err) => {
       toast.error(err.response.data.message);

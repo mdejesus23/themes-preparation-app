@@ -25,7 +25,7 @@ function SignupForm() {
     getValues,
   } = useForm();
   const navigate = useNavigate();
-  const setUser = useUserStore((state) => state.setUser);
+  // const setUser = useUserStore((state) => state.setUser);
 
   function togglePassVisibility() {
     setIsShowPassword((prev) => !prev);
@@ -39,13 +39,13 @@ function SignupForm() {
     // Call createUser with data here if needed
     createUser(data, {
       onSuccess: (data) => {
-        const user = {
-          emai: data.data.user.email,
-          username: data.data.user.username,
-          votedReadingIds: data.data.user.votedReadingIds,
-        };
-        setUser(user);
-        navigate('/');
+        // const user = {
+        //   emai: data.data.user.email,
+        //   username: data.data.user.username,
+        //   votedReadingIds: data.data.user.votedReadingIds,
+        // };
+        // setUser(user);
+        navigate('/login');
         reset();
       },
     });

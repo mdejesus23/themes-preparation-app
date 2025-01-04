@@ -3,7 +3,7 @@ import { getCurrentUser } from '../../services/apiAuthentication';
 
 export function useUser() {
   const { isLoading, data: user } = useQuery({
-    queryKey: ['active-session-user'],
+    queryKey: ['user'],
     queryFn: getCurrentUser,
   });
 

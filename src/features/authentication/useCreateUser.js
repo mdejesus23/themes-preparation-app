@@ -3,17 +3,10 @@ import toast from 'react-hot-toast';
 import { postCreateUser } from '../../services/apiAuthentication';
 
 export function useCreateUser() {
-  const queryClient = useQueryClient();
-
   const { isPending: isCreating, mutate: createUser } = useMutation({
     mutationFn: postCreateUser,
-
     onSuccess: (data) => {
-      const userId = data.data.user.id;
       toast.success('Signup Successfully!');
-      queryClient.invalidateQueries({
-        queryKey: ['active-session-user', userId],
-      });
     },
     onError: (err) => {
       console.error('Mutation Error:', err); // Debugging line
