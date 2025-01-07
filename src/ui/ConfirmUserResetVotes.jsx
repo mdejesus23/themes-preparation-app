@@ -1,8 +1,12 @@
 import Button from './Button';
+import useThemeStore from '../store/themeStore';
 
 function ConfirmResetVotes({ onConfirm, disabled, onCloseModal }) {
+  const resetAllVotes = useThemeStore((state) => state.resetAllVotes);
+
   const handleResetVotes = async () => {
     await onConfirm(); // Wait for onConfirm to complete if it's an async operation
+    resetAllVotes(); // Reset all votes
     onCloseModal(); // Close the modal after the confirmation completes
   };
 

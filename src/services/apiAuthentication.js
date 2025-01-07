@@ -34,7 +34,7 @@ export async function postLogoutUser() {
 export async function getCurrentUser() {
   try {
     const response = await api.get(`/api/v1/users/me`);
-    return response.data.data; // Return the user data
+    return response.data.data.data; // Return the user data
   } catch (error) {
     console.error('Error in getCurrentUser:', error);
     throw error; // Ensure errors propagate to React Query

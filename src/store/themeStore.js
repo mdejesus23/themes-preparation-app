@@ -42,6 +42,17 @@ const useThemeStore = create((set) => ({
         ),
       },
     })),
+
+  resetAllVotes: () =>
+    set((state) => ({
+      themeWithReadings: {
+        ...state.themeWithReadings,
+        readings: state.themeWithReadings.readings.map((reading) => ({
+          ...reading,
+          voteCount: 0, // Reset voteCount to 0
+        })),
+      },
+    })),
 }));
 
 export default useThemeStore;

@@ -5,7 +5,7 @@ import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import Separator from '../../ui/Separator';
 import Loader from '../../ui/Loader';
-import useUserStore from '../../store/userStore';
+import useUserStore from '../../store/useUserStore';
 
 import { HiEye } from 'react-icons/hi2';
 import { HiEyeSlash } from 'react-icons/hi2';
@@ -32,6 +32,7 @@ function LoginForm() {
           emai: data.data.user.email,
           username: data.data.user.username,
           votedReadingIds: data.data.user.votedReadingIds,
+          votedReadings: data.data.user.votedReadings,
         };
         setUser(user);
 
@@ -95,7 +96,7 @@ function LoginForm() {
         </Button>
       </div>
       <Button type="submit" design="primary">
-        Login
+        {isLogging ? 'Logging in...' : 'Login'}
       </Button>
 
       <Separator>or</Separator>

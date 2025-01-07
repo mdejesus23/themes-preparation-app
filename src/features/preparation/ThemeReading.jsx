@@ -3,19 +3,27 @@ import Button from '../../ui/Button';
 import useThemeStore from '../../store/themeStore';
 import { useParams } from 'react-router-dom';
 import { useVoteReading } from './useVoteReading';
+import useUserStore from '../../store/useUserStore';
 
 function ThemeReading({ reading }) {
   const { _id: id, reading: verse } = reading;
   const toggleReadingDone = useThemeStore((state) => state.toggleReadingDone);
-  const toggleVoteReading = useThemeStore((state) => state.toggleVoteReading);
+  // const toggleVoteReading = useThemeStore((state) => state.toggleVoteReading);
   const { themeId } = useParams();
   const { isVoting, voteUnvoteReading } = useVoteReading(themeId);
+  const user = useUserStore((state) => state.user);
+
+  console.log('user', user);
+  const isUserVoted = user.votedReadingIds.includes(id);
 
   const handleVoteToggle = (readingId) => {
     voteUnvoteReading(readingId, {
-      // data in onSuccess is a response data
       onSuccess: () => {
-        toggleVoteReading(reading._id);
+        if (isUserVoted) {
+          useUserStore.getState().removeVotedReadingId(readingId); // Remove the ID
+        } else {
+          useUserStore.getState().addVotedReadingId(readingId); // Add the ID
+        }
       },
     });
   };
@@ -37,7 +45,7 @@ function ThemeReading({ reading }) {
           disabled={isVoting}
           className="rounded-md bg-yellow px-3 py-1 font-semibold text-dark hover:scale-[1.1]"
         >
-          {reading.voteCount > 0 ? 'Unvote' : 'Vote'}
+          {isUserVoted ? 'Unvote' : 'Vote'}
         </Button>
       </div>
     </li>
