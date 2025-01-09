@@ -9,13 +9,13 @@ function AppLayout() {
   return (
     <div className="">
       <Header />
-      <div className="min-h-screens mb-20 flex h-full w-full md:mb-0">
+      <div className="min-h-screens flex h-full w-full md:mb-0">
         <Sidebar />
         <Main type="primary">
           <Outlet />
+          <Footer />
         </Main>
       </div>
-      <Footer />
     </div>
   );
 }

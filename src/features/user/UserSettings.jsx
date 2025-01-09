@@ -11,75 +11,72 @@ function UserSettings() {
   const { isReseting, userResetVotes } = useResetVotes();
   const setUser = useUserStore((state) => state.setUser);
 
+  // Show loader while loading or resetting
   if (isLoading || isReseting) {
     return <Loader />;
   }
 
+  // Update user state in the store
   const userState = {
-    emai: user.email,
+    email: user.email,
     username: user.username,
     votedReadingIds: user.votedReadingIds,
   };
   setUser(userState);
 
-  console.log('melnard', user);
   const votedReadings = user.votedReadings || [];
 
   return (
     <div className="mx-auto mt-12 max-w-md">
+      {/* Header Section */}
       <div className="text-center">
-        {user.photo ? (
-          <img
-            src={user.photo}
-            alt={`${user.username}'s avatar`}
-            className="border-gray-300 mx-auto mb-4 h-24 w-24 rounded-full border-4 shadow-sm"
-          />
-        ) : (
-          <div className="bg-gray-200 border-gray-300 text-gray-500 mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full border-4 shadow-sm">
-            No Photo
-          </div>
-        )}
-        <h2 className="text-gray-800 text-2xl font-semibold">
+        <h2 className="text-gray-800 mb-10 text-2xl font-semibold">
           Welcome, {user.username}!
         </h2>
-        <p className="text-gray-600 text-sm">{user.email}</p>
+        <div className="flex justify-center gap-4">
+          <p className="text-gray-600 text-sm font-medium">Email:</p>
+          <p className="text-gray-600 text-sm">{user.email}</p>
+        </div>
       </div>
 
-      <div className="mt-6">
+      {/* Voted Readings Section */}
+      <div className="mt-8">
         <h3 className="text-gray-800 text-lg font-medium">
           Your Voted Readings
         </h3>
-        {/* Add a button to reset votes */}
-        {votedReadings.length > 0 && (
-          <Modal>
-            <Modal.Open opens="reset-votes">
-              <button
-                // Call the reset function on button click
-                className="rounded bg-red-800 px-4 py-2 text-white shadow-md transition hover:bg-red-600"
-              >
-                Reset my reading votes
-              </button>
-            </Modal.Open>
 
-            <Modal.Window name="reset-votes">
-              <ConfirmResetVotes
-                disabled={isReseting}
-                onConfirm={() => userResetVotes()}
-              />
-            </Modal.Window>
-          </Modal>
-        )}
         {votedReadings.length > 0 ? (
-          <ul className="mt-4 space-y-3">
-            {votedReadings.map((reading) => (
-              <li
-                key={reading.id}
-                className="bg-gray-100 hover:bg-gray-200 rounded-md p-4 shadow-sm transition"
-              >
-                {reading.reading}
-              </li>
-            ))}
-          </ul>
+          <>
+            {/* Reset Votes Button */}
+            <div className="mt-4">
+              <Modal>
+                <Modal.Open opens="reset-votes">
+                  <button className="rounded bg-red-800 px-4 py-2 text-white shadow-md transition hover:bg-red-600">
+                    Reset My Reading Votes
+                  </button>
+                </Modal.Open>
+
+                <Modal.Window name="reset-votes">
+                  <ConfirmResetVotes
+                    disabled={isReseting}
+                    onConfirm={() => userResetVotes()}
+                  />
+                </Modal.Window>
+              </Modal>
+            </div>
+
+            {/* Voted Readings List */}
+            <ul className="mt-4 space-y-3">
+              {votedReadings.map((reading) => (
+                <li
+                  key={reading.id}
+                  className="bg-gray-100 hover:bg-gray-200 rounded-md p-4 shadow-sm transition"
+                >
+                  {reading.reading}
+                </li>
+              ))}
+            </ul>
+          </>
         ) : (
           <p className="text-gray-500 mt-4">
             You have not voted on any readings yet.

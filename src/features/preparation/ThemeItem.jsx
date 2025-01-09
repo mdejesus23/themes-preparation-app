@@ -4,14 +4,14 @@ import Modal from '../../ui/Modal';
 import PasscodeForm from './PasscodeForm';
 
 function ThemeItem({ theme }) {
-  const { id: themeId, title, createdAt, description, passcode } = theme;
+  const { title, createdAt, description } = theme;
   return (
     <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-lightGrey bg-white p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
       <h2 className="text-center font-headfont text-2xl font-semibold">
         {title}
       </h2>
+      <p className="mt-[-1rem] text-xs text-grey">{formatDate(createdAt)}</p>
       <p className="font-bodyFont">{description}</p>
-      <p className="text-xs text-grey">{formatDate(createdAt)}</p>
 
       <Modal>
         <Modal.Open opens="passcode-form">
