@@ -17,9 +17,13 @@ function AdminThemeItem({ theme }) {
   return (
     <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-lightGrey bg-white p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
       <div className="flex w-full justify-between">
-        <h2 className="text-center font-headfont text-2xl font-semibold">
-          {title}
-        </h2>
+        <div>
+          <h2 className="text-center font-headfont text-2xl font-semibold">
+            {title}
+          </h2>
+          <p className="text-xs text-neutral-700">{formatDate(createdAt)}</p>
+        </div>
+
         <Modal>
           <Menus>
             <Menus.Toggle id={themeId} />
@@ -69,7 +73,6 @@ function AdminThemeItem({ theme }) {
         </Modal>
       </div>
       <p className="font-bodyFont">{theme.description}</p>
-      <p className="text-xs text-grey">{formatDate(createdAt)}</p>
     </li>
   );
 }

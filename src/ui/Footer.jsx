@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
 function Footer() {
   return (
-    <footer className="absolute bottom-0 w-full py-4 text-center text-neutral-500">
-      <div className="mx-auto w-full">
+    <footer className="mt-20 w-full py-4 text-center text-neutral-500">
+      <div className="mx-auto w-full pt-20">
         <p className="text-sm">
           &copy; {new Date().getFullYear()}{' '}
           <a

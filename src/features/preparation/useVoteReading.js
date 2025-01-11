@@ -8,8 +8,14 @@ export function useVoteReading(themeId) {
   const { isPending: isVoting, mutate: voteUnvoteReading } = useMutation({
     mutationFn: voteReading,
 
-    onSuccess: () => {
-      toast.success('Successfully voted/unvoted reading');
+    onSuccess: (data) => {
+      let message;
+      if (data.message === 'Vote counted!') {
+        message = 'Reading voted successfully';
+      } else {
+        message = 'Reading unvoted successfully';
+      }
+      toast.success(message);
       queryClient.invalidateQueries({
         queryKey: ['prep-theme', themeId],
       });

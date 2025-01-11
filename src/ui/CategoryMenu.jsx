@@ -2,7 +2,7 @@ import Button from './Button';
 
 function CategoryMenu({ setIsCategoryShow }) {
   return (
-    <div className="mx-auto mt-6 flex w-full items-center justify-between rounded-md bg-dark font-semibold text-white md:w-[60%] xl:w-[50%]">
+    <div className="mx-auto mt-6 flex w-full items-center justify-between overflow-hidden rounded-md bg-dark font-semibold text-white md:w-[60%] xl:w-[50%]">
       <Button
         onClick={() => setIsCategoryShow('all')}
         design="categorySelector"
