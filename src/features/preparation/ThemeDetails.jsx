@@ -10,11 +10,12 @@ import useThemeStore from '../../store/themeStore';
 function ThemeDetails() {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
   const [isAllReadingsIsDone, setIsAllReadingsIsDone] = useState(false);
-
   const navigate = useNavigate();
   const { themeId } = useParams();
-
   const themeWithReadings = useThemeStore((state) => state.themeWithReadings);
+  const markAllReadingsDone = useThemeStore(
+    (state) => state.markAllReadingsDone,
+  );
   const { readings, title, createdAt, _id: id } = themeWithReadings;
 
   useEffect(() => {
@@ -37,9 +38,7 @@ function ThemeDetails() {
   const prophetical = readings.filter(
     (reading) => reading.category === 'Prophetical',
   );
-
   const epistle = readings.filter((reading) => reading.category === 'Epistle');
-
   const gospel = readings.filter((reading) => reading.category === 'Gospel');
 
   const showAllReadings = isCategoryShow === 'all';
@@ -101,6 +100,12 @@ function ThemeDetails() {
         </h1>
         <p className="text-center text-xs text-grey">{formatDate(createdAt)}</p>
         <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
+        <div className="mt-5 flex justify-center">
+          <Button onClick={markAllReadingsDone} design="secondary">
+            Mark All Readings Done
+          </Button>
+        </div>
+
         <div className="my-11 grid w-full border-spacing-1 grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
           {showAllReadings && (
             <>

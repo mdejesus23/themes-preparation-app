@@ -45,8 +45,8 @@ function UpdateUserDataForm() {
   if (isUpdatingPassword) return <Loader />;
 
   return (
-    <div className="flexm mt-20 w-full flex-col items-center gap-5">
-      <h3 className="text-center text-lg font-semibold">
+    <div className="flexm mt-10 w-full flex-col items-center">
+      <h3 className="mb-[-2rem] text-center text-lg font-semibold">
         Update your password
       </h3>
       <Form onSubmit={handleSubmit(onSubmit)} type="secondary">

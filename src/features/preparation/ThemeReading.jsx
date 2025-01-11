@@ -13,7 +13,6 @@ function ThemeReading({ reading }) {
   const { isVoting, voteUnvoteReading } = useVoteReading(themeId);
   const user = useUserStore((state) => state.user);
 
-  console.log('user', user);
   const isUserVoted = user.votedReadingIds.includes(id);
 
   const handleVoteToggle = (readingId) => {

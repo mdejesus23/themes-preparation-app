@@ -7,11 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useCreateResult } from './useCreateResult';
 import { useEditResult } from './useEditResult';
 
-function ResultForm({
-  onCloseModal,
-  themeWithReadingsVotes,
-  resultToEdit = {},
-}) {
+function ResultForm({ onCloseModal, title, finalReadings, resultToEdit = {} }) {
   const { isCreating, createPrepResult } = useCreateResult();
   const { isEditing, editResult } = useEditResult();
   const isWorking = isCreating || isEditing;
@@ -30,44 +26,6 @@ function ResultForm({
     finalSong,
   } = resultToEdit;
   const isEditSession = Boolean(editId);
-
-  let title,
-    readings,
-    highestHistorical,
-    highestProphetical,
-    highestEpistle,
-    highestGospel;
-
-  if (!isEditSession) {
-    const { title: themeTitle, readings: themeReadings } =
-      themeWithReadingsVotes;
-    title = themeTitle;
-    readings = themeReadings;
-
-    highestHistorical = readings
-      .filter((reading) => reading.category === 'Historical')
-      .reduce((highest, reading) => {
-        return reading.voteCount > highest.voteCount ? reading : highest;
-      }, themeWithReadingsVotes.readings[0]);
-
-    highestProphetical = readings
-      .filter((reading) => reading.category === 'Prophetical')
-      .reduce((highest, reading) => {
-        return reading.voteCount > highest.voteCount ? reading : highest;
-      }, themeWithReadingsVotes.readings[0]);
-
-    highestEpistle = readings
-      .filter((reading) => reading.category === 'Epistle')
-      .reduce((highest, reading) => {
-        return reading.voteCount > highest.voteCount ? reading : highest;
-      }, themeWithReadingsVotes.readings[0]);
-
-    highestGospel = readings
-      .filter((reading) => reading.category === 'Gospel')
-      .reduce((highest, reading) => {
-        return reading.voteCount > highest.voteCount ? reading : highest;
-      }, themeWithReadingsVotes.readings[0]);
-  }
 
   const {
     register,
@@ -90,10 +48,10 @@ function ResultForm({
         }
       : {
           title: title,
-          firstReading: highestHistorical.reading,
-          secondReading: highestProphetical.reading,
-          thirdReading: highestEpistle.reading,
-          gospel: highestGospel.reading,
+          firstReading: finalReadings.firstReading,
+          secondReading: finalReadings.secondReading,
+          thirdReading: finalReadings.thirdReading,
+          gospel: finalReadings.gospel,
         },
   });
 

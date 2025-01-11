@@ -62,7 +62,7 @@ function MobileNav({ setIsOpen }) {
             }
           >
             <FaRegUser size={28} />
-            <span>Settings</span>
+            <span>User Settings</span>
           </NavLink>
         </li>
 

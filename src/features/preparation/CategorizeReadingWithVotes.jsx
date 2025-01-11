@@ -1,6 +1,12 @@
 import ReadingVoteItem from './ReadingVoteItem';
 
-function CategorizeReadingWithVotes({ readings }) {
+function CategorizeReadingWithVotes({
+  readings,
+  setFirstReading,
+  setSecondReading,
+  setThirdReading,
+  setGospel,
+}) {
   return (
     <>
       <ul className="w-full">
@@ -8,7 +14,14 @@ function CategorizeReadingWithVotes({ readings }) {
           {readings[0].category}
         </h2>
         {readings.map((reading) => (
-          <ReadingVoteItem key={reading.id} reading={reading} />
+          <ReadingVoteItem
+            setFirstReading={setFirstReading}
+            setSecondReading={setSecondReading}
+            setThirdReading={setThirdReading}
+            setGospel={setGospel}
+            key={reading.id}
+            reading={reading}
+          />
         ))}
       </ul>
     </>

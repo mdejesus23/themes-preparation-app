@@ -9,6 +9,17 @@ import ResultForm from '../admin/ResultForm';
 
 function ReadingVotesList({ themeWithReadingsVotes }) {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
+  const [firstReading, setFirstReading] = useState(null);
+  const [secondReading, setSecondReading] = useState(null);
+  const [thirdReading, setThirdReading] = useState(null);
+  const [gospel, setGospel] = useState(null);
+
+  const finalReadings = {
+    firstReading,
+    secondReading,
+    thirdReading,
+    gospel,
+  };
 
   const historical = themeWithReadingsVotes.readings.filter(
     (reading) => reading.category === 'Historical',
@@ -22,7 +33,7 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
     (reading) => reading.category === 'Epistle',
   );
 
-  const gospel = themeWithReadingsVotes.readings.filter(
+  const gospels = themeWithReadingsVotes.readings.filter(
     (reading) => reading.category === 'Gospel',
   );
 
@@ -46,24 +57,72 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
           {showAllReadings && (
             <>
               {' '}
-              <CategorizeReadingWithVotes readings={historical} />
-              <CategorizeReadingWithVotes readings={prophetical} />
-              <CategorizeReadingWithVotes readings={epistle} />
-              <CategorizeReadingWithVotes readings={gospel} />
+              <CategorizeReadingWithVotes
+                setGospel={setGospel}
+                setThirdReading={setThirdReading}
+                setFirstReading={setFirstReading}
+                setSecondReading={setSecondReading}
+                readings={historical}
+              />
+              <CategorizeReadingWithVotes
+                setGospel={setGospel}
+                setThirdReading={setThirdReading}
+                setFirstReading={setFirstReading}
+                setSecondReading={setSecondReading}
+                readings={prophetical}
+              />
+              <CategorizeReadingWithVotes
+                setGospel={setGospel}
+                setThirdReading={setThirdReading}
+                setFirstReading={setFirstReading}
+                setSecondReading={setSecondReading}
+                readings={epistle}
+              />
+              <CategorizeReadingWithVotes
+                setGospel={setGospel}
+                setThirdReading={setThirdReading}
+                setFirstReading={setFirstReading}
+                setSecondReading={setSecondReading}
+                readings={gospels}
+              />
             </>
           )}
 
           {showHistoricalReadings && (
-            <CategorizeReadingWithVotes readings={historical} />
+            <CategorizeReadingWithVotes
+              setGospel={setGospel}
+              setThirdReading={setThirdReading}
+              setFirstReading={setFirstReading}
+              setSecondReading={setSecondReading}
+              readings={historical}
+            />
           )}
           {showPropheticalReadings && (
-            <CategorizeReadingWithVotes readings={prophetical} />
+            <CategorizeReadingWithVotes
+              setGospel={setGospel}
+              setThirdReading={setThirdReading}
+              setFirstReading={setFirstReading}
+              setSecondReading={setSecondReading}
+              readings={prophetical}
+            />
           )}
           {showEpistleReadings && (
-            <CategorizeReadingWithVotes readings={epistle} />
+            <CategorizeReadingWithVotes
+              setGospel={setGospel}
+              setThirdReading={setThirdReading}
+              setFirstReading={setFirstReading}
+              setSecondReading={setSecondReading}
+              readings={epistle}
+            />
           )}
           {showGospelReadings && (
-            <CategorizeReadingWithVotes readings={gospel} />
+            <CategorizeReadingWithVotes
+              setGospel={setGospel}
+              setThirdReading={setThirdReading}
+              setFirstReading={setFirstReading}
+              setSecondReading={setSecondReading}
+              readings={gospels}
+            />
           )}
         </div>
       </div>
@@ -74,7 +133,10 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
           </Modal.Open>
 
           <Modal.Window name="result-form">
-            <ResultForm themeWithReadingsVotes={themeWithReadingsVotes} />
+            <ResultForm
+              finalReadings={finalReadings}
+              title={themeWithReadingsVotes.title}
+            />
           </Modal.Window>
         </Modal>
       </div>

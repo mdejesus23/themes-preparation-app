@@ -4,7 +4,6 @@ import handleApiError from '../utils/handleApiError';
 export async function postCreateUser(data) {
   try {
     const response = await api.post(`/api/v1/users/signup`, data);
-    console.log('Response:', response); // Debugging line
     return response.data;
   } catch (error) {
     console.error('Error:', error); // Debugging line

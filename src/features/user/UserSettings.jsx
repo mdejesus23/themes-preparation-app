@@ -27,9 +27,9 @@ function UserSettings() {
   const votedReadings = user.votedReadings || [];
 
   return (
-    <div className="mx-auto mt-12 max-w-md">
+    <div className="mx-auto mt-12 w-full max-w-lg space-y-8">
       {/* Header Section */}
-      <div className="text-center">
+      <div className="rounded-md bg-white p-6 text-center shadow-sm">
         <h2 className="text-gray-800 mb-10 text-2xl font-semibold">
           Welcome, {user.username}!
         </h2>
@@ -40,7 +40,7 @@ function UserSettings() {
       </div>
 
       {/* Voted Readings Section */}
-      <div className="mt-8">
+      <div className="mt-8 space-y-4 rounded-md bg-white p-6 shadow-sm">
         <h3 className="text-gray-800 text-lg font-medium">
           Your Voted Readings
         </h3>
@@ -66,7 +66,7 @@ function UserSettings() {
             </div>
 
             {/* Voted Readings List */}
-            <ul className="mt-4 space-y-3">
+            <ul className="mt-4 max-h-96 space-y-3 overflow-auto">
               {votedReadings.map((reading) => (
                 <li
                   key={reading.id}
