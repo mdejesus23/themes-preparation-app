@@ -1,7 +1,7 @@
 function Form({ onSubmit, children, type }) {
   const styles = {
     primary:
-      'mx-auto my-14 w-full max-w-[40rem] min-w-[22rem] rounded-lg border border-lightGrey bg-white p-6 shadow-lg ',
+      'mx-auto my-14 w-full max-w-[32rem] min-w-[22rem] rounded-lg border border-lightGrey bg-white p-6 shadow-lg ',
     secondary:
       'mx-auto my-14 w-full rounded-lg border border-lightGrey bg-white p-6 shadow-lg sm:w-4/5 md:w-[70%] lg:w-[50%] xl:w-[40%]',
     tertiary:

@@ -10,7 +10,6 @@ export function useLoginUser() {
 
     onSuccess: (data) => {
       const user = data.data.user;
-      console.log('user', user);
       toast.success('Login Successfully!');
       queryClient.setQueryData(['user'], user);
     },
