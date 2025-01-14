@@ -3,6 +3,7 @@ import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { useCreateResult } from './useCreateResult';
 import { useEditResult } from './useEditResult';
@@ -11,6 +12,7 @@ function ResultForm({ onCloseModal, title, finalReadings, resultToEdit = {} }) {
   const { isCreating, createPrepResult } = useCreateResult();
   const { isEditing, editResult } = useEditResult();
   const isWorking = isCreating || isEditing;
+  const navigate = useNavigate();
 
   const {
     _id: editId,
@@ -71,6 +73,7 @@ function ResultForm({ onCloseModal, title, finalReadings, resultToEdit = {} }) {
         onSuccess: () => {
           onCloseModal?.();
           reset();
+          navigate('/admin-results');
         },
       });
     }
