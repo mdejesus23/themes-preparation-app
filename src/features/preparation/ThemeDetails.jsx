@@ -6,6 +6,8 @@ import Button from '../../ui/Button';
 import CategorizeReadings from './CategorizeReadings';
 import CategoryMenu from '../../ui/CategoryMenu';
 import useThemeStore from '../../store/themeStore';
+import { HiMiniArrowDownTray } from 'react-icons/hi2';
+import Papa from 'papaparse';
 
 function ThemeDetails() {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
@@ -17,6 +19,7 @@ function ThemeDetails() {
     (state) => state.markAllReadingsDone,
   );
   const { readings, title, createdAt, _id: id } = themeWithReadings;
+  // console.log('readings', readings);
 
   useEffect(() => {
     // Check if all readings are done
@@ -46,6 +49,42 @@ function ThemeDetails() {
   const showPropheticalReadings = isCategoryShow === 'prophetical';
   const showEpistleReadings = isCategoryShow === 'epistle';
   const showGospelReadings = isCategoryShow === 'gospel';
+
+  const handleCsvExport = () => {
+    // Restructure the data
+    const categories = ['Historical', 'Prophetical', 'Epistle', 'Gospel'];
+    const structuredData = [];
+
+    // Find the maximum number of readings in any category
+    const maxRows = Math.max(
+      ...categories.map(
+        (cat) => readings.filter((r) => r.category === cat).length,
+      ),
+    );
+
+    for (let i = 0; i < maxRows; i++) {
+      const row = {};
+      categories.forEach((category) => {
+        const filteredReadings = readings.filter(
+          (r) => r.category === category,
+        );
+        row[category] = filteredReadings[i]?.reading || '';
+      });
+      structuredData.push(row);
+    }
+    console.log('structuredData', structuredData);
+    const csv = Papa.unparse(structuredData);
+    const blog = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blog);
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${title}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <>
@@ -95,15 +134,24 @@ function ThemeDetails() {
             />
           </svg>
         </div>
+
         <h1 className="text-center font-headfont text-3xl font-bold md:text-4xl">
           {title}
         </h1>
+
         <p className="text-center text-xs text-grey">{formatDate(createdAt)}</p>
         <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
-        <div className="mt-5 flex justify-center">
+        <div className="mt-5 flex justify-center gap-2">
           <Button onClick={markAllReadingsDone} design="secondary">
             Mark All Readings Done
           </Button>
+          <buton
+            className="mt-2 flex items-center gap-2 rounded-sm border-2 border-none bg-yellow px-4 py-2 font-semibold text-dark transition-colors duration-300 hover:bg-lightYellow"
+            onClick={handleCsvExport}
+          >
+            Export
+            <HiMiniArrowDownTray />
+          </buton>
         </div>
 
         <div className="my-11 grid w-full border-spacing-1 grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
