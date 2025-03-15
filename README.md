@@ -29,10 +29,10 @@ Here's a breakdown of the project's structure:
 │   ├── services/               # API service calls (connects to the REST API)
 │   ├── store/                  # Zustand state management
 │   ├── ui/                     # UI components (buttons, forms, etc.)
-│   └── utils/                  # Utility functions and helpers (e.g., formatters, validators)
-├── App.js                      # Main app component
-├── index.css                   # Global styles
-├── main.jsx                    # Entry point for React app
+│   ├── utils/                  # Utility functions and helpers (e.g., formatters, validators)
+│   ├── App.jsx                 # Main app component
+│   ├── main.jsx                # Entry point for React app
+│   ├── index.css               # Global styles
 ├── tailwind.config.mjs         # Tailwind CSS configuration
 └── package.json                # Project dependencies and scripts
 ```
