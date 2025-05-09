@@ -53,6 +53,22 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
           {formatDate(themeWithReadingsVotes.createdAt)}
         </p>
         <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
+        {/* save result button  */}
+        <div className="mx-auto my-10 flex justify-center">
+          <Modal>
+            <Modal.Open opens="result-form">
+              <Button design="secondary">Save final result</Button>
+            </Modal.Open>
+
+            <Modal.Window name="result-form">
+              <ResultForm
+                finalReadings={finalReadings}
+                title={themeWithReadingsVotes.title}
+              />
+            </Modal.Window>
+          </Modal>
+        </div>
+
         <div className="my-11 grid w-full border-spacing-1 grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
           {showAllReadings && (
             <>
@@ -125,20 +141,6 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
             />
           )}
         </div>
-      </div>
-      <div className="mt-40">
-        <Modal>
-          <Modal.Open opens="result-form">
-            <Button design="secondary">Save final result</Button>
-          </Modal.Open>
-
-          <Modal.Window name="result-form">
-            <ResultForm
-              finalReadings={finalReadings}
-              title={themeWithReadingsVotes.title}
-            />
-          </Modal.Window>
-        </Modal>
       </div>
     </>
   );

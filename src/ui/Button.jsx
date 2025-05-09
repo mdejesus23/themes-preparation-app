@@ -14,7 +14,7 @@ function Button({
     primary:
       'w-full rounded-sm border-2 border-none bg-yellow px-4 py-2 font-semibold text-dark transition-colors duration-300 hover:bg-lightYellow',
     secondary:
-      'mt-2  rounded-sm border-2 border-none bg-yellow px-4 py-2 font-semibold text-dark transition-colors duration-300 hover:bg-lightYellow',
+      'flex items-center gap-2 rounded-sm border-2 border-none bg-yellow px-4 py-2 font-semibold text-dark transition-colors duration-300 hover:bg-lightYellow',
     tertiary:
       'text-center w-full rounded-xl border-2 border px-4 py-2 font-semibold text-dark transition-colors duration-300 hover:bg-grey hover:text-white',
     close: 'underline-offset-1 absolute top-2 right-2 text-2xl',
