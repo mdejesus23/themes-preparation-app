@@ -26,6 +26,7 @@ function ReadingVotes() {
   if (isPending) return <Loader />;
 
   const themeWithReadingsVotes = data?.themeWithReadings;
+  console.log('themeWithReadingsVotes', themeWithReadingsVotes);
 
   return (
     <>
