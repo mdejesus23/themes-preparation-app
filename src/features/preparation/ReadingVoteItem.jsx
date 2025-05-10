@@ -2,6 +2,7 @@ import toast from 'react-hot-toast';
 import useUserStore from '../../store/useUserStore';
 import { useState } from 'react';
 import { HiMiniPlus } from 'react-icons/hi2';
+import useThemeStore from '../../store/themeStore';
 
 function ReadingVoteItem({
   reading,
@@ -10,15 +11,15 @@ function ReadingVoteItem({
   setThirdReading,
   setGospel,
 }) {
-  const [additionalVotes, setAdditionalVotes] = useState(0);
   const user = useUserStore((state) => state.user);
-  console.log('user', user.votedReadingIds);
+  const incrementVotes = useThemeStore(
+    (state) => state.incrementAdditionalVotes,
+  );
+  const themeData = useThemeStore((state) => state.themeWithReadings);
 
   const { _id, reading: verse, voteCount } = reading;
-  console.log('reading', reading);
 
   const isUserVotedReading = user.votedReadingIds.includes(_id);
-  console.log('isUserVotedReading', isUserVotedReading);
 
   const handleSetFinalReadings = () => {
     switch (reading.category) {
@@ -43,6 +44,10 @@ function ReadingVoteItem({
     }
   };
 
+  const additionalVotes = themeData.readings.find(
+    (rd) => rd._id == _id,
+  ).additionalVotes;
+
   return (
     <li
       key={_id}
@@ -55,7 +60,7 @@ function ReadingVoteItem({
         {verse}
       </button>
       <div className="flex items-center gap-x-2">
-        <button onClick={() => setAdditionalVotes((prev) => prev + 1)}>
+        <button onClick={() => incrementVotes(_id)}>
           <HiMiniPlus />
         </button>
         <p className="text-red text-lg font-semibold">

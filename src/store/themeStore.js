@@ -16,6 +16,7 @@ const useThemeStore = create(
             readings: data.readings.map((reading) => ({
               ...reading,
               isDone: false, // Ensure isDone property exists for each reading
+              additionalVotes: 0,
             })),
           },
         })),
@@ -65,6 +66,31 @@ const useThemeStore = create(
             readings: state.themeWithReadings.readings.map((reading) => ({
               ...reading,
               isDone: true, // Mark all readings as done
+            })),
+          },
+        })),
+
+      incrementAdditionalVotes: (id) =>
+        set((state) => ({
+          themeWithReadings: {
+            ...state.themeWithReadings,
+            readings: state.themeWithReadings.readings.map((reading) =>
+              reading._id === id
+                ? { ...reading, additionalVotes: reading.additionalVotes + 1 }
+                : reading,
+            ),
+          },
+        })),
+
+      decrementAdditionalVotes: () =>
+        set((state) => ({
+          themeWithReadings: {
+            ...state.themeWithReadings,
+            readings: state.themeWithReadings.readings.map((reading) => ({
+              ...reading,
+              isDone: true, // Mark all readings as done
+              additionalVotes:
+                state.additionalVotes > 0 && state.additionalVotes--,
             })),
           },
         })),
