@@ -82,16 +82,20 @@ const useThemeStore = create(
           },
         })),
 
-      decrementAdditionalVotes: () =>
+      decrementAdditionalVotes: (id) =>
         set((state) => ({
           themeWithReadings: {
             ...state.themeWithReadings,
-            readings: state.themeWithReadings.readings.map((reading) => ({
-              ...reading,
-              isDone: true, // Mark all readings as done
-              additionalVotes:
-                state.additionalVotes > 0 && state.additionalVotes--,
-            })),
+            readings: state.themeWithReadings.readings.map((reading) =>
+              reading._id === id
+                ? {
+                    ...reading,
+                    additionalVotes:
+                      reading.additionalVotes > 0 &&
+                      reading.additionalVotes - 1,
+                  }
+                : reading,
+            ),
           },
         })),
     }),

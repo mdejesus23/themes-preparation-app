@@ -59,7 +59,7 @@ function AdminThemeWithReadings() {
       </p>
       <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
 
-      <div className="flex items-center justify-center">
+      <div className="my-10 flex items-center justify-center">
         <Modal>
           <Modal.Open opens="add-reading-form">
             <Button design="secondary">Add reading</Button>

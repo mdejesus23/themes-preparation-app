@@ -8,6 +8,7 @@ import CategoryMenu from '../../ui/CategoryMenu';
 import useThemeStore from '../../store/themeStore';
 import { HiMiniArrowDownTray } from 'react-icons/hi2';
 import Papa from 'papaparse';
+import { HiOutlineArrowSmallRight } from 'react-icons/hi2';
 
 function ThemeDetails() {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
@@ -97,7 +98,7 @@ function ThemeDetails() {
         <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
         <div className="mt-5 flex justify-center gap-2">
           <Button onClick={markAllReadingsDone} design="secondary">
-            Mark All Readings Done
+            Mark All Done
           </Button>
           <Button design="secondary" onClick={handleCsvExport}>
             Export
@@ -112,7 +113,7 @@ function ThemeDetails() {
               design="secondary"
               disabled={!isAllReadingsIsDone}
             >
-              View votes
+              <HiOutlineArrowSmallRight />
             </Button>
           </div>
         </div>
