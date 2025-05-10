@@ -3,6 +3,7 @@ import useUserStore from '../../store/useUserStore';
 import { useState } from 'react';
 import { HiMiniPlus } from 'react-icons/hi2';
 import useThemeStore from '../../store/themeStore';
+import { HiMinusSmall } from 'react-icons/hi2';
 
 function ReadingVoteItem({
   reading,
@@ -14,6 +15,9 @@ function ReadingVoteItem({
   const user = useUserStore((state) => state.user);
   const incrementVotes = useThemeStore(
     (state) => state.incrementAdditionalVotes,
+  );
+  const decrementVotes = useThemeStore(
+    (state) => state.decrementAdditionalVotes,
   );
   const themeData = useThemeStore((state) => state.themeWithReadings);
 
@@ -48,24 +52,53 @@ function ReadingVoteItem({
     (rd) => rd._id == _id,
   ).additionalVotes;
 
+  const totalVotes = voteCount + additionalVotes;
+
   return (
     <li
       key={_id}
-      className={`${isUserVotedReading ? 'bg-lightGreen text-neutral-700' : ''} mt-4 flex w-full cursor-pointer items-center justify-between gap-x-1 rounded-xl border p-2`}
+      className={`mt-4 flex w-full cursor-pointer items-center justify-between gap-x-1 rounded-xl border p-2 transition-colors duration-200 ${totalVotes > 10 ? 'border-green-500' : totalVotes > 5 ? 'border-yellow-500' : 'border-gray-300'}`}
     >
-      <button
-        onClick={() => handleSetFinalReadings()}
-        className="font-bodyFont font-semibold hover:text-lg"
-      >
-        {verse}
-      </button>
-      <div className="flex items-center gap-x-2">
-        <button onClick={() => incrementVotes(_id)}>
+      <div className="group relative flex flex-col">
+        <button
+          onClick={() => handleSetFinalReadings()}
+          className="text-left font-bodyFont font-semibold hover:text-lg"
+        >
+          {verse}
+        </button>
+
+        {/* Tooltip only shown if user voted */}
+        {isUserVotedReading && (
+          <div className="absolute left-20 z-10 w-20 rounded bg-lightYellow px-2 py-1 text-xs font-bold text-neutral-700">
+            You voted
+          </div>
+        )}
+      </div>
+
+      <div className="flex items-center gap-x-4">
+        <button
+          onClick={() => incrementVotes(_id)}
+          className="text-green-600 transition hover:scale-110"
+        >
           <HiMiniPlus />
         </button>
-        <p className="text-red text-lg font-semibold">
-          {voteCount + additionalVotes}
-        </p>
+        <span
+          className={`text-lg font-bold ${
+            totalVotes >= 5
+              ? 'text-green'
+              : totalVotes > 3
+                ? 'text-blue-800'
+                : 'text-neutral-800'
+          }`}
+        >
+          {totalVotes}
+        </span>
+        <button
+          onClick={() => decrementVotes(_id)}
+          className="text-red-500 transition hover:scale-110"
+        >
+          <HiMinusSmall />
+        </button>
       </div>
     </li>
   );
