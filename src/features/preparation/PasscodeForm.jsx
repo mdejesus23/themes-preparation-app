@@ -8,12 +8,13 @@ import { useAccessTheme } from './useAccessTheme';
 import useThemeStore from '../../store/themeStore';
 import { HiEye } from 'react-icons/hi2';
 import { HiEyeSlash } from 'react-icons/hi2';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function PasscodeForm({ theme, onCloseModal }) {
   const [isShowPasscode, setIsShowPasscode] = useState(false);
   const { id: themeId, title } = theme;
   const navigate = useNavigate();
+  const themeData = useThemeStore((state) => state.themeWithReadings);
   const setThemeData = useThemeStore((state) => state.setThemeData);
   const { accessTheme, isAccessing } = useAccessTheme(themeId);
 
@@ -44,6 +45,13 @@ function PasscodeForm({ theme, onCloseModal }) {
     e.preventDefault();
     setIsShowPasscode((prev) => !prev);
   }
+
+  useEffect(() => {
+    if (themeId === themeData.id) {
+      navigate(`/themes/${themeId}`);
+    }
+    // console.log('themeData', themeData);
+  }, [themeId, themeData, navigate]);
 
   return (
     <>
