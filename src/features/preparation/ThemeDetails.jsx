@@ -20,7 +20,7 @@ function ThemeDetails() {
     (state) => state.markAllReadingsDone,
   );
   const { readings, title, createdAt, _id: id } = themeWithReadings;
-  console.log('themeWithReadings', themeWithReadings);
+  // console.log('themeWithReadings', themeWithReadings);
 
   useEffect(() => {
     // Check if all readings are done
@@ -73,7 +73,7 @@ function ThemeDetails() {
       });
       structuredData.push(row);
     }
-    console.log('structuredData', structuredData);
+    // console.log('structuredData', structuredData);
     const csv = Papa.unparse(structuredData);
     const blog = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');

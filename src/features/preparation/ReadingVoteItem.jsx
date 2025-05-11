@@ -59,7 +59,7 @@ function ReadingVoteItem({
       key={_id}
       className={`mt-4 flex w-full cursor-pointer items-center justify-between gap-x-1 rounded-xl border p-2 transition-colors duration-200 ${totalVotes > 10 ? 'border-green-500' : totalVotes > 5 ? 'border-yellow-500' : 'border-gray-300'}`}
     >
-      <div className="group relative flex flex-col">
+      <div className="flex items-center gap-3">
         <button
           onClick={() => handleSetFinalReadings()}
           className="text-left font-bodyFont font-semibold hover:text-lg"
@@ -69,7 +69,7 @@ function ReadingVoteItem({
 
         {/* Tooltip only shown if user voted */}
         {isUserVotedReading && (
-          <div className="absolute left-20 z-10 w-20 rounded bg-lightYellow px-2 py-1 text-xs font-bold text-neutral-700">
+          <div className="w-20 rounded bg-lightYellow px-2 py-1 text-xs font-bold text-neutral-700">
             You voted
           </div>
         )}
