@@ -46,7 +46,7 @@ function Footer() {
           </Modal>
         </div>
         <nav className="mt-2 flex justify-center space-x-4">
-          <NavLink
+          {/* <NavLink
             to="/terms-of-service"
             className="text-gray-400 transition hover:text-yellow"
           >
@@ -57,13 +57,13 @@ function Footer() {
             className="text-gray-400 transition hover:text-yellow"
           >
             Privacy Policy
-          </NavLink>
-          <NavLink
+          </NavLink> */}
+          {/* <NavLink
             to="/contact"
             className="text-gray-400 transition hover:text-yellow"
           >
             Contact Us
-          </NavLink>
+          </NavLink> */}
         </nav>
       </div>
     </footer>

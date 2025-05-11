@@ -4,6 +4,7 @@ import Main from './Main';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
+import ScrollToTopButton from './ScrollTotop';
 
 function AppLayout() {
   return (
@@ -15,6 +16,7 @@ function AppLayout() {
           <Outlet />
           <Footer />
         </Main>
+        <ScrollToTopButton />
       </div>
     </div>
   );
