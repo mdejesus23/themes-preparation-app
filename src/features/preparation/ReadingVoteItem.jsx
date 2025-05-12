@@ -86,7 +86,7 @@ function ReadingVoteItem({
           className={`text-lg font-bold ${
             totalVotes >= 5
               ? 'text-green'
-              : totalVotes > 3
+              : totalVotes > 2
                 ? 'text-blue-800'
                 : 'text-neutral-800'
           }`}
