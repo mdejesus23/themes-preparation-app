@@ -20,6 +20,8 @@ import ProtectedRoute from './features/authentication/ProtectedRoute';
 import TermsOfService from './pages/TermsOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Contact from './pages/Contact';
+import Songs from './pages/Songs';
+import Song from './pages/Song';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -60,6 +62,8 @@ function App() {
               />
               <Route path="admin-results" element={<MyResults />} />
               <Route path="admin-user" element={<User />} />
+              <Route path="songs" element={<Songs />} />
+              <Route path="songs/:songId" element={<Song />} />
               <Route path="terms-of-service" element={<TermsOfService />} />
               <Route path="privacy-policy" element={<PrivacyPolicy />} />
               <Route path="contact" element={<Contact />} />

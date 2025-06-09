@@ -45,6 +45,19 @@ function MainNav() {
 
         <li className="w-full">
           <NavLink
+            to="/songs"
+            className={({ isActive }) =>
+              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
+                isActive ? 'bg-yellow text-dark' : ''
+              }`
+            }
+          >
+            Songs
+          </NavLink>
+        </li>
+
+        <li className="w-full">
+          <NavLink
             to="/admin-user"
             className={({ isActive }) =>
               `flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow ${
