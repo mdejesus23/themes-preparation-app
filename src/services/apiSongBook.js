@@ -2,9 +2,21 @@ import api from './apiConfig';
 import handleApiError from '../utils/handleApiError';
 
 // Get preparation themes
-export async function getSongBook() {
+export async function getSongBook({
+  page = 1,
+  limit = 10,
+  sort = 'title',
+  search = '',
+} = {}) {
   try {
-    const response = await api.get(`/api/v1/songs?sort=title`);
+    const response = await api.get(`/api/v1/songs`, {
+      params: {
+        page,
+        limit,
+        sort,
+        search,
+      },
+    });
     return response.data; // Return the data if needed
   } catch (error) {
     handleApiError(error); // Handle error with custom function
