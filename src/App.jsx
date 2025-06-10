@@ -22,6 +22,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Contact from './pages/Contact';
 import Songs from './pages/Songs';
 import Song from './pages/Song';
+import OfficeOfReadings from './pages/OfficeOfReadings';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -64,6 +65,7 @@ function App() {
               <Route path="admin-user" element={<User />} />
               <Route path="songs" element={<Songs />} />
               <Route path="songs/:songId" element={<Song />} />
+              <Route path="office-of-readings" element={<OfficeOfReadings />} />
               <Route path="terms-of-service" element={<TermsOfService />} />
               <Route path="privacy-policy" element={<PrivacyPolicy />} />
               <Route path="contact" element={<Contact />} />

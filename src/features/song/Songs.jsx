@@ -1,20 +1,62 @@
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import Button from '../../ui/Button';
 import { useSongs } from './useSongs';
 import Loader from '../../ui/Loader';
 import { SONGS_PER_PAGE } from '../../data/constant';
+import { HiArrowPath } from 'react-icons/hi2';
 
 function SongBook() {
-  const [page, setPage] = useState(1);
-  const [inputValue, setInputValue] = useState('');
-  const [search, setSearch] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // ✅ Pass search into useSongs hook
+  // Derive state from URL
+  const page = parseInt(searchParams.get('page') || '1', 10);
+  const search = searchParams.get('search') || '';
+  const category = searchParams.get('category') || '';
+
+  const [inputValue, setInputValue] = useState(search);
+
   const { isPending, data, error } = useSongs({
     page,
     limit: SONGS_PER_PAGE,
     search,
+    category,
   });
+
+  useEffect(() => {
+    setInputValue(search); // Keep input in sync with URL search query
+  }, [search]);
+
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    const params = {
+      page: '1',
+      search: inputValue.trim(),
+    };
+    if (category) params.category = category;
+    setSearchParams(params);
+  }
+
+  function handleChangeCategory(newCategory) {
+    const params = {
+      page: '1',
+      category: newCategory,
+    };
+    setSearchParams(params); // Removes search query when category changes
+  }
+
+  function handleReset() {
+    setSearchParams({ page: '1' });
+  }
+
+  function handlePageChange(newPage) {
+    const params = {
+      page: newPage.toString(),
+    };
+    if (search) params.search = search;
+    if (category) params.category = category;
+    setSearchParams(params);
+  }
 
   if (isPending) return <Loader />;
   if (error) {
@@ -24,93 +66,86 @@ function SongBook() {
 
   const { data: songs, currentPage, totalPages } = data;
 
-  function handleSearchSubmit(e) {
-    e.preventDefault();
-    setPage(1); // Reset to first page on new search
-    setSearch(inputValue.trim()); // Set search term
-  }
-
   return (
     <div className="flex flex-col items-center justify-center p-4">
       <form
         onSubmit={handleSearchSubmit}
         className="flex w-full max-w-xl flex-col gap-2 sm:flex-row sm:items-center"
       >
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Search title..."
-          className="w-full flex-grow border px-4 py-2 text-sm shadow-sm"
-        />
-        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-          <button
-            type="submit"
-            className="w-full bg-blue-400 px-4 py-2 text-sm text-white hover:bg-blue-500 sm:w-auto"
-          >
-            Search
-          </button>
+        <div className="relative w-full">
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Search title..."
+            className="w-full rounded-sm border border-grey bg-lightGrey px-4 py-2 text-dark focus:outline-none focus:ring-2 focus:ring-yellow"
+          />
+
           <button
             type="button"
-            className="w-full bg-red-400 px-4 py-2 text-sm text-white sm:w-auto"
-            onClick={() => {
-              setInputValue('');
-              setSearch('');
-              setPage(1); // Reset to first page
-            }}
+            className="absolute right-[0.8rem] top-[9px]"
+            onClick={handleReset}
           >
-            Reset
+            <HiArrowPath size={20} />
           </button>
+        </div>
+
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+          <Button design="primary" type="submit">
+            Search
+          </Button>
         </div>
       </form>
 
-      <div className="my-12 w-full overflow-x-auto">
-        <table className="border-gray-200 w-full table-auto border">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="text-gray-700 border-b px-4 py-2 text-left text-sm font-medium">
-                #
-              </th>
-              <th className="text-gray-700 border-b px-4 py-2 text-left text-sm font-medium">
-                Title
-              </th>
-              <th className="text-gray-700 border-b px-4 py-2 text-left text-sm font-medium">
-                Category
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {songs && songs.length > 0 ? (
-              songs.map((song, index) => (
-                <tr key={song._id} className="hover:bg-gray-50">
-                  <td className="border-b px-4 py-2">
-                    {(page - 1) * SONGS_PER_PAGE + index + 1}
-                  </td>
-                  <td className="border-b px-4 py-2">
-                    <a
-                      href={`/songs/${song._id}`}
-                      className="text-sm text-blue-600 hover:underline"
-                    >
-                      {song.title}
-                    </a>
-                  </td>
-                  <td className="border-b px-4 py-2">{song.category}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="3" className="text-gray-500 px-4 py-4 text-center">
-                  No songs found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+      <div className="mt-6 w-full">
+        <select
+          value={category}
+          onChange={(e) => handleChangeCategory(e.target.value)}
+          className="w-full rounded border border-grey bg-lightGrey px-4 py-2 text-dark focus:outline-none focus:ring-2 focus:ring-yellow"
+        >
+          <option value="">All Categories</option>
+          <option value="pre-catechumenate">Pre-catechumenate</option>
+          <option value="catechumenate">Catechumenate</option>
+          <option value="election">Election</option>
+          <option value="liturgical">Liturgical</option>
+        </select>
+      </div>
+
+      {/* psalms lists  */}
+      <div className="my-12 w-full max-w-3xl space-y-4">
+        {songs && songs.length > 0 ? (
+          songs.map((song, index) => (
+            <div
+              key={song._id}
+              className="grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b pb-3 last:border-b-0"
+            >
+              {/* Song Number */}
+              <span className="text-gray-400 w-6 text-right text-sm">
+                #{(page - 1) * SONGS_PER_PAGE + index + 1}
+              </span>
+
+              {/* Song Title */}
+              <a
+                href={`/songs/${song._id}`}
+                className="truncate text-base font-medium text-blue-700 hover:underline"
+              >
+                {song.title}
+              </a>
+
+              {/* Category */}
+              <span className="text-gray-600 truncate text-right text-sm">
+                {song.category}
+              </span>
+            </div>
+          ))
+        ) : (
+          <div className="text-gray-500 text-center">No songs found.</div>
+        )}
       </div>
 
       <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
         <button
-          onClick={() => setPage((p) => Math.max(p - 1, 1))}
+          onClick={() => handlePageChange(Math.max(page - 1, 1))}
           disabled={page === 1}
           className="bg-gray-200 rounded px-4 py-2 disabled:opacity-50"
         >
@@ -120,7 +155,7 @@ function SongBook() {
           Page {currentPage} of {totalPages}
         </span>
         <button
-          onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+          onClick={() => handlePageChange(Math.min(page + 1, totalPages))}
           disabled={page === totalPages}
           className="bg-gray-200 rounded px-4 py-2 disabled:opacity-50"
         >
