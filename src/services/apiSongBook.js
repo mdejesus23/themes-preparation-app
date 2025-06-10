@@ -7,6 +7,7 @@ export async function getSongBook({
   limit = 10,
   sort = 'title',
   search = '',
+  category = '',
 } = {}) {
   try {
     const response = await api.get(`/api/v1/songs`, {
@@ -15,6 +16,7 @@ export async function getSongBook({
         limit,
         sort,
         search,
+        ...(category && { category }), // Only include category if it's provided
       },
     });
     return response.data; // Return the data if needed

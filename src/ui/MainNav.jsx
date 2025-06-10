@@ -52,7 +52,20 @@ function MainNav() {
               }`
             }
           >
-            Songs
+            Song Book
+          </NavLink>
+        </li>
+
+        <li className="w-full">
+          <NavLink
+            to="/office-of-readings"
+            className={({ isActive }) =>
+              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
+                isActive ? 'bg-yellow text-dark' : ''
+              }`
+            }
+          >
+            Office of Readings
           </NavLink>
         </li>
 
