@@ -23,6 +23,7 @@ import Contact from './pages/Contact';
 import Songs from './pages/Songs';
 import Song from './pages/Song';
 import OfficeOfReadings from './pages/OfficeOfReadings';
+import PublicAppLayout from './ui/PublicAppLayout';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,12 +72,23 @@ function App() {
               <Route path="contact" element={<Contact />} />
             </Route>
           </Route>
+          <Route>
+            <Route element={<PublicAppLayout />}>
+              {/* place applayout for these components  */}
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+              <Route path="forgot-password" element={<ForgotPassword />} />
+              <Route path="reset-password/:token" element={<ResetPassword />} />
+              {/* make this accessible to everyone as well  */}
+              <Route path="song-book" element={<Songs />} />
+              <Route path="song-book/:songId" element={<Song />} />
+              <Route
+                path="office-of-the-readings"
+                element={<OfficeOfReadings />}
+              />
+            </Route>
+          </Route>
 
-          {/* place applayout for these components  */}
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
-          <Route path="reset-password/:token" element={<ResetPassword />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
