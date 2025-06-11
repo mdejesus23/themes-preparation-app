@@ -22,7 +22,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Contact from './pages/Contact';
 import Songs from './pages/Songs';
 import Song from './pages/Song';
-import OfficeOfReadings from './pages/OfficeOfReadings';
+import Liturgy from './pages/Liturgy';
 import PublicAppLayout from './ui/PublicAppLayout';
 
 const queryClient = new QueryClient({
@@ -66,7 +66,7 @@ function App() {
               <Route path="admin-user" element={<User />} />
               <Route path="songs" element={<Songs />} />
               <Route path="songs/:songId" element={<Song />} />
-              <Route path="office-of-readings" element={<OfficeOfReadings />} />
+              <Route path="office-of-readings" element={<Liturgy />} />
               <Route path="terms-of-service" element={<TermsOfService />} />
               <Route path="privacy-policy" element={<PrivacyPolicy />} />
               <Route path="contact" element={<Contact />} />
@@ -82,10 +82,7 @@ function App() {
               {/* make this accessible to everyone as well  */}
               <Route path="song-book" element={<Songs />} />
               <Route path="song-book/:songId" element={<Song />} />
-              <Route
-                path="office-of-the-readings"
-                element={<OfficeOfReadings />}
-              />
+              <Route path="office-of-the-readings" element={<Liturgy />} />
             </Route>
           </Route>
 

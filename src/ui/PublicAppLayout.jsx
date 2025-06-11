@@ -11,7 +11,7 @@ function PublicAppLayout() {
     <div className="">
       <PublicHeader />
       <div className="min-h-screens flex h-full w-full md:mb-0">
-        <Main type="primary">
+        <Main>
           <Outlet />
           <Footer />
         </Main>
