@@ -5,9 +5,12 @@ import { useSongs } from './useSongs';
 import Loader from '../../ui/Loader';
 import { SONGS_PER_PAGE } from '../../data/constant';
 import { HiArrowPath } from 'react-icons/hi2';
+import useUserStore from '../../store/useUserStore';
 
 function SongBook() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const isAuthenticated = useUserStore((state) => state.isAuthenticated);
+  console.log('isAuthenticated:', isAuthenticated);
 
   // Derive state from URL
   const page = parseInt(searchParams.get('page') || '1', 10);
@@ -126,7 +129,11 @@ function SongBook() {
 
               {/* Song Title */}
               <a
-                href={`/songs/${song._id}`}
+                href={
+                  isAuthenticated
+                    ? `/songs/${song._id} `
+                    : `/song-book/${song._id}`
+                }
                 className="truncate text-base font-medium text-blue-700 hover:underline"
               >
                 {song.title}
