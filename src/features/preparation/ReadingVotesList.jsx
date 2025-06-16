@@ -7,6 +7,8 @@ import CategoryMenu from '../../ui/CategoryMenu';
 import Modal from '../../ui/Modal';
 import ResultForm from '../admin/ResultForm';
 
+import Songs from '../song/Songs';
+
 function ReadingVotesList({ themeWithReadingsVotes }) {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
   const [firstReading, setFirstReading] = useState(null);
@@ -54,7 +56,7 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
         </p>
         <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
         {/* save result button  */}
-        <div className="mx-auto my-10 flex justify-center">
+        <div className="mx-auto my-10 flex justify-center gap-6">
           <Modal>
             <Modal.Open opens="result-form">
               <Button design="secondary">Save final result</Button>
@@ -65,6 +67,16 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
                 finalReadings={finalReadings}
                 title={themeWithReadingsVotes.title}
               />
+            </Modal.Window>
+          </Modal>
+
+          <Modal>
+            <Modal.Open opens="songsm">
+              <Button design="secondary">Song Book</Button>
+            </Modal.Open>
+
+            <Modal.Window name="songsm">
+              <Songs />
             </Modal.Window>
           </Modal>
         </div>
