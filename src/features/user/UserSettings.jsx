@@ -1,53 +1,145 @@
-import React from 'react';
+import { useState } from 'react';
 import Loader from '../../ui/Loader';
 import { useUser } from '../authentication/useUser';
 import { useResetVotes } from './useUserResetVotes';
 import Modal from '../../ui/Modal';
 import ConfirmResetVotes from '../../ui/ConfirmUserResetVotes';
 import useUserStore from '../../store/useUserStore';
+import { useUploadProfileImage } from './useUploadProfileImage';
+import Button from '../../ui/Button';
 
 function UserSettings() {
+  const { isUploading, uploadImage } = useUploadProfileImage();
+
   const { isLoading, user } = useUser();
   const { isReseting, userResetVotes } = useResetVotes();
   const setUser = useUserStore((state) => state.setUser);
 
+  const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+
   // Show loader while loading or resetting
-  if (isLoading || isReseting) {
-    return <Loader />;
-  }
+  if (isLoading || isReseting) return <Loader />;
 
   // Update user state in the store
   const userState = {
     email: user.email,
     username: user.username,
     votedReadingIds: user.votedReadingIds,
+    photo: user.photo,
   };
   setUser(userState);
+
+  const handleFileChange = (e) => {
+    const selected = e.target.files[0];
+    if (selected) {
+      setFile(selected);
+      setPreviewUrl(URL.createObjectURL(selected));
+      setSuccessMessage('');
+    }
+  };
+
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      setUploading(true);
+
+      const res = await uploadImage(formData); // ✅ Wait for result
+      const updatedUser = res.data.user; // Adjust this based on your backend response shape
+
+      // Update global state
+      setUser({
+        email: updatedUser.email,
+        username: updatedUser.username,
+        votedReadingIds: updatedUser.votedReadingIds,
+        photo: updatedUser.photo,
+      });
+
+      setSuccessMessage('Profile image updated successfully!');
+      setFile(null);
+      setPreviewUrl('');
+    } catch (err) {
+      console.error('Upload error:', err);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const votedReadings = user.votedReadings || [];
 
   return (
-    <div className="mx-auto mt-12 w-full max-w-lg space-y-8">
+    <div className="container mx-auto mt-10 flex w-full flex-col items-center">
       {/* Header Section */}
-      <div className="rounded-md bg-white p-6 text-center shadow-sm">
-        <h2 className="text-gray-800 mb-10 text-2xl font-semibold">
+      <div className="mx-auto my-14 w-full rounded-lg border border-lightGrey bg-white p-6 shadow-lg sm:w-4/5 md:w-[70%] lg:w-[50%] xl:w-[40%]">
+        <h2 className="text-gray-800 mb-6 text-center text-2xl font-semibold">
           Welcome, {user.username}!
         </h2>
-        <div className="flex justify-center gap-4">
+
+        {/* Profile Image */}
+        {user.photo && (
+          <img
+            src={user.photo}
+            alt="Profile"
+            className="mx-auto mb-4 h-24 w-24 rounded-full object-cover shadow"
+          />
+        )}
+
+        {/* Email Info */}
+        <div className="mb-4 flex justify-center gap-4">
           <p className="text-gray-600 text-sm font-medium">Email:</p>
           <p className="text-gray-600 text-sm">{user.email}</p>
         </div>
+
+        {/* Image Upload Form */}
+        <form onSubmit={handleUpload} className="space-y-4">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="text-gray-600 block w-full text-sm"
+          />
+
+          {previewUrl && (
+            <img
+              src={previewUrl}
+              alt="Preview"
+              className="mx-auto h-24 w-24 rounded-full object-cover shadow"
+            />
+          )}
+
+          <Button
+            type="submit"
+            design="secondary"
+            disabled={uploading || !file}
+          >
+            {uploading || isUploading
+              ? 'Uploading...'
+              : 'Upload New Profile Image'}
+          </Button>
+
+          {successMessage && (
+            <p className="text-green-600 mt-2 text-sm font-medium">
+              {successMessage}
+            </p>
+          )}
+        </form>
       </div>
 
       {/* Voted Readings Section */}
-      <div className="mt-8 space-y-4 rounded-md bg-white p-6 shadow-sm">
+      <div className="mx-auto my-14 w-full rounded-lg border border-lightGrey bg-white p-6 shadow-lg sm:w-4/5 md:w-[70%] lg:w-[50%] xl:w-[40%]">
         <h3 className="text-gray-800 text-lg font-medium">
           Your Voted Readings
         </h3>
 
         {votedReadings.length > 0 ? (
           <>
-            {/* Reset Votes Button */}
             <div className="mt-4">
               <Modal>
                 <Modal.Open opens="reset-votes">
@@ -65,7 +157,6 @@ function UserSettings() {
               </Modal>
             </div>
 
-            {/* Voted Readings List */}
             <ul className="mt-4 max-h-96 space-y-3 overflow-auto">
               {votedReadings.map((reading) => (
                 <li

@@ -81,8 +81,8 @@ function PublicHeader() {
                 onClick={handleNavLinkClick}
                 to="/login"
                 className={({ isActive }) =>
-                  `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
-                    isActive ? 'bg-yellow text-dark' : ''
+                  `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                    isActive ? 'text-yellow' : ''
                   }`
                 }
               >
@@ -94,8 +94,8 @@ function PublicHeader() {
                 onClick={handleNavLinkClick}
                 to="/song-book"
                 className={({ isActive }) =>
-                  `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
-                    isActive ? 'bg-yellow text-dark' : ''
+                  `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                    isActive ? 'text-yellow' : ''
                   }`
                 }
               >
@@ -108,8 +108,8 @@ function PublicHeader() {
                 onClick={handleNavLinkClick}
                 to="/office-of-the-readings"
                 className={({ isActive }) =>
-                  `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
-                    isActive ? 'bg-yellow text-dark' : ''
+                  `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                    isActive ? 'text-yellow' : ''
                   }`
                 }
               >

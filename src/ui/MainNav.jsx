@@ -10,8 +10,8 @@ function MainNav() {
           <NavLink
             to="/themes"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
-                isActive ? 'bg-yellow text-dark' : ''
+              `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                isActive ? 'text-yellow' : ''
               }`
             }
           >
@@ -22,8 +22,8 @@ function MainNav() {
           <NavLink
             to="/admin-themes"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
-                isActive ? 'bg-yellow text-dark' : ''
+              `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                isActive ? 'text-yellow' : ''
               }`
             }
           >
@@ -34,8 +34,8 @@ function MainNav() {
           <NavLink
             to="/admin-results"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
-                isActive ? 'bg-yellow text-dark' : ''
+              `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                isActive ? 'text-yellow' : ''
               }`
             }
           >
@@ -47,8 +47,8 @@ function MainNav() {
           <NavLink
             to="/songs"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
-                isActive ? 'bg-yellow text-dark' : ''
+              `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                isActive ? 'text-yellow' : ''
               }`
             }
           >
@@ -60,8 +60,8 @@ function MainNav() {
           <NavLink
             to="/office-of-readings"
             className={({ isActive }) =>
-              `flex w-full justify-center px-2 py-5 text-lg hover:bg-yellow ${
-                isActive ? 'bg-yellow text-dark' : ''
+              `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                isActive ? 'text-yellow' : ''
               }`
             }
           >
@@ -73,8 +73,8 @@ function MainNav() {
           <NavLink
             to="/admin-user"
             className={({ isActive }) =>
-              `flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow ${
-                isActive ? 'bg-yellow text-dark' : ''
+              `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                isActive ? 'text-yellow' : ''
               }`
             }
           >

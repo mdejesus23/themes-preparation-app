@@ -45,7 +45,7 @@ function UpdateUserDataForm() {
   if (isUpdatingPassword) return <Loader />;
 
   return (
-    <div className="flexm mt-10 w-full flex-col items-center">
+    <div className="container mx-auto mt-10 flex w-full flex-col items-center">
       <h3 className="mb-[-2rem] text-center text-lg font-semibold">
         Update your password
       </h3>
