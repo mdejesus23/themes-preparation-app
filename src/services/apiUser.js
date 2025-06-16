@@ -21,3 +21,22 @@ export async function userResetVotes() {
     throw error;
   }
 }
+
+export async function uploadProfileImage(formData) {
+  try {
+    const response = await api.patch(
+      '/api/v1/users/upload-profile-image',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+    return response.data; // Return the data if needed
+  } catch (error) {
+    console.error('Error fetching data:', error); // Handle error
+    handleApiError(error);
+    throw error;
+  }
+}
