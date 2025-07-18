@@ -18,7 +18,7 @@ function Footer() {
           </a>{' '}
           All rights reserved.
         </p>
-        <div>
+        {/* <div>
           <Modal>
             <Modal.Open opens="buy-me-a-coffee">
               <button className="text-gray-400 mx-auto mt-4 flex items-end justify-center gap-2 text-sm transition hover:text-yellow hover:underline">
@@ -44,7 +44,7 @@ function Footer() {
               <BuyMeACoffee />
             </Modal.Window>
           </Modal>
-        </div>
+        </div> */}
         <nav className="mt-2 flex justify-center space-x-4">
           {/* <NavLink
             to="/terms-of-service"
