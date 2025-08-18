@@ -2,10 +2,14 @@ import { useState, useRef, useEffect } from 'react';
 import { useOfficeOfReadings } from './useOfficeOfReadings';
 import Loader from '../../ui/Loader';
 import ePub from 'epubjs';
-import { HiArrowSmallRight, HiArrowSmallLeft } from 'react-icons/hi2';
+import {
+  HiArrowSmallRight,
+  HiArrowSmallLeft,
+  HiChevronUp,
+  HiChevronDown,
+  HiOutlineBookmark,
+} from 'react-icons/hi2';
 import Button from '../../ui/Button';
-import { HiBars3 } from 'react-icons/hi2';
-import { HiXMark } from 'react-icons/hi2';
 import Modal from '../../ui/Modal';
 import { HiMiniTrash } from 'react-icons/hi2';
 import AddBookmarkForm from '../../ui/AddBookmarkForm';
@@ -94,7 +98,7 @@ function OfficeOfReadings() {
       <div className="flex w-full items-center justify-between">
         <Modal>
           <Modal.Open opens="bookmarks">
-            <Button design="secondary">Open Bookmarks</Button>
+            <Button design="secondary">Bookmarks</Button>
           </Modal.Open>
           <Modal.Window name="bookmarks">
             <div className="flex flex-col gap-4 p-4">
@@ -132,7 +136,7 @@ function OfficeOfReadings() {
           className="block md:hidden"
           onClick={() => setShowToc((prev) => !prev)}
         >
-          {showToc ? <HiXMark size={34} /> : <HiBars3 size={34} />}
+          {showToc ? <HiChevronUp size={28} /> : <HiChevronDown size={28} />}
         </button>
       </div>
 
@@ -176,7 +180,7 @@ function OfficeOfReadings() {
         </aside>
 
         {/* Main Content */}
-        <div className="border-gray-300 flex flex-col items-center rounded-lg px-2 py-6 shadow">
+        <div className="border-gray-300 flex min-w-[21rem] flex-col items-center rounded-lg px-2 py-6 shadow">
           {/* EPUB Viewer */}
           <div className="border-gray-300 w-full flex-1 overflow-hidden">
             <div
@@ -191,15 +195,15 @@ function OfficeOfReadings() {
               onClick={handlePrev}
               className="border-gray-300 text-gray-700 hover:bg-gray-100 flex w-full items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm transition md:w-auto"
             >
-              <HiArrowSmallLeft />
-              Previous
+              <HiArrowSmallLeft size={20} />
             </button>
 
             {/* Add Bookmark Button inside Modal */}
             <Modal>
               <Modal.Open opens="add-bookmark">
                 <button className="border-gray-300 text-gray-700 hover:bg-gray-100 flex w-full items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm transition md:w-auto">
-                  Add Bookmark
+                  Add
+                  <HiOutlineBookmark size={20} />
                 </button>
               </Modal.Open>
               <Modal.Window name="add-bookmark">
@@ -215,8 +219,7 @@ function OfficeOfReadings() {
               onClick={handleNext}
               className="border-gray-300 text-gray-700 hover:bg-gray-100 flex w-full items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm transition md:w-auto"
             >
-              Next
-              <HiArrowSmallRight />
+              <HiArrowSmallRight size={20} />
             </button>
           </div>
         </div>
