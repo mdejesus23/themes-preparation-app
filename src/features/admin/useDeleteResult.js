@@ -13,7 +13,7 @@ export function useDeleteResult() {
       // invalidateQueries is use to invalidate cache data and inorder to refresh or refetch again.
       // refetching the data through this function.
       queryClient.invalidateQueries({
-        qieryKey: ['admin-themes'],
+        queryKey: ['admin-themes'],
       });
     },
     onError: (err) => toast.error(err.message),
