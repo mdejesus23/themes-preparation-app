@@ -1,12 +1,8 @@
 import api from './apiConfig';
 import handleApiError from '../utils/handleApiError';
 
-export async function getLiturgicalCalendar() {
-  const today = new Date();
-
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
+export async function getLiturgicalCalendar(year, month, day) {
+  console.log('year', year);
   try {
     const response = await api.get(`/api/v1/liturgy/${year}/${month}/${day}`);
 

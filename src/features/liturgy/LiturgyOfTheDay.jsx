@@ -1,8 +1,14 @@
 import { useLiturgyOfTheDay } from './useLiturgyOfTheDay';
 import Loader from '../../ui/Loader';
 
+const today = new Date();
+
+const year = today.getFullYear();
+const month = today.getMonth() + 1;
+const day = today.getDate();
+
 function LiturgyOfTheDay() {
-  const { isPending, data, error } = useLiturgyOfTheDay();
+  const { isPending, data, error } = useLiturgyOfTheDay(year, month, day);
 
   if (isPending) return <Loader />;
 
