@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useOfficeOfReadings } from './useOfficeOfReadings';
+import { useCatechism } from './useCatechism';
 import Loader from '../../ui/Loader';
 import ePub from 'epubjs';
 import {
@@ -15,9 +15,9 @@ import { HiMiniTrash } from 'react-icons/hi2';
 import AddBookmarkForm from '../../ui/AddBookmarkForm';
 import { useParams } from 'react-router-dom';
 
-function OfficeOfReadings() {
+function Catechism() {
   const { bookId } = useParams();
-  const { isPending, data, error } = useOfficeOfReadings(bookId);
+  const { isPending, data, error } = useCatechism(bookId);
 
   const bookRef = useRef(null);
   const renditionRef = useRef(null);
@@ -230,4 +230,4 @@ function OfficeOfReadings() {
   );
 }
 
-export default OfficeOfReadings;
+export default Catechism;

@@ -18,11 +18,16 @@ function LiturgyOfTheDay() {
   }
 
   const { date, season, season_week, weekday, celebrations } = data.data;
+  const formattedDate = new Date(date.toString()).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 
   return (
     <div className="mb-20">
       <p className="text-center text-base font-semibold">
-        {`${season_week} week in ${season} time — ${weekday}, ${date}`}
+        {`${season_week} week in ${season} time — ${weekday}, ${formattedDate}`}
       </p>
 
       <ul className="text-gray-600 mt-2 list-inside list-disc">

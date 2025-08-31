@@ -2,7 +2,6 @@ import { useSong } from './useSong';
 import Loader from '../../ui/Loader';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import Button from '../../ui/Button';
 
 function SongItem() {
   const { songId } = useParams();

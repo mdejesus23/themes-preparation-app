@@ -10,7 +10,6 @@ import useUserStore from '../../store/useUserStore';
 function SongBook() {
   const [searchParams, setSearchParams] = useSearchParams();
   const isAuthenticated = useUserStore((state) => state.isAuthenticated);
-  console.log('isAuthenticated:', isAuthenticated);
 
   // Derive state from URL
   const page = parseInt(searchParams.get('page') || '1', 10);

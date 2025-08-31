@@ -50,14 +50,27 @@ function PublicHeader() {
 
               <li>
                 <NavLink
-                  to="/office-of-the-readings"
+                  to="/public/office-of-the-readings/684929a313a538c92d5f3312"
                   className={({ isActive }) =>
                     `transition-colors hover:text-yellow ${
                       isActive ? 'text-yellow' : ''
                     }`
                   }
                 >
-                  Office of Readings
+                  Office of the Readings
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/public/catechism-of-the-catholic-church/68b45c9e3d17dcca0c489c85"
+                  className={({ isActive }) =>
+                    `transition-colors hover:text-yellow ${
+                      isActive ? 'text-yellow' : ''
+                    }`
+                  }
+                >
+                  CCC
                 </NavLink>
               </li>
             </ul>
@@ -106,14 +119,28 @@ function PublicHeader() {
             <li className="w-full">
               <NavLink
                 onClick={handleNavLinkClick}
-                to="/office-of-the-readings"
+                to="/public/office-of-the-readings/684929a313a538c92d5f3312"
                 className={({ isActive }) =>
                   `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
                     isActive ? 'text-yellow' : ''
                   }`
                 }
               >
-                Office of Readings
+                Office of the Readings
+              </NavLink>
+            </li>
+
+            <li className="w-full">
+              <NavLink
+                onClick={handleNavLinkClick}
+                to="/public/catechism-of-the-catholic-church/68b45c9e3d17dcca0c489c85"
+                className={({ isActive }) =>
+                  `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                    isActive ? 'text-yellow' : ''
+                  }`
+                }
+              >
+                CCC
               </NavLink>
             </li>
           </ul>
