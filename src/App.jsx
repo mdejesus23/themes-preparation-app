@@ -24,6 +24,7 @@ import Songs from './pages/Songs';
 import Song from './pages/Song';
 import Liturgy from './pages/Liturgy';
 import PublicAppLayout from './ui/PublicAppLayout';
+import CatechismOfTheCatholicChurch from './pages/CatechismOfTheCatholicChurch';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -66,7 +67,10 @@ function App() {
               <Route path="admin-user" element={<User />} />
               <Route path="songs" element={<Songs />} />
               <Route path="songs/:songId" element={<Song />} />
-              <Route path="office-of-readings" element={<Liturgy />} />
+              <Route
+                path="office-of-the-readings/:bookId"
+                element={<Liturgy />}
+              />
               <Route path="terms-of-service" element={<TermsOfService />} />
               <Route path="privacy-policy" element={<PrivacyPolicy />} />
               <Route path="contact" element={<Contact />} />
@@ -82,7 +86,15 @@ function App() {
               {/* make this accessible to everyone as well  */}
               <Route path="song-book" element={<Songs />} />
               <Route path="song-book/:songId" element={<Song />} />
-              <Route path="office-of-the-readings" element={<Liturgy />} />
+              <Route
+                path="public/office-of-the-readings/:bookId"
+                element={<Liturgy />}
+              />
+
+              <Route
+                path="public/catechism-of-the-catholic-church/:bookId"
+                element={<CatechismOfTheCatholicChurch />}
+              />
             </Route>
           </Route>
 

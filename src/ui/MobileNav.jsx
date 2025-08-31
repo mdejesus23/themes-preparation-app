@@ -68,14 +68,14 @@ function MobileNav({ setIsOpen }) {
         <li className="w-full">
           <NavLink
             onClick={handleNavLinkClick}
-            to="/office-of-readings"
+            to="/office-of-the-readings/684929a313a538c92d5f3312"
             className={({ isActive }) =>
               `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
                 isActive ? 'text-yellow' : ''
               }`
             }
           >
-            Office of Readings
+            Office of the Readings
           </NavLink>
         </li>
 
