@@ -71,6 +71,10 @@ function App() {
                 path="office-of-the-readings/:bookId"
                 element={<Liturgy />}
               />
+              <Route
+                path="catechism-of-the-catholic-church/:bookId"
+                element={<CatechismOfTheCatholicChurch />}
+              />
               <Route path="terms-of-service" element={<TermsOfService />} />
               <Route path="privacy-policy" element={<PrivacyPolicy />} />
               <Route path="contact" element={<Contact />} />

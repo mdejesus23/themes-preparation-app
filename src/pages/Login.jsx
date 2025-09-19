@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import LoginForm from '../features/authentication/LoginForm';
-import Main from '../ui/Main';
 import bibleVerses from '../data/bibleVerses';
 import { HiArrowPath } from 'react-icons/hi2';
 

@@ -2,7 +2,6 @@ import toast from 'react-hot-toast';
 import useUserStore from '../../store/useUserStore';
 import { HiMiniPlus, HiMinusSmall } from 'react-icons/hi2';
 import useThemeStore from '../../store/themeStore';
-import Modal from '../../ui/Modal';
 
 function ReadingVoteItem({
   reading,
