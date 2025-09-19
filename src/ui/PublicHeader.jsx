@@ -2,6 +2,10 @@ import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { HiBars3 } from 'react-icons/hi2';
 import { HiXMark } from 'react-icons/hi2';
+import { MdLogin } from 'react-icons/md';
+import { MdMenuBook } from 'react-icons/md';
+import { MdLibraryMusic } from 'react-icons/md';
+import { MdLibraryBooks } from 'react-icons/md';
 
 function PublicHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -88,30 +92,18 @@ function PublicHeader() {
       {/* mobile nav  */}
       {isOpen && (
         <nav className="bg-dark text-white md:hidden">
-          <ul className="flex flex-col items-center gap-6 text-base">
-            <li className="w-full">
-              <NavLink
-                onClick={handleNavLinkClick}
-                to="/login"
-                className={({ isActive }) =>
-                  `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
-                    isActive ? 'text-yellow' : ''
-                  }`
-                }
-              >
-                Log in
-              </NavLink>
-            </li>
+          <ul className="flex flex-col items-center text-base">
             <li className="w-full">
               <NavLink
                 onClick={handleNavLinkClick}
                 to="/song-book"
                 className={({ isActive }) =>
-                  `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                  `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
                     isActive ? 'text-yellow' : ''
                   }`
                 }
               >
+                <MdLibraryMusic size={32} />
                 Song Book
               </NavLink>
             </li>
@@ -121,11 +113,12 @@ function PublicHeader() {
                 onClick={handleNavLinkClick}
                 to="/public/office-of-the-readings/684929a313a538c92d5f3312"
                 className={({ isActive }) =>
-                  `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                  `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
                     isActive ? 'text-yellow' : ''
                   }`
                 }
               >
+                <MdMenuBook size={32} />
                 Office of the Readings
               </NavLink>
             </li>
@@ -135,12 +128,28 @@ function PublicHeader() {
                 onClick={handleNavLinkClick}
                 to="/public/catechism-of-the-catholic-church/68b45c9e3d17dcca0c489c85"
                 className={({ isActive }) =>
-                  `flex w-full justify-center px-2 py-5 text-lg hover:text-yellow ${
+                  `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
                     isActive ? 'text-yellow' : ''
                   }`
                 }
               >
+                <MdLibraryBooks size={32} />
                 CCC
+              </NavLink>
+            </li>
+
+            <li className="w-full">
+              <NavLink
+                onClick={handleNavLinkClick}
+                to="/login"
+                className={({ isActive }) =>
+                  `flex w-full items-center justify-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
+                    isActive ? 'text-yellow' : ''
+                  }`
+                }
+              >
+                <MdLogin size={32} />
+                Log in
               </NavLink>
             </li>
           </ul>

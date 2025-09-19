@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Main from '../ui/Main';
 import SignupForm from '../features/authentication/SignupForm';
 import bibleVerses from '../data/bibleVerses';
 import { HiArrowPath } from 'react-icons/hi2';
