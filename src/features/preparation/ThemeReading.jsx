@@ -4,6 +4,8 @@ import useThemeStore from '../../store/themeStore';
 import { useParams } from 'react-router-dom';
 import { useVoteReading } from './useVoteReading';
 import useUserStore from '../../store/useUserStore';
+import Modal from '../../ui/Modal';
+import Reading from './Reading';
 
 function ThemeReading({ reading }) {
   const { _id: id, reading: verse } = reading;
@@ -31,7 +33,15 @@ function ThemeReading({ reading }) {
     <li
       className={`${reading.isDone ? 'bg-lightGreen' : ''} mt-4 flex w-full items-center justify-between gap-x-1 rounded-xl border p-2`}
     >
-      <p className="font-bodyFont font-semibold">{verse}</p>
+      <Modal>
+        <Modal.Open opens="reading-verse">
+          <p className="font-bodyFont font-semibold text-blue-800">{verse}</p>
+        </Modal.Open>
+
+        <Modal.Window name="reading-verse">
+          <Reading verse={verse} />
+        </Modal.Window>
+      </Modal>
       <div className="flex items-center gap-x-2">
         <Button
           onClick={() => toggleReadingDone(id)}
