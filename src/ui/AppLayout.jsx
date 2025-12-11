@@ -8,7 +8,7 @@ import ScrollToTopButton from './ScrollTotop';
 
 function AppLayout() {
   return (
-    <div className="">
+    <div className="bg-bgPrimary transition-colors duration-300">
       <Header />
       <div className="min-h-screens flex h-full w-full md:mb-0">
         <Sidebar />

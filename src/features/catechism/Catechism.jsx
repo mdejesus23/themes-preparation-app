@@ -14,10 +14,12 @@ import Modal from '../../ui/Modal';
 import { HiMiniTrash } from 'react-icons/hi2';
 import AddBookmarkForm from '../../ui/AddBookmarkForm';
 import { useParams } from 'react-router-dom';
+import { useTheme } from '../../context/ThemeContext';
 
 function Catechism() {
   const { bookId } = useParams();
   const { isPending, data, error } = useCatechism(bookId);
+  const { isDarkMode } = useTheme();
 
   const bookRef = useRef(null);
   const renditionRef = useRef(null);
@@ -45,7 +47,8 @@ function Catechism() {
     renditionRef.current = rendition;
     rendition.display();
 
-    const theme = {
+    // Dynamic theme based on dark mode
+    const lightTheme = {
       body: {
         backgroundColor: '#f9f9f9',
         color: '#333',
@@ -55,7 +58,18 @@ function Catechism() {
       },
     };
 
-    rendition.themes.register('customTheme', theme);
+    const darkTheme = {
+      body: {
+        backgroundColor: '#1a202c',
+        color: '#e2e8f0',
+        fontSize: '16px',
+        fontFamily: 'Georgia, serif',
+        width: '100%',
+      },
+    };
+
+    const selectedTheme = isDarkMode ? darkTheme : lightTheme;
+    rendition.themes.register('customTheme', selectedTheme);
     rendition.themes.select('customTheme');
 
     rendition.on('relocated', (location) => {
@@ -69,7 +83,7 @@ function Catechism() {
     });
 
     return () => rendition.destroy();
-  }, [officeOfReadings]);
+  }, [officeOfReadings, isDarkMode]);
 
   if (isPending) return <Loader />;
   if (error) {
@@ -104,18 +118,20 @@ function Catechism() {
           </Modal.Open>
           <Modal.Window name="bookmarks">
             <div className="flex flex-col gap-4 p-4">
-              <h2 className="text-gray-700 text-lg font-semibold">Bookmarks</h2>
+              <h2 className="text-lg font-semibold text-textPrimary">
+                Bookmarks
+              </h2>
               {bookmarks.length === 0 ? (
-                <p className="text-gray-500">No bookmarks added yet.</p>
+                <p className="text-textSecondary">No bookmarks added yet.</p>
               ) : (
                 <ul className="flex flex-col gap-2">
                   {bookmarks.map((bookmark) => (
                     <li
                       key={bookmark.cfi}
-                      className="border-gray-300 flex items-center justify-between border-b pb-2"
+                      className="flex items-center justify-between border-b border-borderColor pb-2"
                     >
                       <button
-                        className="text-gray-600 hover:text-lblue"
+                        className="text-textSecondary hover:text-blue-600 dark:hover:text-blue-400"
                         onClick={() => goToBookmark(bookmark.cfi)}
                       >
                         {bookmark.name}
@@ -135,7 +151,7 @@ function Catechism() {
         </Modal>
 
         <button
-          className="block md:hidden"
+          className="block text-textPrimary md:hidden"
           onClick={() => setShowToc((prev) => !prev)}
         >
           {showToc ? <HiChevronUp size={28} /> : <HiChevronDown size={28} />}
@@ -144,14 +160,16 @@ function Catechism() {
 
       {/* mobile toc  */}
       {showToc && (
-        <aside className="border-gray-300 max-h-screen w-full overflow-y-auto border-r bg-white p-4">
-          <h2 className="mb-4 text-lg font-semibold">Table of Contents</h2>
+        <aside className="max-h-screen w-full overflow-y-auto border-r border-borderColor bg-bgSecondary p-4">
+          <h2 className="mb-4 text-lg font-semibold text-textPrimary">
+            Table of Contents
+          </h2>
           <ul className="space-y-2">
             {toc.map((item, index) => (
               <li key={index}>
                 <button
                   onClick={() => goToChapter(item.href)}
-                  className="text-blue-600 hover:underline"
+                  className="text-blue-600 hover:underline dark:text-blue-400"
                 >
                   {item.label}
                 </button>
@@ -163,8 +181,8 @@ function Catechism() {
 
       <div className="container mx-auto grid min-h-screen w-full grid-cols-1 gap-4 md:grid-cols-[300px_1fr]">
         {/* Sidebar TOC */}
-        <aside className="border-gray-200 hidden h-screen overflow-y-auto bg-white p-6 md:block">
-          <h2 className="text-gray-800 mb-4 text-xl font-semibold">
+        <aside className="hidden h-screen overflow-y-auto border-r border-borderColor bg-bgSecondary p-6 md:block">
+          <h2 className="mb-4 text-xl font-semibold text-textPrimary">
             Table of Contents
           </h2>
           <ul className="space-y-2">
@@ -172,7 +190,7 @@ function Catechism() {
               <li key={index}>
                 <button
                   onClick={() => goToChapter(item.href)}
-                  className="text-sm text-blue-600 hover:underline"
+                  className="text-sm text-blue-600 hover:underline dark:text-blue-400"
                 >
                   {item.label}
                 </button>
@@ -182,9 +200,9 @@ function Catechism() {
         </aside>
 
         {/* Main Content */}
-        <div className="border-gray-300 flex min-w-[21rem] flex-col items-center rounded-lg px-2 py-6 shadow">
+        <div className="flex min-w-[21rem] flex-col items-center rounded-lg border border-borderColor bg-bgSecondary px-2 py-6 shadow-lg">
           {/* EPUB Viewer */}
-          <div className="border-gray-300 w-full flex-1 overflow-hidden">
+          <div className="w-full flex-1 overflow-hidden">
             <div
               id="viewer"
               className="h-[80vh] max-w-[600px] overflow-x-auto"
@@ -195,7 +213,7 @@ function Catechism() {
           <div className="mt-6 flex w-full max-w-5xl items-center justify-between gap-4">
             <button
               onClick={handlePrev}
-              className="border-gray-300 text-gray-700 hover:bg-gray-100 flex w-full items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm transition md:w-auto"
+              className="flex w-full items-center justify-center gap-2 rounded-md border border-borderColor bg-bgPrimary px-4 py-2 text-sm text-textPrimary transition hover:bg-bgSecondary md:w-auto"
             >
               <HiArrowSmallLeft size={20} />
             </button>
@@ -203,7 +221,7 @@ function Catechism() {
             {/* Add Bookmark Button inside Modal */}
             <Modal>
               <Modal.Open opens="add-bookmark">
-                <button className="border-gray-300 text-gray-700 hover:bg-gray-100 flex w-full items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm transition md:w-auto">
+                <button className="flex w-full items-center justify-center gap-2 rounded-md border border-borderColor bg-bgPrimary px-4 py-2 text-sm text-textPrimary transition hover:bg-bgSecondary md:w-auto">
                   Add
                   <HiOutlineBookmark size={20} />
                 </button>
@@ -219,7 +237,7 @@ function Catechism() {
 
             <button
               onClick={handleNext}
-              className="border-gray-300 text-gray-700 hover:bg-gray-100 flex w-full items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm transition md:w-auto"
+              className="flex w-full items-center justify-center gap-2 rounded-md border border-borderColor bg-bgPrimary px-4 py-2 text-sm text-textPrimary transition hover:bg-bgSecondary md:w-auto"
             >
               <HiArrowSmallRight size={20} />
             </button>

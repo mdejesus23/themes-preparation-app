@@ -14,8 +14,8 @@ function MobileNav({ setIsOpen }) {
   };
 
   return (
-    <nav className="w-full bg-dark md:hidden">
-      <ul className="flex w-full flex-col items-start text-white">
+    <nav className="bg-headerBg w-full md:hidden">
+      <ul className="text-headerText flex w-full flex-col items-start">
         <li className="w-full">
           <NavLink
             onClick={handleNavLinkClick}
