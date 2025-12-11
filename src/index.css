@@ -14,9 +14,34 @@
     --custom-green: #13954c;
     --custom-light-green: #5bcd7f;
     --custom-red: #c7342a;
+
+    /* Header colors - stay the same in both modes */
+    --header-bg: #1c252c;
+    --header-text: #ffffff;
+    --header-grey: #494f55;
+
+    /* Light mode backgrounds and text */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f6f8f9;
+    --text-primary: #1c252c;
+    --text-secondary: #494f55;
+    --border-color: #e5e7eb;
+  }
+
+  .dark {
+    /* Keep header colors the same */
+    --header-bg: #1c252c;
+    --header-text: #ffffff;
+    --header-grey: #494f55;
+
+    /* Dark mode backgrounds and text for content areas */
+    --bg-primary: #1a202c;
+    --bg-secondary: #2d3748;
+    --text-primary: #f7fafc;
+    --text-secondary: #e2e8f0;
+    --border-color: #4a5568;
   }
 }
-
 @layer components {
   /* .input {
     @apply border-stone-200 placeholder:text-stone-400 focus:ring-yellow-400 rounded-full border px-4 py-2 text-sm transition-all duration-300 focus:outline-none focus:ring md:px-6 md:py-3;

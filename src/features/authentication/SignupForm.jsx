@@ -55,7 +55,7 @@ function SignupForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} type="primary">
-      <h1 className="mb-12 font-headfont text-4xl font-bold md:text-4xl">
+      <h1 className="mb-12 font-headfont text-4xl font-bold text-textPrimary md:text-4xl">
         Signup
       </h1>
       <FormRow error={errors.email?.message} name="email" label="Email">
@@ -113,7 +113,7 @@ function SignupForm() {
         <button
           type="button"
           onClick={togglePassVisibility}
-          className="absolute right-5 top-10 text-2xl"
+          className="absolute right-5 top-10 text-2xl text-textSecondary hover:text-textPrimary"
         >
           {isShowPassword ? <HiEye /> : <HiEyeSlash />}
         </button>
@@ -141,7 +141,7 @@ function SignupForm() {
         <button
           type="button"
           onClick={toggleConfirmPassVisibility}
-          className="absolute right-5 top-10 text-2xl"
+          className="absolute right-5 top-10 text-2xl text-textSecondary hover:text-textPrimary"
         >
           {isShowConfirmPassword ? <HiEye /> : <HiEyeSlash />}
         </button>

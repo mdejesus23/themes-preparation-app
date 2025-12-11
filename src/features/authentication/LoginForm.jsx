@@ -51,7 +51,7 @@ function LoginForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} type="primary">
-      <h1 className="mb-12 font-headfont text-4xl font-bold md:text-4xl">
+      <h1 className="mb-12 font-headfont text-4xl font-bold text-textPrimary md:text-4xl">
         Login
       </h1>
       <FormRow name="email" label="Email" error={errors?.email?.message}>
@@ -85,7 +85,7 @@ function LoginForm() {
         <button
           type="button"
           onClick={toggleShowPassword}
-          className="absolute right-5 top-10 text-2xl"
+          className="absolute right-5 top-10 text-2xl text-textSecondary hover:text-textPrimary"
         >
           {isShowPassword ? <HiEye /> : <HiEyeSlash />}
         </button>

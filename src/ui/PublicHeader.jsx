@@ -6,6 +6,7 @@ import { MdLogin } from 'react-icons/md';
 import { MdMenuBook } from 'react-icons/md';
 import { MdLibraryMusic } from 'react-icons/md';
 import { MdLibraryBooks } from 'react-icons/md';
+import ThemeToggle from './ThemeToggle';
 
 function PublicHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +18,7 @@ function PublicHeader() {
 
   return (
     <>
-      <header className="bg-dark px-4 py-3 text-white">
+      <header className="bg-headerBg text-headerText px-4 py-3">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           {/* Logo */}
           <NavLink to="/themes" className="shrink-0">
@@ -80,18 +81,28 @@ function PublicHeader() {
             </ul>
           </nav>
 
-          <button
-            className="md:hidden"
-            onClick={() => setIsOpen((prev) => !prev)}
-          >
-            {isOpen ? <HiXMark size={34} /> : <HiBars3 size={34} />}
-          </button>
+          <div className="flex items-center gap-3">
+            {/* Desktop theme toggle */}
+            <div className="hidden md:block">
+              <ThemeToggle />
+            </div>
+            {/* Mobile theme toggle */}
+            <div className="md:hidden">
+              <ThemeToggle isMobile={true} />
+            </div>
+            <button
+              className="md:hidden"
+              onClick={() => setIsOpen((prev) => !prev)}
+            >
+              {isOpen ? <HiXMark size={34} /> : <HiBars3 size={34} />}
+            </button>
+          </div>
         </div>
       </header>
 
       {/* mobile nav  */}
       {isOpen && (
-        <nav className="bg-dark text-white md:hidden">
+        <nav className="bg-headerBg text-headerText md:hidden">
           <ul className="flex flex-col items-center text-base">
             <li className="w-full">
               <NavLink

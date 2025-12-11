@@ -10,7 +10,7 @@ import { MdLibraryBooks } from 'react-icons/md';
 function MainNav() {
   return (
     <nav>
-      <ul className="flex w-full flex-col items-center text-white">
+      <ul className="text-headerText flex w-full flex-col items-center">
         <li className="w-full">
           <NavLink
             to="/themes"

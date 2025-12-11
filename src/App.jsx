@@ -25,6 +25,7 @@ import Song from './pages/Song';
 import Liturgy from './pages/Liturgy';
 import PublicAppLayout from './ui/PublicAppLayout';
 import CatechismOfTheCatholicChurch from './pages/CatechismOfTheCatholicChurch';
+import { ThemeProvider } from './context/ThemeContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,95 +39,100 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <BrowserRouter>
-        <Routes>
-          <Route>
-            <Route
-              element={
-                <ProtectedRoute>
-                  <AppLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Navigate replace to="themes" />} />\
-              <Route path="themes" element={<AllThemes />} />
-              <Route path="themes/:themeId" element={<PreparationTheme />} />
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <BrowserRouter>
+          <Routes>
+            <Route>
               <Route
-                path="themes/:themeId/reading-votes"
-                element={<ReadingVotes />}
-              />
-              {/* admin routes */}
-              <Route path="admin-themes" element={<MyThemes />} />
-              <Route
-                path="admin-themes/:themeId"
-                element={<AdminThemeWithReadings />}
-              />
-              <Route path="admin-results" element={<MyResults />} />
-              <Route path="admin-user" element={<User />} />
-              <Route path="songs" element={<Songs />} />
-              <Route path="songs/:songId" element={<Song />} />
-              <Route
-                path="office-of-the-readings/:bookId"
-                element={<Liturgy />}
-              />
-              <Route
-                path="catechism-of-the-catholic-church/:bookId"
-                element={<CatechismOfTheCatholicChurch />}
-              />
-              <Route path="terms-of-service" element={<TermsOfService />} />
-              <Route path="privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="contact" element={<Contact />} />
+                element={
+                  <ProtectedRoute>
+                    <AppLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<Navigate replace to="themes" />} />\
+                <Route path="themes" element={<AllThemes />} />
+                <Route path="themes/:themeId" element={<PreparationTheme />} />
+                <Route
+                  path="themes/:themeId/reading-votes"
+                  element={<ReadingVotes />}
+                />
+                {/* admin routes */}
+                <Route path="admin-themes" element={<MyThemes />} />
+                <Route
+                  path="admin-themes/:themeId"
+                  element={<AdminThemeWithReadings />}
+                />
+                <Route path="admin-results" element={<MyResults />} />
+                <Route path="admin-user" element={<User />} />
+                <Route path="songs" element={<Songs />} />
+                <Route path="songs/:songId" element={<Song />} />
+                <Route
+                  path="office-of-the-readings/:bookId"
+                  element={<Liturgy />}
+                />
+                <Route
+                  path="catechism-of-the-catholic-church/:bookId"
+                  element={<CatechismOfTheCatholicChurch />}
+                />
+                <Route path="terms-of-service" element={<TermsOfService />} />
+                <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="contact" element={<Contact />} />
+              </Route>
             </Route>
-          </Route>
-          <Route>
-            <Route element={<PublicAppLayout />}>
-              {/* place applayout for these components  */}
-              <Route path="login" element={<Login />} />
-              <Route path="signup" element={<Signup />} />
-              <Route path="forgot-password" element={<ForgotPassword />} />
-              <Route path="reset-password/:token" element={<ResetPassword />} />
-              {/* make this accessible to everyone as well  */}
-              <Route path="song-book" element={<Songs />} />
-              <Route path="song-book/:songId" element={<Song />} />
-              <Route
-                path="public/office-of-the-readings/:bookId"
-                element={<Liturgy />}
-              />
+            <Route>
+              <Route element={<PublicAppLayout />}>
+                {/* place applayout for these components  */}
+                <Route path="login" element={<Login />} />
+                <Route path="signup" element={<Signup />} />
+                <Route path="forgot-password" element={<ForgotPassword />} />
+                <Route
+                  path="reset-password/:token"
+                  element={<ResetPassword />}
+                />
+                {/* make this accessible to everyone as well  */}
+                <Route path="song-book" element={<Songs />} />
+                <Route path="song-book/:songId" element={<Song />} />
+                <Route
+                  path="public/office-of-the-readings/:bookId"
+                  element={<Liturgy />}
+                />
 
-              <Route
-                path="public/catechism-of-the-catholic-church/:bookId"
-                element={<CatechismOfTheCatholicChurch />}
-              />
+                <Route
+                  path="public/catechism-of-the-catholic-church/:bookId"
+                  element={<CatechismOfTheCatholicChurch />}
+                />
+              </Route>
             </Route>
-          </Route>
 
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
 
-      <Toaster
-        position="top-center"
-        gutter={12}
-        containerStyle={{ margin: '8px' }}
-        toastOptions={{
-          success: {
-            duration: 3000,
-          },
-          error: {
-            duration: 4000,
-          },
-          style: {
-            fontSize: '16px',
-            maxWidth: '500px',
-            padding: '16px 24px',
-            backgroundColor: '#f6f8f9',
-            color: '#1C252C',
-          },
-        }}
-      />
-    </QueryClientProvider>
+        <Toaster
+          position="top-center"
+          gutter={12}
+          containerStyle={{ margin: '8px' }}
+          toastOptions={{
+            success: {
+              duration: 3000,
+            },
+            error: {
+              duration: 4000,
+            },
+            style: {
+              fontSize: '16px',
+              maxWidth: '500px',
+              padding: '16px 24px',
+              backgroundColor: '#f6f8f9',
+              color: '#1C252C',
+            },
+          }}
+        />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 

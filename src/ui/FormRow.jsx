@@ -4,13 +4,13 @@ function FormRow({ label, error, children, name }) {
       {label && (
         <label
           htmlFor={name}
-          className="font-bodyfont text-projectDesc mb-2 block"
+          className="font-bodyfont mb-2 block text-textPrimary"
         >
           {label}
         </label>
       )}
       {children}
-      {error && <p className="text-red">{error}</p>}
+      {error && <p className="text-red-600">{error}</p>}
     </div>
   );
 }
