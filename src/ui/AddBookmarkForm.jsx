@@ -7,6 +7,7 @@ function AddBookmarkForm({
   setBookmarks,
   bookmarks,
   onCloseModal,
+  storageKey = 'bookmarks',
 }) {
   const [bookmarksName, setBookmarksName] = useState('');
   const [bookmarksError, setBookmarksError] = useState(null);
@@ -29,7 +30,7 @@ function AddBookmarkForm({
       ];
 
       setBookmarks(updatedBookmarks);
-      setItem('bookmarks', updatedBookmarks);
+      setItem(storageKey, updatedBookmarks);
       setBookmarksName('');
       onCloseModal?.();
     }

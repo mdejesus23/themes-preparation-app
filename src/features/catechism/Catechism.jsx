@@ -26,7 +26,7 @@ function Catechism() {
   const renditionRef = useRef(null);
   const [toc, setToc] = useState([]);
   const [showToc, setShowToc] = useState(false);
-  const [bookmarks, setBookmarks] = useState(() => getItem('bookmarks', []));
+  const [bookmarks, setBookmarks] = useState(() => getItem('catechism-bookmarks', []));
   const [currentLocation, setCurrentLocation] = useState(null);
   const [epubError, setEpubError] = useState(null);
   const [viewerHeight, setViewerHeight] = useState('80vh');
@@ -156,7 +156,7 @@ function Catechism() {
   const removeBookmark = (cfi) => {
     const updatedBookmarks = bookmarks.filter((b) => b.cfi !== cfi);
     setBookmarks(updatedBookmarks);
-    setItem('bookmarks', updatedBookmarks);
+    setItem('catechism-bookmarks', updatedBookmarks);
   };
 
   return (
@@ -282,6 +282,7 @@ function Catechism() {
                   currentLocation={currentLocation ?? undefined}
                   setBookmarks={setBookmarks}
                   bookmarks={bookmarks}
+                  storageKey="catechism-bookmarks"
                 />
               </Modal.Window>
             </Modal>

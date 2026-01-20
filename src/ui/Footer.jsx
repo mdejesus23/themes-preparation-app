@@ -4,7 +4,7 @@ import { MdCoffee } from 'react-icons/md';
 
 function Footer() {
   return (
-    <footer className="mt-20 w-full py-4 text-center text-neutral-500">
+    <footer className="mt-20 w-full py-4 text-center text-textSecondary">
       <div className="mx-auto w-full pt-20">
         <p className="text-sm">
           &copy; {new Date().getFullYear()}{' '}
@@ -16,7 +16,7 @@ function Footer() {
           ></a>{' '} */}
           All trademarks and content belong to their respective owners.
         </p>
-        <div>
+        {/* <div>
           <Modal>
             <Modal.Open opens="buy-me-a-coffee">
               <button className="text-gray-400 mx-auto mt-4 flex items-end justify-center gap-2 text-sm transition hover:text-yellow hover:underline">
@@ -29,7 +29,7 @@ function Footer() {
               <BuyMeACoffee />
             </Modal.Window>
           </Modal>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

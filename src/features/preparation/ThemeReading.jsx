@@ -31,7 +31,7 @@ function ThemeReading({ reading }) {
 
   return (
     <li
-      className={`${reading.isDone ? 'bg-lightGreen' : ''} mt-4 flex w-full items-center justify-between gap-x-1 rounded-xl border p-2`}
+      className={`${reading.isDone ? 'bg-lightGreen' : 'bg-bgSecondary'} mt-4 flex w-full items-center justify-between gap-x-1 rounded-xl border border-borderColor p-2`}
     >
       <Modal>
         <Modal.Open opens="reading-verse">

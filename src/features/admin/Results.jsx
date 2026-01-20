@@ -18,7 +18,7 @@ function Results() {
 
   if (isPending) return <Loader />;
 
-  if (error) return <p>{error.message}</p>;
+  if (error) return <p className="text-textPrimary">{error.message}</p>;
 
   const resultArray = data?.data || [];
   const totalPages = Math.ceil(resultArray.length / itemsPerPage);
@@ -54,15 +54,15 @@ function Results() {
           return (
             <li
               key={id}
-              className="flex flex-col rounded-lg border border-lightGrey bg-white shadow-md transition-transform hover:scale-[1.03] hover:shadow-xl"
+              className="flex flex-col rounded-lg border border-borderColor bg-bgPrimary shadow-md transition-transform hover:scale-[1.03] hover:shadow-xl"
             >
               {/* Header Section */}
-              <div className="flex w-full items-center justify-between border-b border-lightGrey p-4">
+              <div className="flex w-full items-center justify-between border-b border-borderColor p-4">
                 <div>
-                  <h2 className="text-gray-800 text-lg font-semibold">
+                  <h2 className="text-lg font-semibold text-textPrimary">
                     {title}
                   </h2>
-                  <p className="text-gray-500 text-xs">
+                  <p className="text-xs text-textSecondary">
                     {formatDate(createdAt)}
                   </p>
                 </div>
@@ -97,43 +97,43 @@ function Results() {
 
               {/* Table-Like Content Section */}
               <div className="p-4">
-                <table className="text-gray-700 w-full text-left text-sm">
+                <table className="w-full text-left text-sm text-textPrimary">
                   <tbody>
-                    <tr className="border-b">
+                    <tr className="border-b border-borderColor">
                       <td className="py-2 font-semibold">Entrance Song:</td>
-                      <td className="py-2">{entranceSong || 'N/A'}</td>
+                      <td className="py-2 text-textSecondary">{entranceSong || 'N/A'}</td>
                     </tr>
-                    <tr className="border-b">
+                    <tr className="border-b border-borderColor">
                       <td className="py-2 font-semibold">First Reading:</td>
-                      <td className="py-2">{firstReading || 'N/A'}</td>
+                      <td className="py-2 text-textSecondary">{firstReading || 'N/A'}</td>
                     </tr>
-                    <tr className="border-b">
+                    <tr className="border-b border-borderColor">
                       <td className="py-2 font-semibold">First Psalm:</td>
-                      <td className="py-2">{firstPsalm || 'N/A'}</td>
+                      <td className="py-2 text-textSecondary">{firstPsalm || 'N/A'}</td>
                     </tr>
-                    <tr className="border-b">
+                    <tr className="border-b border-borderColor">
                       <td className="py-2 font-semibold">Second Reading:</td>
-                      <td className="py-2">{secondReading || 'N/A'}</td>
+                      <td className="py-2 text-textSecondary">{secondReading || 'N/A'}</td>
                     </tr>
-                    <tr className="border-b">
+                    <tr className="border-b border-borderColor">
                       <td className="py-2 font-semibold">Second Psalm:</td>
-                      <td className="py-2">{secondPsalm || 'N/A'}</td>
+                      <td className="py-2 text-textSecondary">{secondPsalm || 'N/A'}</td>
                     </tr>
-                    <tr className="border-b">
+                    <tr className="border-b border-borderColor">
                       <td className="py-2 font-semibold">Third Reading:</td>
-                      <td className="py-2">{thirdReading || 'N/A'}</td>
+                      <td className="py-2 text-textSecondary">{thirdReading || 'N/A'}</td>
                     </tr>
-                    <tr className="border-b">
+                    <tr className="border-b border-borderColor">
                       <td className="py-2 font-semibold">Third Psalm:</td>
-                      <td className="py-2">{thirdPsalm || 'N/A'}</td>
+                      <td className="py-2 text-textSecondary">{thirdPsalm || 'N/A'}</td>
                     </tr>
-                    <tr className="border-b">
+                    <tr className="border-b border-borderColor">
                       <td className="py-2 font-semibold">Gospel:</td>
-                      <td className="py-2">{gospel || 'N/A'}</td>
+                      <td className="py-2 text-textSecondary">{gospel || 'N/A'}</td>
                     </tr>
                     <tr>
                       <td className="py-2 font-semibold">Final Song:</td>
-                      <td className="py-2">{finalSong || 'N/A'}</td>
+                      <td className="py-2 text-textSecondary">{finalSong || 'N/A'}</td>
                     </tr>
                   </tbody>
                 </table>

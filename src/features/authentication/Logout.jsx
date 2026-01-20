@@ -1,6 +1,7 @@
 import { MdLogout } from 'react-icons/md';
 import Loader from '../../ui/Loader';
 import { useLogoutUser } from './useUserLogout';
+import ThemeToggle from '../../ui/ThemeToggle';
 
 function Logout() {
   const { isLoggingOut, logoutUser } = useLogoutUser();
@@ -8,9 +9,10 @@ function Logout() {
   if (isLoggingOut) return <Loader />;
 
   return (
-    <li className="w-full">
+    <li className="absolute bottom-0 flex w-full items-center justify-center gap-x-4 px-2 py-5">
+      <ThemeToggle />
       <button
-        className="absolute bottom-0 flex w-full justify-center gap-x-2 px-2 py-5 text-lg hover:bg-yellow"
+        className="flex items-center gap-x-2 text-lg hover:text-yellow"
         onClick={logoutUser}
       >
         <MdLogout size={32} />

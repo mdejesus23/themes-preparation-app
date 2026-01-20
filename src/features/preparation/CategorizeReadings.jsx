@@ -4,7 +4,7 @@ import ThemeReading from './ThemeReading';
 function CategorizeReadings({ readings }) {
   return (
     <ul className="w-full">
-      <h2 className="text-center font-headfont text-xl font-bold">
+      <h2 className="text-center font-headfont text-xl font-bold text-textPrimary">
         {readings[0]?.category}
       </h2>
       {readings.map((reading) => (

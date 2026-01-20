@@ -90,11 +90,11 @@ function ThemeDetails() {
   return (
     <>
       <div className="w-full">
-        <h1 className="text-center font-headfont text-3xl font-bold md:text-4xl">
+        <h1 className="text-center font-headfont text-3xl font-bold text-textPrimary md:text-4xl">
           {title}
         </h1>
 
-        <p className="text-center text-xs text-grey">{formatDate(createdAt)}</p>
+        <p className="text-center text-xs text-textSecondary">{formatDate(createdAt)}</p>
         <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
         <div className="mt-5 flex justify-center gap-2">
           <Button onClick={markAllReadingsDone} design="secondary">

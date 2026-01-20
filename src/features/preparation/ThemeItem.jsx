@@ -6,10 +6,10 @@ import PasscodeForm from './PasscodeForm';
 function ThemeItem({ theme }) {
   const { title, createdAt, description } = theme;
   return (
-    <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-lightGrey bg-white p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
+    <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-borderColor bg-bgPrimary p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
       <span>
         <svg
-          className="current-fill"
+          className="current-fill fill-textPrimary"
           width="4rem"
           height="4rem"
           version="1.1"
@@ -26,11 +26,11 @@ function ThemeItem({ theme }) {
           <path d="m34.664 84.379h77.109v-65.25h-77.109zm15.984-34.488c0-0.78516 0.63672-1.4219 1.4219-1.4219h11.969v-11.969c0-0.78516 0.63672-1.4219 1.4219-1.4219h8.1953c0.78516 0 1.4219 0.63672 1.4219 1.4219v11.969h11.969c0.78516 0 1.4219 0.63672 1.4219 1.4219v8.1953c0 0.78516-0.63672 1.4219-1.4219 1.4219h-11.969v11.969c0 0.78516-0.63672 1.4219-1.4219 1.4219h-8.1953c-0.78516 0-1.4219-0.63672-1.4219-1.4219v-11.969h-11.969c-0.78516 0-1.4219-0.63672-1.4219-1.4219z" />
         </svg>
       </span>
-      <h2 className="text-center font-headfont text-2xl font-semibold">
+      <h2 className="text-center font-headfont text-2xl font-semibold text-textPrimary">
         {title}
       </h2>
-      <p className="mt-[-1rem] text-xs text-grey">{formatDate(createdAt)}</p>
-      <p className="font-bodyFont">{description}</p>
+      <p className="mt-[-1rem] text-xs text-textSecondary">{formatDate(createdAt)}</p>
+      <p className="font-bodyFont text-textPrimary">{description}</p>
 
       <Modal>
         <Modal.Open opens="passcode-form">

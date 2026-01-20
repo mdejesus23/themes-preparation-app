@@ -8,8 +8,8 @@ function ConfirmResetVotes({ themesTitle, onConfirm, disabled, onCloseModal }) {
 
   return (
     <div className="flex w-full flex-col items-center justify-center gap-3 p-3">
-      <h1 className="font-headfont text-lg">Reset Votes of {themesTitle}</h1>
-      <p className="text-gray-500 mb-3">
+      <h1 className="font-headfont text-lg text-textPrimary">Reset Votes of {themesTitle}</h1>
+      <p className="mb-3 text-textSecondary">
         Are you sure you want to reset votes of this {themesTitle} permanently?
         This action cannot be undone.
       </p>
