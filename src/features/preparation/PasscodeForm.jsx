@@ -55,7 +55,7 @@ function PasscodeForm({ theme, onCloseModal }) {
 
   return (
     <>
-      <h3 className="mt-4 text-center font-headfont text-xl font-semibold">
+      <h3 className="mt-4 text-center font-headfont text-xl font-semibold text-textPrimary">
         {title}
       </h3>
       <Form onSubmit={handleSubmit(onSubmit)} type="tertiary">
@@ -82,7 +82,7 @@ function PasscodeForm({ theme, onCloseModal }) {
           <button
             type="button"
             onClick={toggleShowPasscode}
-            className="absolute right-5 top-10 text-2xl"
+            className="absolute right-5 top-10 text-2xl text-textPrimary"
           >
             {isShowPasscode ? <HiEye /> : <HiEyeSlash />}
           </button>

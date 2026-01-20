@@ -52,12 +52,12 @@ function ReadingVoteItem({
   return (
     <li
       key={_id}
-      className={`mt-4 flex w-full items-center justify-between gap-x-4 rounded-xl border p-3 transition-colors duration-200 ${
+      className={`mt-4 flex w-full items-center justify-between gap-x-4 rounded-xl border bg-bgSecondary p-3 transition-colors duration-200 ${
         totalVotes > 10
           ? 'border-green-500'
           : totalVotes > 5
             ? 'border-yellow-500'
-            : 'border-gray-300'
+            : 'border-borderColor'
       }`}
     >
       <div className="flex items-center gap-4">
@@ -71,12 +71,12 @@ function ReadingVoteItem({
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="flex items-center justify-center font-bold">
+                <div className="flex items-center justify-center font-bold text-textPrimary">
                   {user.username[0]}
                 </div>
               )}
             </div>
-            <figcaption className="text-gray-600 mt-1 max-w-[4rem] truncate text-center text-[10px] font-medium">
+            <figcaption className="mt-1 max-w-[4rem] truncate text-center text-[10px] font-medium text-textSecondary">
               {user.username}
             </figcaption>
           </figure>
@@ -85,7 +85,7 @@ function ReadingVoteItem({
         <div>
           <button
             onClick={handleSetFinalReadings}
-            className="text-left font-bodyFont font-semibold hover:text-lg"
+            className="text-left font-bodyFont font-semibold text-textPrimary hover:text-lg"
           >
             {verse}
           </button>

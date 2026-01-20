@@ -8,8 +8,8 @@ function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
 
   return (
     <div className="flex w-full flex-col items-center justify-center gap-3 p-3">
-      <h1 className="font-headfont text-lg">Delete {resourceName}</h1>
-      <p className="text-gray-500 mb-3">
+      <h1 className="font-headfont text-lg text-textPrimary">Delete {resourceName}</h1>
+      <p className="mb-3 text-textSecondary">
         Are you sure you want to delete this {resourceName} permanently? This
         action cannot be undone.
       </p>

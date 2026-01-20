@@ -17,8 +17,8 @@ function Reading({ verse }) {
 
   return (
     <div>
-      <h4 className="mb-4 text-center font-bold">{verse}</h4>
-      <p className="text-neutral-700">{bibleVerse}</p>
+      <h4 className="mb-4 text-center font-bold text-textPrimary">{verse}</h4>
+      <p className="text-textSecondary">{bibleVerse}</p>
     </div>
   );
 }

@@ -15,13 +15,13 @@ function AdminThemeItem({ theme }) {
   const { isReseting, resetVotes } = useResetVotes();
 
   return (
-    <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-lightGrey bg-white p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
+    <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-borderColor bg-bgPrimary p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
       <div className="flex w-full justify-between">
         <div>
-          <h2 className="text-center font-headfont text-2xl font-semibold">
+          <h2 className="text-center font-headfont text-2xl font-semibold text-textPrimary">
             {title}
           </h2>
-          <p className="text-xs text-neutral-700">{formatDate(createdAt)}</p>
+          <p className="text-xs text-textSecondary">{formatDate(createdAt)}</p>
         </div>
 
         <Modal>
@@ -31,7 +31,7 @@ function AdminThemeItem({ theme }) {
             <Menus.List id={themeId}>
               <Link
                 to={themeId}
-                className="hover:bg-gray-50 flex w-full items-center gap-4 border-none bg-none p-3 text-left text-sm transition-all"
+                className="flex w-full items-center gap-4 border-none bg-none p-3 text-left text-sm text-textPrimary transition-all hover:bg-bgSecondary"
               >
                 <HiEye />
                 <span>View</span>
@@ -72,7 +72,7 @@ function AdminThemeItem({ theme }) {
           </Menus>
         </Modal>
       </div>
-      <p className="font-bodyFont">{theme.description}</p>
+      <p className="font-bodyFont text-textPrimary">{theme.description}</p>
     </li>
   );
 }

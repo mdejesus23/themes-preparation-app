@@ -31,7 +31,7 @@ function SongItem() {
       </div>
       {song ? (
         <div className="flex flex-col items-center justify-center">
-          <h2 className="mb-4 text-center text-2xl font-bold">{song.title}</h2>
+          <h2 className="mb-4 text-center text-2xl font-bold text-textPrimary">{song.title}</h2>
           <img
             src={song.imageUrl}
             alt={song.title}
@@ -39,7 +39,7 @@ function SongItem() {
           />
         </div>
       ) : (
-        <div>No song found.</div>
+        <div className="text-textPrimary">No song found.</div>
       )}
     </div>
   );

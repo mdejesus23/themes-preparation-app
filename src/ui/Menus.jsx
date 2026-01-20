@@ -37,9 +37,9 @@ function Toggle({ id }) {
   return (
     <button
       onClick={handleClick}
-      className="hover:bg-gray-100 translate-x-2 rounded-md border-none bg-none p-1 transition-all"
+      className="translate-x-2 rounded-md border-none bg-none p-1 transition-all hover:bg-bgSecondary"
     >
-      <HiEllipsisVertical className="text-gray-700 h-6 w-6" />
+      <HiEllipsisVertical className="h-6 w-6 text-textPrimary" />
     </button>
   );
 }
@@ -53,7 +53,7 @@ function List({ id, children }) {
   return createPortal(
     <ul
       ref={ref}
-      className="fixed rounded-md bg-white shadow-md"
+      className="fixed rounded-md bg-bgPrimary shadow-md"
       style={{ right: `${position?.x}px`, top: `${position?.y}px` }}
     >
       {children}
@@ -74,7 +74,7 @@ function Button({ children, icon, onClick }) {
     <li>
       <button
         onClick={handleClick}
-        className="hover:bg-gray-50 flex w-full items-center gap-4 border-none bg-none p-3 text-left text-sm transition-all"
+        className="flex w-full items-center gap-4 border-none bg-none p-3 text-left text-sm text-textPrimary transition-all hover:bg-bgSecondary"
       >
         {icon}
         <span>{children}</span>

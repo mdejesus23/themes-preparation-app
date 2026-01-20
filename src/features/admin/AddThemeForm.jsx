@@ -54,7 +54,7 @@ function AddThemeForm({ themeToEdit = {}, onCloseModal }) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} type="tertiary">
-      <h1 className="mb-12 text-center font-headfont text-4xl font-bold md:text-4xl">
+      <h1 className="mb-12 text-center font-headfont text-4xl font-bold text-textPrimary md:text-4xl">
         Create Theme
       </h1>
       <FormRow name="title" label="Title" error={errors?.title?.message}>
