@@ -15,6 +15,7 @@ import { HiMiniTrash } from 'react-icons/hi2';
 import AddBookmarkForm from '../../ui/AddBookmarkForm';
 import { useParams } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
+import { getItem, setItem } from '../../utils/storage';
 
 function OfficeOfReadings() {
   const { bookId } = useParams();
@@ -25,68 +26,119 @@ function OfficeOfReadings() {
   const renditionRef = useRef(null);
   const [toc, setToc] = useState([]);
   const [showToc, setShowToc] = useState(false);
-  const [bookmarks, setBookmarks] = useState(
-    typeof window !== 'undefined'
-      ? JSON.parse(localStorage.getItem('bookmarks') || '[]')
-      : [],
-  );
+  const [bookmarks, setBookmarks] = useState(() => getItem('bookmarks', []));
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [epubError, setEpubError] = useState(null);
+  const [viewerHeight, setViewerHeight] = useState('80vh');
+  const viewerContainerRef = useRef(null);
 
   const officeOfReadings = data?.data;
+
+  // Calculate iOS-safe viewport height
+  useEffect(() => {
+    const updateHeight = () => {
+      if (viewerContainerRef.current) {
+        // Use window.innerHeight for iOS Safari compatibility
+        const availableHeight = window.innerHeight * 0.75;
+        setViewerHeight(`${availableHeight}px`);
+      }
+    };
+
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    // iOS Safari fires this when address bar shows/hides
+    window.addEventListener('orientationchange', updateHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateHeight);
+      window.removeEventListener('orientationchange', updateHeight);
+    };
+  }, []);
 
   useEffect(() => {
     if (!officeOfReadings?.epubUrl) return;
 
-    const book = ePub(officeOfReadings.epubUrl);
-    const rendition = book.renderTo('viewer', {
-      width: '100%',
-      height: '80vh',
-    });
+    let rendition;
 
-    bookRef.current = book;
-    renditionRef.current = rendition;
-    rendition.display();
+    const initEpub = async () => {
+      try {
+        const book = ePub(officeOfReadings.epubUrl);
+        bookRef.current = book;
 
-    // Dynamic theme based on dark mode
-    const lightTheme = {
-      body: {
-        backgroundColor: '#f9f9f9',
-        color: '#333',
-        fontSize: '16px',
-        fontFamily: 'Georgia, serif',
-        width: '100%',
-      },
+        rendition = book.renderTo('viewer', {
+          width: '100%',
+          height: viewerHeight,
+          spread: 'none', // Better for mobile
+          flow: 'scrolled-doc', // iOS-friendly scrolling mode
+        });
+
+        renditionRef.current = rendition;
+
+        // Dynamic theme based on dark mode
+        const lightTheme = {
+          body: {
+            backgroundColor: '#f9f9f9',
+            color: '#333',
+            fontSize: '16px',
+            fontFamily: 'Georgia, serif',
+            width: '100%',
+          },
+        };
+
+        const darkTheme = {
+          body: {
+            backgroundColor: '#1a202c',
+            color: '#e2e8f0',
+            fontSize: '16px',
+            fontFamily: 'Georgia, serif',
+            width: '100%',
+          },
+        };
+
+        const selectedTheme = isDarkMode ? darkTheme : lightTheme;
+        rendition.themes.register('customTheme', selectedTheme);
+        rendition.themes.select('customTheme');
+
+        rendition.on('relocated', (location) => {
+          setCurrentLocation(location.start.cfi);
+        });
+
+        const nav = await book.loaded.navigation;
+        setToc(nav.toc || []);
+
+        await rendition.display();
+      } catch (err) {
+        console.error('Error initializing EPUB:', err);
+        setEpubError(err.message || 'Failed to load EPUB');
+      }
     };
 
-    const darkTheme = {
-      body: {
-        backgroundColor: '#1a202c',
-        color: '#e2e8f0',
-        fontSize: '16px',
-        fontFamily: 'Georgia, serif',
-        width: '100%',
-      },
+    initEpub();
+
+    return () => {
+      if (rendition) {
+        rendition.destroy();
+      }
     };
-
-    const selectedTheme = isDarkMode ? darkTheme : lightTheme;
-    rendition.themes.register('customTheme', selectedTheme);
-    rendition.themes.select('customTheme');
-
-    rendition.on('relocated', (location) => {
-      setCurrentLocation(location.start.cfi);
-    });
-
-    book.loaded.navigation.then((nav) => {
-      setToc(nav.toc || []);
-    });
-
-    return () => rendition.destroy();
-  }, [officeOfReadings, isDarkMode]);
+  }, [officeOfReadings, isDarkMode, viewerHeight]);
 
   if (isPending) return <Loader />;
   if (error) {
     console.error('Error fetching office of readings:', error);
     return <p className="text-red-500">Failed to load office of readings.</p>;
+  }
+  if (epubError) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 p-8">
+        <p className="text-red-500">Failed to load EPUB: {epubError}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+        >
+          Retry
+        </button>
+      </div>
+    );
   }
 
   const goToChapter = (href) => {
@@ -104,7 +156,7 @@ function OfficeOfReadings() {
   const removeBookmark = (cfi) => {
     const updatedBookmarks = bookmarks.filter((b) => b.cfi !== cfi);
     setBookmarks(updatedBookmarks);
-    localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
+    setItem('bookmarks', updatedBookmarks);
   };
 
   return (
@@ -200,10 +252,11 @@ function OfficeOfReadings() {
         {/* Main Content */}
         <div className="flex min-w-[21rem] flex-col items-center rounded-lg border border-borderColor bg-bgSecondary px-2 py-6 shadow-lg">
           {/* EPUB Viewer */}
-          <div className="w-full flex-1 overflow-hidden">
+          <div ref={viewerContainerRef} className="w-full flex-1 overflow-hidden">
             <div
               id="viewer"
-              className="h-[80vh] max-w-[600px] overflow-x-auto"
+              style={{ height: viewerHeight }}
+              className="max-w-[600px] overflow-x-auto"
             />
           </div>
 

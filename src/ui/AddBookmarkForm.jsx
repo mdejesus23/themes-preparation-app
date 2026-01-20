@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Button from './Button';
+import { setItem } from '../utils/storage';
 
 function AddBookmarkForm({
   currentLocation,
@@ -28,7 +29,7 @@ function AddBookmarkForm({
       ];
 
       setBookmarks(updatedBookmarks);
-      localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
+      setItem('bookmarks', updatedBookmarks);
       setBookmarksName('');
       onCloseModal?.();
     }
