@@ -86,25 +86,41 @@ function Catechism() {
 
         renditionRef.current = rendition;
 
-        // Dynamic theme based on dark mode
+        // Dynamic theme based on dark mode with improved readability
         const lightTheme = {
           body: {
             backgroundColor: '#f9f9f9',
             color: '#333',
-            fontSize: '16px',
+            fontSize: '18px',
             fontFamily: 'Georgia, serif',
-            width: '100%',
+            lineHeight: '1.8',
+            padding: '0 16px',
+            maxWidth: '100%',
           },
+          p: {
+            marginBottom: '1em',
+          },
+          h1: { marginTop: '1.5em', marginBottom: '0.5em' },
+          h2: { marginTop: '1.25em', marginBottom: '0.5em' },
+          h3: { marginTop: '1em', marginBottom: '0.5em' },
         };
 
         const darkTheme = {
           body: {
             backgroundColor: '#1a202c',
             color: '#e2e8f0',
-            fontSize: '16px',
+            fontSize: '18px',
             fontFamily: 'Georgia, serif',
-            width: '100%',
+            lineHeight: '1.8',
+            padding: '0 16px',
+            maxWidth: '100%',
           },
+          p: {
+            marginBottom: '1em',
+          },
+          h1: { marginTop: '1.5em', marginBottom: '0.5em' },
+          h2: { marginTop: '1.25em', marginBottom: '0.5em' },
+          h3: { marginTop: '1em', marginBottom: '0.5em' },
         };
 
         const selectedTheme = isDarkMode ? darkTheme : lightTheme;
@@ -172,14 +188,15 @@ function Catechism() {
   };
 
   return (
-    <div className="container mx-auto flex w-full flex-col items-center justify-center gap-4">
-      <div className="flex w-full items-center justify-between">
+    <div className="flex w-full flex-col">
+      {/* Top toolbar - sticky on mobile */}
+      <div className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-borderColor bg-bgPrimary px-4 py-3 md:static md:border-0 md:bg-transparent md:py-4">
         <Modal>
           <Modal.Open opens="bookmarks">
             <Button design="secondary">Bookmarks</Button>
           </Modal.Open>
           <Modal.Window name="bookmarks">
-            <div className="flex flex-col gap-4 p-4">
+            <div className="flex max-h-[60vh] flex-col gap-4 overflow-y-auto p-4">
               <h2 className="text-lg font-semibold text-textPrimary">
                 Bookmarks
               </h2>
@@ -190,19 +207,19 @@ function Catechism() {
                   {bookmarks.map((bookmark) => (
                     <li
                       key={bookmark.cfi}
-                      className="flex items-center justify-between border-b border-borderColor pb-2"
+                      className="flex items-center justify-between gap-4 border-b border-borderColor pb-2"
                     >
                       <button
-                        className="text-textSecondary hover:text-blue-600 dark:hover:text-blue-400"
+                        className="text-left text-textSecondary hover:text-blue-600 dark:hover:text-blue-400"
                         onClick={() => goToBookmark(bookmark.cfi)}
                       >
                         {bookmark.name}
                       </button>
                       <button
-                        className="text-red-600 hover:text-red-800"
+                        className="shrink-0 text-red-600 hover:text-red-800"
                         onClick={() => removeBookmark(bookmark.cfi)}
                       >
-                        <HiMiniTrash />
+                        <HiMiniTrash size={18} />
                       </button>
                     </li>
                   ))}
@@ -213,25 +230,26 @@ function Catechism() {
         </Modal>
 
         <button
-          className="block text-textPrimary md:hidden"
+          className="flex items-center gap-1 rounded-lg border border-borderColor bg-bgSecondary px-3 py-2 text-sm text-textPrimary md:hidden"
           onClick={() => setShowToc((prev) => !prev)}
         >
-          {showToc ? <HiChevronUp size={28} /> : <HiChevronDown size={28} />}
+          Contents
+          {showToc ? <HiChevronUp size={18} /> : <HiChevronDown size={18} />}
         </button>
       </div>
 
-      {/* mobile toc  */}
+      {/* Mobile TOC - collapsible panel */}
       {showToc && (
-        <aside className="max-h-screen w-full overflow-y-auto border-r border-borderColor bg-bgSecondary p-4">
-          <h2 className="mb-4 text-lg font-semibold text-textPrimary">
+        <aside className="mx-4 mb-4 max-h-[50vh] overflow-y-auto rounded-lg border border-borderColor bg-bgSecondary p-4 shadow-md md:hidden">
+          <h2 className="mb-3 text-base font-semibold text-textPrimary">
             Table of Contents
           </h2>
-          <ul className="space-y-2">
+          <ul className="space-y-1">
             {toc.map((item, index) => (
               <li key={index}>
                 <button
                   onClick={() => goToChapter(item.href)}
-                  className="text-blue-600 hover:underline dark:text-blue-400"
+                  className="w-full rounded-md px-3 py-2 text-left text-sm text-blue-600 transition-colors hover:bg-bgPrimary dark:text-blue-400"
                 >
                   {item.label}
                 </button>
@@ -241,18 +259,18 @@ function Catechism() {
         </aside>
       )}
 
-      <div className="container mx-auto grid min-h-screen w-full grid-cols-1 gap-4 md:grid-cols-[300px_1fr]">
-        {/* Sidebar TOC */}
-        <aside className="hidden h-screen overflow-y-auto border-r border-borderColor bg-bgSecondary p-6 md:block">
-          <h2 className="mb-4 text-xl font-semibold text-textPrimary">
+      <div className="flex flex-1 gap-4 px-4 pb-4 md:px-0">
+        {/* Desktop Sidebar TOC */}
+        <aside className="sticky top-4 hidden h-fit max-h-[85vh] w-72 shrink-0 overflow-y-auto rounded-lg border border-borderColor bg-bgSecondary p-5 shadow-sm md:block">
+          <h2 className="mb-4 text-lg font-semibold text-textPrimary">
             Table of Contents
           </h2>
-          <ul className="space-y-2">
+          <ul className="space-y-1">
             {toc.map((item, index) => (
               <li key={index}>
                 <button
                   onClick={() => goToChapter(item.href)}
-                  className="text-sm text-blue-600 hover:underline dark:text-blue-400"
+                  className="w-full rounded-md px-3 py-2 text-left text-sm text-blue-600 transition-colors hover:bg-bgPrimary dark:text-blue-400"
                 >
                   {item.label}
                 </button>
@@ -262,31 +280,32 @@ function Catechism() {
         </aside>
 
         {/* Main Content */}
-        <div className="flex min-w-[21rem] flex-col items-center rounded-lg border border-borderColor bg-bgSecondary px-2 py-6 shadow-lg">
+        <div className="flex min-w-0 flex-1 flex-col rounded-lg border border-borderColor bg-bgSecondary shadow-sm">
           {/* EPUB Viewer */}
-          <div ref={viewerContainerRef} className="w-full flex-1 overflow-hidden">
+          <div ref={viewerContainerRef} className="flex-1 overflow-hidden px-2 py-4 md:px-6 md:py-6">
             <div
               id="viewer"
               style={{ height: viewerHeightRef.current }}
-              className="max-w-[600px] overflow-x-auto"
+              className="mx-auto w-full max-w-3xl"
             />
           </div>
 
-          {/* Bottom Navigation */}
-          <div className="mt-6 flex w-full max-w-5xl items-center justify-between gap-4">
+          {/* Bottom Navigation - sticky on mobile */}
+          <div className="sticky bottom-0 flex items-center justify-between gap-2 border-t border-borderColor bg-bgSecondary px-4 py-3 md:static md:gap-4 md:px-6 md:py-4">
             <button
               onClick={handlePrev}
-              className="flex w-full items-center justify-center gap-2 rounded-md border border-borderColor bg-bgPrimary px-4 py-2 text-sm text-textPrimary transition hover:bg-bgSecondary md:w-auto"
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-borderColor bg-bgPrimary px-4 py-3 text-textPrimary transition-colors hover:bg-borderColor active:scale-95 md:flex-none md:py-2"
             >
-              <HiArrowSmallLeft size={20} />
+              <HiArrowSmallLeft size={22} />
+              <span className="hidden md:inline">Previous</span>
             </button>
 
             {/* Add Bookmark Button inside Modal */}
             <Modal>
               <Modal.Open opens="add-bookmark">
-                <button className="flex w-full items-center justify-center gap-2 rounded-md border border-borderColor bg-bgPrimary px-4 py-2 text-sm text-textPrimary transition hover:bg-bgSecondary md:w-auto">
-                  Add
+                <button className="flex items-center justify-center gap-2 rounded-lg border border-borderColor bg-bgPrimary px-4 py-3 text-textPrimary transition-colors hover:bg-borderColor active:scale-95 md:py-2">
                   <HiOutlineBookmark size={20} />
+                  <span className="hidden md:inline">Add Bookmark</span>
                 </button>
               </Modal.Open>
               <Modal.Window name="add-bookmark">
@@ -301,9 +320,10 @@ function Catechism() {
 
             <button
               onClick={handleNext}
-              className="flex w-full items-center justify-center gap-2 rounded-md border border-borderColor bg-bgPrimary px-4 py-2 text-sm text-textPrimary transition hover:bg-bgSecondary md:w-auto"
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-borderColor bg-bgPrimary px-4 py-3 text-textPrimary transition-colors hover:bg-borderColor active:scale-95 md:flex-none md:py-2"
             >
-              <HiArrowSmallRight size={20} />
+              <span className="hidden md:inline">Next</span>
+              <HiArrowSmallRight size={22} />
             </button>
           </div>
         </div>
