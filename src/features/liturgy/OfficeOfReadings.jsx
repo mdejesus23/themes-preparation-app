@@ -29,7 +29,7 @@ function OfficeOfReadings() {
   const [bookmarks, setBookmarks] = useState(() => getItem('office-readings-bookmarks', []));
   const [currentLocation, setCurrentLocation] = useState(null);
   const [epubError, setEpubError] = useState(null);
-  const [viewerHeight, setViewerHeight] = useState('80vh');
+  const viewerHeightRef = useRef('80vh');
   const viewerContainerRef = useRef(null);
 
   const officeOfReadings = data?.data;
@@ -40,7 +40,19 @@ function OfficeOfReadings() {
       if (viewerContainerRef.current) {
         // Use window.innerHeight for iOS Safari compatibility
         const availableHeight = window.innerHeight * 0.75;
-        setViewerHeight(`${availableHeight}px`);
+        const newHeight = `${availableHeight}px`;
+        viewerHeightRef.current = newHeight;
+
+        // Resize existing rendition instead of re-initializing
+        if (renditionRef.current) {
+          renditionRef.current.resize('100%', newHeight);
+        }
+
+        // Update the viewer div directly
+        const viewerEl = document.getElementById('viewer');
+        if (viewerEl) {
+          viewerEl.style.height = newHeight;
+        }
       }
     };
 
@@ -67,7 +79,7 @@ function OfficeOfReadings() {
 
         rendition = book.renderTo('viewer', {
           width: '100%',
-          height: viewerHeight,
+          height: viewerHeightRef.current,
           spread: 'none', // Better for mobile
           flow: 'scrolled-doc', // iOS-friendly scrolling mode
         });
@@ -120,7 +132,7 @@ function OfficeOfReadings() {
         rendition.destroy();
       }
     };
-  }, [officeOfReadings, isDarkMode, viewerHeight]);
+  }, [officeOfReadings, isDarkMode]);
 
   if (isPending) return <Loader />;
   if (error) {
@@ -255,7 +267,7 @@ function OfficeOfReadings() {
           <div ref={viewerContainerRef} className="w-full flex-1 overflow-hidden">
             <div
               id="viewer"
-              style={{ height: viewerHeight }}
+              style={{ height: viewerHeightRef.current }}
               className="max-w-[600px] overflow-x-auto"
             />
           </div>
