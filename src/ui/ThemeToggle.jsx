@@ -15,7 +15,7 @@ function ThemeToggle({ isMobile = false }) {
       aria-label="Toggle theme"
       title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      {isDarkMode ? <HiSun size={24} /> : <HiMoon size={24} />}
+      {isDarkMode ? <HiSun size={18} /> : <HiMoon size={18} />}
     </button>
   );
 }
