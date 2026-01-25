@@ -6,13 +6,25 @@ import Button from '../../ui/Button';
 import CategorizeReadings from './CategorizeReadings';
 import CategoryMenu from '../../ui/CategoryMenu';
 import useThemeStore from '../../store/themeStore';
-import { HiMiniArrowDownTray } from 'react-icons/hi2';
+import { HiMiniArrowDownTray, HiMagnifyingGlass } from 'react-icons/hi2';
 import Papa from 'papaparse';
 import { HiOutlineArrowSmallRight } from 'react-icons/hi2';
+import Modal from '../../ui/Modal';
+import { useBibleReading } from './useBibleReadings';
+import Loader from '../../ui/Loader';
 
 function ThemeDetails() {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
   const [isAllReadingsIsDone, setIsAllReadingsIsDone] = useState(false);
+  const [searchVerse, setSearchVerse] = useState('');
+  const [submittedVerse, setSubmittedVerse] = useState('');
+
+  // Only fetch when submittedVerse is set
+  const {
+    isPending: isSearching,
+    data: verseData,
+    error: searchError,
+  } = useBibleReading(submittedVerse || undefined);
   const navigate = useNavigate();
   const { themeId } = useParams();
   const themeWithReadings = useThemeStore((state) => state.themeWithReadings);
@@ -94,7 +106,9 @@ function ThemeDetails() {
           {title}
         </h1>
 
-        <p className="text-center text-xs text-textSecondary">{formatDate(createdAt)}</p>
+        <p className="text-center text-xs text-textSecondary">
+          {formatDate(createdAt)}
+        </p>
         <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
         <div className="mt-5 flex justify-center gap-2">
           <Button onClick={markAllReadingsDone} design="secondary">
@@ -104,6 +118,70 @@ function ThemeDetails() {
             Export
             <HiMiniArrowDownTray />
           </Button>
+
+          <Modal>
+            <Modal.Open opens="search-verse">
+              <Button design="secondary">
+                <HiMagnifyingGlass />
+              </Button>
+            </Modal.Open>
+            <Modal.Window name="search-verse">
+              <div className="flex min-w-[300px] flex-col gap-4 p-4 md:min-w-[400px]">
+                <h2 className="text-lg font-semibold text-textPrimary">
+                  Search Bible Verse
+                </h2>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (searchVerse.trim()) {
+                      setSubmittedVerse(searchVerse.trim());
+                    }
+                  }}
+                  className="flex flex-col gap-2 md:flex-row"
+                >
+                  <input
+                    type="text"
+                    value={searchVerse}
+                    onChange={(e) => setSearchVerse(e.target.value)}
+                    placeholder="e.g., John 3:16 or Romans 8:28"
+                    className="flex-1 rounded-lg border border-borderColor bg-bgPrimary px-3 py-2 text-textPrimary placeholder:text-textSecondary focus:outline-none focus:ring-2 focus:ring-yellow"
+                  />
+                  <Button type="submit" design="primary">
+                    Search
+                  </Button>
+                </form>
+
+                {/* Search Results */}
+                <div className="mt-2 max-h-[50vh] overflow-y-auto">
+                  {isSearching && <Loader />}
+
+                  {searchError && (
+                    <p className="text-red-500">
+                      Failed to load verse: {submittedVerse}
+                    </p>
+                  )}
+
+                  {verseData?.data?.text && !isSearching && (
+                    <div className="rounded-lg border border-borderColor bg-bgSecondary p-4">
+                      <h4 className="mb-2 font-bold text-textPrimary">
+                        {submittedVerse}
+                      </h4>
+                      <p className="leading-relaxed text-textSecondary">
+                        {verseData.data.text}
+                      </p>
+                    </div>
+                  )}
+
+                  {!isSearching &&
+                    !searchError &&
+                    !verseData?.data?.text &&
+                    submittedVerse && (
+                      <p className="text-textSecondary">No results found.</p>
+                    )}
+                </div>
+              </div>
+            </Modal.Window>
+          </Modal>
 
           <div
             className={`${isAllReadingsIsDone === false ? 'hidden' : 'flex'}`}
