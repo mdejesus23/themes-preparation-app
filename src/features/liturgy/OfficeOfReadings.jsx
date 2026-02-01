@@ -26,7 +26,9 @@ function OfficeOfReadings() {
   const renditionRef = useRef(null);
   const [toc, setToc] = useState([]);
   const [showToc, setShowToc] = useState(false);
-  const [bookmarks, setBookmarks] = useState(() => getItem('office-readings-bookmarks', []));
+  const [bookmarks, setBookmarks] = useState(() =>
+    getItem('office-readings-bookmarks', []),
+  );
   const [currentLocation, setCurrentLocation] = useState(null);
   const [epubError, setEpubError] = useState(null);
   const viewerHeightRef = useRef('80vh');
@@ -189,6 +191,22 @@ function OfficeOfReadings() {
 
   return (
     <div className="flex w-full flex-col">
+      {/* iBreviary Iframe - Separate Section */}
+      <div className="mx-4 mb-4 rounded-lg border border-borderColor bg-bgSecondary px-2 py-4 shadow-sm md:mx-0 md:px-6 md:py-6">
+        <h3 className="mb-4 text-center text-lg font-semibold text-textPrimary">
+          iBreviary
+        </h3>
+        <div className="flex justify-center">
+          <iframe
+            src="https://www.ibreviary.com/m2/breviario.php?lang=en"
+            width="100%"
+            height="600px"
+            title="iBreviary"
+            className="rounded-lg border border-borderColor"
+            style={{ maxWidth: '100%' }}
+          />
+        </div>
+      </div>
       {/* Top toolbar - sticky on mobile */}
       <div className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-borderColor bg-bgPrimary px-4 py-3 md:static md:border-0 md:bg-transparent md:py-4">
         <Modal>
@@ -279,10 +297,13 @@ function OfficeOfReadings() {
           </ul>
         </aside>
 
-        {/* Main Content */}
+        {/* EPUB Content */}
         <div className="flex min-w-0 flex-1 flex-col rounded-lg border border-borderColor bg-bgSecondary shadow-sm">
           {/* EPUB Viewer */}
-          <div ref={viewerContainerRef} className="flex-1 overflow-hidden px-2 py-4 md:px-6 md:py-6">
+          <div
+            ref={viewerContainerRef}
+            className="flex-1 overflow-hidden px-2 py-4 md:px-6 md:py-6"
+          >
             <div
               id="viewer"
               style={{ height: viewerHeightRef.current }}
