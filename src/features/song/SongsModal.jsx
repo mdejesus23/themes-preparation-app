@@ -1,23 +1,58 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import Button from '../../ui/Button';
 import { useSongs } from './useSongs';
+import { useSong } from './useSong';
 import Loader from '../../ui/Loader';
 import { SONGS_PER_PAGE } from '../../data/constant';
-import { HiArrowPath } from 'react-icons/hi2';
-import useUserStore from '../../store/useUserStore';
-import { NavLink } from 'react-router-dom';
+import { HiArrowPath, HiArrowLeft } from 'react-icons/hi2';
 
-function SongBook() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const isAuthenticated = useUserStore((state) => state.isAuthenticated);
+function SongDetail({ songId, onBack }) {
+  const { isPending, data, error } = useSong(songId);
 
-  // Derive state from URL
-  const page = parseInt(searchParams.get('page') || '1', 10);
-  const search = searchParams.get('search') || '';
-  const category = searchParams.get('category') || '';
+  if (isPending) return <Loader />;
 
-  const [inputValue, setInputValue] = useState(search);
+  if (error) {
+    console.error('Error fetching song:', error);
+    return <div className="text-red-500">Failed to load song.</div>;
+  }
+
+  const song = data?.data;
+
+  return (
+    <div>
+      <div className="mb-4">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 text-blue-500 hover:underline"
+        >
+          <HiArrowLeft size={16} />
+          Back to list
+        </button>
+      </div>
+      {song ? (
+        <div className="flex flex-col items-center justify-center">
+          <h2 className="mb-4 text-center text-2xl font-bold text-textPrimary">
+            {song.title}
+          </h2>
+          <img
+            src={song.imageUrl}
+            alt={song.title}
+            className="mb-4 w-full rounded-lg"
+          />
+        </div>
+      ) : (
+        <div className="text-textPrimary">No song found.</div>
+      )}
+    </div>
+  );
+}
+
+function SongsModal() {
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [selectedSongId, setSelectedSongId] = useState(null);
 
   const { isPending, data, error } = useSongs({
     page,
@@ -27,41 +62,49 @@ function SongBook() {
   });
 
   useEffect(() => {
-    setInputValue(search); // Keep input in sync with URL search query
+    setInputValue(search);
   }, [search]);
 
   function handleSearchSubmit(e) {
     e.preventDefault();
-    const params = {
-      page: '1',
-      search: inputValue.trim(),
-    };
-    if (category) params.category = category;
-    setSearchParams(params);
+    setSearch(inputValue.trim());
+    setPage(1);
   }
 
   function handleChangeCategory(newCategory) {
-    const params = {
-      page: '1',
-      category: newCategory,
-    };
-    setSearchParams(params); // Removes search query when category changes
+    setCategory(newCategory);
+    setSearch('');
+    setInputValue('');
+    setPage(1);
   }
 
   function handleReset() {
-    setSearchParams({ page: '1' });
+    setSearch('');
+    setCategory('');
+    setInputValue('');
+    setPage(1);
   }
 
   function handlePageChange(newPage) {
-    const params = {
-      page: newPage.toString(),
-    };
-    if (search) params.search = search;
-    if (category) params.category = category;
-    setSearchParams(params);
+    setPage(newPage);
   }
 
+  function handleSongClick(songId) {
+    setSelectedSongId(songId);
+  }
+
+  function handleBackToList() {
+    setSelectedSongId(null);
+  }
+
+  // Show song detail view
+  if (selectedSongId) {
+    return <SongDetail songId={selectedSongId} onBack={handleBackToList} />;
+  }
+
+  // Show loading state
   if (isPending) return <Loader />;
+
   if (error) {
     console.error('Error fetching songs:', error);
     return <div className="text-red-500">Failed to load songs.</div>;
@@ -114,7 +157,7 @@ function SongBook() {
         </select>
       </div>
 
-      {/* psalms lists  */}
+      {/* songs list */}
       <div className="my-12 w-full max-w-3xl space-y-4">
         {songs && songs.length > 0 ? (
           songs.map((song, index) => (
@@ -128,16 +171,13 @@ function SongBook() {
               </span>
 
               {/* Song Title */}
-              <NavLink
-                to={
-                  isAuthenticated
-                    ? `/songs/${song._id} `
-                    : `/song-book/${song._id}`
-                }
-                className="truncate text-base font-medium text-yellow hover:underline"
+              <button
+                type="button"
+                onClick={() => handleSongClick(song._id)}
+                className="truncate text-left text-base font-medium text-yellow hover:underline"
               >
                 {song.title}
-              </NavLink>
+              </button>
 
               {/* Category */}
               <span className="text-gray-600 truncate text-right text-sm">
@@ -173,4 +213,4 @@ function SongBook() {
   );
 }
 
-export default SongBook;
+export default SongsModal;
