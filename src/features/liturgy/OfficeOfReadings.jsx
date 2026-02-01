@@ -192,7 +192,7 @@ function OfficeOfReadings() {
   return (
     <div className="flex w-full flex-col">
       {/* iBreviary Iframe - Separate Section */}
-      <div className="mx-4 mb-4 rounded-lg border border-borderColor bg-bgSecondary px-2 py-4 shadow-sm md:mx-0 md:px-6 md:py-6">
+      <div className="mb-4 rounded-lg border border-borderColor bg-bgSecondary px-2 py-4 shadow-sm md:mx-0 md:px-6 md:py-6">
         <h3 className="mb-4 text-center text-lg font-semibold text-textPrimary">
           iBreviary
         </h3>
@@ -277,7 +277,7 @@ function OfficeOfReadings() {
         </aside>
       )}
 
-      <div className="flex flex-1 gap-4 px-4 pb-4 md:px-0">
+      <div className="flex flex-1 gap-4 px-0 pb-4 md:px-0">
         {/* Desktop Sidebar TOC */}
         <aside className="sticky top-4 hidden h-fit max-h-[85vh] w-72 shrink-0 overflow-y-auto rounded-lg border border-borderColor bg-bgSecondary p-5 shadow-sm md:block">
           <h2 className="mb-4 text-lg font-semibold text-textPrimary">
