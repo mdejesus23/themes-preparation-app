@@ -2,13 +2,21 @@ import Form from '../../ui/Form';
 import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useCreateResult } from './useCreateResult';
 import { useEditResult } from './useEditResult';
 
-function ResultForm({ onCloseModal, title, finalReadings, resultToEdit = {} }) {
+function ResultForm({
+  onCloseModal,
+  title,
+  finalReadings,
+  resultToEdit = {},
+  draftResult = {},
+  onDraftChange,
+}) {
   const { isCreating, createPrepResult } = useCreateResult();
   const { isEditing, editResult } = useEditResult();
   const isWorking = isCreating || isEditing;
@@ -33,6 +41,7 @@ function ResultForm({ onCloseModal, title, finalReadings, resultToEdit = {} }) {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm({
     defaultValues: isEditSession
@@ -50,12 +59,36 @@ function ResultForm({ onCloseModal, title, finalReadings, resultToEdit = {} }) {
         }
       : {
           title: title,
-          firstReading: finalReadings.firstReading,
-          secondReading: finalReadings.secondReading,
-          thirdReading: finalReadings.thirdReading,
-          gospel: finalReadings.gospel,
+          entranceSong: draftResult.entranceSong || '',
+          firstReading: finalReadings?.firstReading || '',
+          firstPsalm: draftResult.firstPsalm || '',
+          secondReading: finalReadings?.secondReading || '',
+          secondPsalm: draftResult.secondPsalm || '',
+          thirdReading: finalReadings?.thirdReading || '',
+          thirdPsalm: draftResult.thirdPsalm || '',
+          gospel: finalReadings?.gospel || '',
+          finalSong: draftResult.finalSong || '',
         },
   });
+
+  // Watch specific fields that need to persist
+  const watchedFields = useWatch({
+    control,
+    name: ['entranceSong', 'firstPsalm', 'secondPsalm', 'thirdPsalm', 'finalSong'],
+  });
+
+  // Sync draft fields back to parent when they change
+  useEffect(() => {
+    if (onDraftChange && !isEditSession) {
+      onDraftChange({
+        entranceSong: watchedFields[0] || '',
+        firstPsalm: watchedFields[1] || '',
+        secondPsalm: watchedFields[2] || '',
+        thirdPsalm: watchedFields[3] || '',
+        finalSong: watchedFields[4] || '',
+      });
+    }
+  }, [watchedFields, onDraftChange, isEditSession]);
 
   function onSubmit(data) {
     if (isEditSession) {

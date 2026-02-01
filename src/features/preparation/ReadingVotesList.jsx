@@ -7,7 +7,7 @@ import CategoryMenu from '../../ui/CategoryMenu';
 import Modal from '../../ui/Modal';
 import ResultForm from '../admin/ResultForm';
 
-import Songs from '../song/Songs';
+import SongsModal from '../song/SongsModal';
 
 function ReadingVotesList({ themeWithReadingsVotes }) {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
@@ -15,6 +15,15 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
   const [secondReading, setSecondReading] = useState(null);
   const [thirdReading, setThirdReading] = useState(null);
   const [gospel, setGospel] = useState(null);
+
+  // Draft state to persist form values across modal open/close
+  const [draftResult, setDraftResult] = useState({
+    entranceSong: '',
+    firstPsalm: '',
+    secondPsalm: '',
+    thirdPsalm: '',
+    finalSong: '',
+  });
 
   const finalReadings = {
     firstReading,
@@ -66,6 +75,8 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
               <ResultForm
                 finalReadings={finalReadings}
                 title={themeWithReadingsVotes.title}
+                draftResult={draftResult}
+                onDraftChange={setDraftResult}
               />
             </Modal.Window>
           </Modal>
@@ -76,7 +87,7 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
             </Modal.Open>
 
             <Modal.Window name="songsm">
-              <Songs />
+              <SongsModal />
             </Modal.Window>
           </Modal>
         </div>
