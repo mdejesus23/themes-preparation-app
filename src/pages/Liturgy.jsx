@@ -8,7 +8,7 @@ function Liturgy() {
         Office of the Readings
       </h1>
 
-      <LiturgyOfTheDay />
+      {/* <LiturgyOfTheDay /> */}
 
       {/* Additional content can be added here */}
       <OfficeOfReadings />
