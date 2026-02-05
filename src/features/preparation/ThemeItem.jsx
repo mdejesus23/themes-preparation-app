@@ -6,7 +6,7 @@ import PasscodeForm from './PasscodeForm';
 function ThemeItem({ theme }) {
   const { title, createdAt, description } = theme;
   return (
-    <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-borderColor bg-bgPrimary p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
+    <li className="flex transform cursor-pointer flex-col items-center gap-y-5 rounded-xl border border-borderColor bg-bgPrimary p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
       <span>
         <svg
           className="current-fill fill-textPrimary"
@@ -29,7 +29,9 @@ function ThemeItem({ theme }) {
       <h2 className="text-center font-headfont text-2xl font-semibold text-textPrimary">
         {title}
       </h2>
-      <p className="mt-[-1rem] text-xs text-textSecondary">{formatDate(createdAt)}</p>
+      <p className="mt-[-1rem] text-xs text-textSecondary">
+        {formatDate(createdAt)}
+      </p>
       <p className="font-bodyFont text-textPrimary">{description}</p>
 
       <Modal>

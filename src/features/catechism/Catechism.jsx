@@ -17,6 +17,43 @@ import { useParams } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { getItem, setItem } from '../../utils/storage';
 
+// Theme definitions (stable reference - outside component)
+const lightTheme = {
+  body: {
+    backgroundColor: '#f9f9f9',
+    color: '#333',
+    fontSize: '18px',
+    fontFamily: 'Georgia, serif',
+    lineHeight: '1.8',
+    padding: '0 16px',
+    maxWidth: '100%',
+  },
+  p: {
+    marginBottom: '1em',
+  },
+  h1: { marginTop: '1.5em', marginBottom: '0.5em' },
+  h2: { marginTop: '1.25em', marginBottom: '0.5em' },
+  h3: { marginTop: '1em', marginBottom: '0.5em' },
+};
+
+const darkTheme = {
+  body: {
+    backgroundColor: '#1a202c',
+    color: '#e2e8f0',
+    fontSize: '18px',
+    fontFamily: 'Georgia, serif',
+    lineHeight: '1.8',
+    padding: '0 16px',
+    maxWidth: '100%',
+  },
+  p: {
+    marginBottom: '1em',
+  },
+  h1: { marginTop: '1.5em', marginBottom: '0.5em' },
+  h2: { marginTop: '1.25em', marginBottom: '0.5em' },
+  h3: { marginTop: '1em', marginBottom: '0.5em' },
+};
+
 function Catechism() {
   const { bookId } = useParams();
   const { isPending, data, error } = useCatechism(bookId);
@@ -32,7 +69,10 @@ function Catechism() {
   const viewerHeightRef = useRef('80vh');
   const viewerContainerRef = useRef(null);
 
-  const officeOfReadings = data?.data;
+  const catechismData = data?.data;
+
+  // Extract epubUrl as primitive to avoid reference changes triggering re-renders
+  const epubUrl = catechismData?.epubUrl;
 
   // Calculate iOS-safe viewport height
   useEffect(() => {
@@ -67,14 +107,25 @@ function Catechism() {
     };
   }, []);
 
+  // Initialize EPUB only when epubUrl changes
   useEffect(() => {
-    if (!officeOfReadings?.epubUrl) return;
+    if (!epubUrl) return;
 
     let rendition;
 
     const initEpub = async () => {
       try {
-        const book = ePub(officeOfReadings.epubUrl);
+        // Clean up any existing book/rendition before re-initializing
+        if (renditionRef.current) {
+          renditionRef.current.destroy();
+          renditionRef.current = null;
+        }
+        if (bookRef.current) {
+          bookRef.current.destroy();
+          bookRef.current = null;
+        }
+
+        const book = ePub(epubUrl);
         bookRef.current = book;
 
         rendition = book.renderTo('viewer', {
@@ -86,46 +137,10 @@ function Catechism() {
 
         renditionRef.current = rendition;
 
-        // Dynamic theme based on dark mode with improved readability
-        const lightTheme = {
-          body: {
-            backgroundColor: '#f9f9f9',
-            color: '#333',
-            fontSize: '18px',
-            fontFamily: 'Georgia, serif',
-            lineHeight: '1.8',
-            padding: '0 16px',
-            maxWidth: '100%',
-          },
-          p: {
-            marginBottom: '1em',
-          },
-          h1: { marginTop: '1.5em', marginBottom: '0.5em' },
-          h2: { marginTop: '1.25em', marginBottom: '0.5em' },
-          h3: { marginTop: '1em', marginBottom: '0.5em' },
-        };
-
-        const darkTheme = {
-          body: {
-            backgroundColor: '#1a202c',
-            color: '#e2e8f0',
-            fontSize: '18px',
-            fontFamily: 'Georgia, serif',
-            lineHeight: '1.8',
-            padding: '0 16px',
-            maxWidth: '100%',
-          },
-          p: {
-            marginBottom: '1em',
-          },
-          h1: { marginTop: '1.5em', marginBottom: '0.5em' },
-          h2: { marginTop: '1.25em', marginBottom: '0.5em' },
-          h3: { marginTop: '1em', marginBottom: '0.5em' },
-        };
-
-        const selectedTheme = isDarkMode ? darkTheme : lightTheme;
-        rendition.themes.register('customTheme', selectedTheme);
-        rendition.themes.select('customTheme');
+        // Register both themes upfront
+        rendition.themes.register('light', lightTheme);
+        rendition.themes.register('dark', darkTheme);
+        rendition.themes.select(isDarkMode ? 'dark' : 'light');
 
         rendition.on('relocated', (location) => {
           setCurrentLocation(location.start.cfi);
@@ -148,7 +163,17 @@ function Catechism() {
         rendition.destroy();
       }
     };
-  }, [officeOfReadings, isDarkMode]);
+  }, [epubUrl]);
+
+  // Update theme without re-initializing EPUB
+  useEffect(() => {
+    if (renditionRef.current) {
+      const theme = isDarkMode ? darkTheme : lightTheme;
+      // Use override to directly apply CSS changes to the rendered content
+      renditionRef.current.themes.override('color', theme.body.color);
+      renditionRef.current.themes.override('background-color', theme.body.backgroundColor);
+    }
+  }, [isDarkMode]);
 
   if (isPending) return <Loader />;
   if (error) {

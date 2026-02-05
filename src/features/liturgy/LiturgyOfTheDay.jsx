@@ -26,11 +26,11 @@ function LiturgyOfTheDay() {
 
   return (
     <div className="mb-20">
-      <p className="text-center text-base font-semibold">
+      <p className="text-center text-sm font-semibold italic">
         {`${season_week} week in ${season} time — ${weekday}, ${formattedDate}`}
       </p>
 
-      <ul className="text-gray-600 mt-2 list-inside list-disc">
+      <ul className="text-gray-600 mt-2 list-inside list-disc text-sm">
         {celebrations.map((c, idx) => (
           <li key={idx}>
             {c.title}{' '}
