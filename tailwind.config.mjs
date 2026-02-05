@@ -18,7 +18,7 @@ export default {
       green: 'var(--custom-green)',
       lightGreen: 'var(--custom-light-green)',
       red: colors.red,
-      blue: colors.blue,
+      blue: 'var(--custom-blue)',
       neutral: colors.neutral, // Used mainly for text color
       // Header colors that don't change with theme
       headerBg: 'var(--header-bg)',

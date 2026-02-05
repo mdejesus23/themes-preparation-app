@@ -15,7 +15,7 @@ function AdminThemeItem({ theme }) {
   const { isReseting, resetVotes } = useResetVotes();
 
   return (
-    <li className="flex transform cursor-pointer flex-col items-center gap-y-5 border border-borderColor bg-bgPrimary p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
+    <li className="flex transform cursor-pointer flex-col items-center gap-y-5 rounded-xl border border-borderColor bg-bgPrimary p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
       <div className="flex w-full justify-between">
         <div>
           <h2 className="text-center font-headfont text-2xl font-semibold text-textPrimary">
