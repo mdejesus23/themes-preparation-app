@@ -89,6 +89,41 @@
   }
 }
 
+/* Office of Readings HTML content styles */
+.reading-content {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+.reading-content h2,
+.reading-content h6 {
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.reading-content h2 {
+  font-size: 1.35em;
+}
+
+.reading-content h6 {
+  font-size: 1em;
+}
+
+.reading-content p {
+  margin-bottom: 0.6em;
+}
+
+.reading-content b {
+  font-weight: 700;
+}
+
+.reading-content i {
+  font-style: italic;
+}
+
 .styled-modal::-webkit-scrollbar {
   width: 6px; /* Set the width of the scrollbar */
 }

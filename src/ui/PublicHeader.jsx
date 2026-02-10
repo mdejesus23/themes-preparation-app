@@ -18,7 +18,7 @@ function PublicHeader() {
 
   return (
     <>
-      <header className="bg-headerBg text-headerText px-4 py-3">
+      <header className="bg-headerBg px-4 py-3 text-headerText">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           {/* Logo */}
           <NavLink to="/themes" className="shrink-0">
@@ -55,14 +55,14 @@ function PublicHeader() {
 
               <li>
                 <NavLink
-                  to="/public/office-of-the-readings/684929a313a538c92d5f3312"
+                  to="/public/liturgy-of-the-hours"
                   className={({ isActive }) =>
                     `transition-colors hover:text-yellow ${
                       isActive ? 'text-yellow' : ''
                     }`
                   }
                 >
-                  Office of the Readings
+                  Liturgy of the Hours
                 </NavLink>
               </li>
 
@@ -122,7 +122,7 @@ function PublicHeader() {
             <li className="w-full">
               <NavLink
                 onClick={handleNavLinkClick}
-                to="/public/office-of-the-readings/684929a313a538c92d5f3312"
+                to="/public/liturgy-of-the-hours"
                 className={({ isActive }) =>
                   `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
                     isActive ? 'text-yellow' : ''
@@ -130,7 +130,7 @@ function PublicHeader() {
                 }
               >
                 <MdMenuBook size={32} />
-                Office of the Readings
+                Liturgy of the Hours
               </NavLink>
             </li>
 

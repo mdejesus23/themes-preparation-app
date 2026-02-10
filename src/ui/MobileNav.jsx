@@ -14,8 +14,8 @@ function MobileNav({ setIsOpen }) {
   };
 
   return (
-    <nav className="bg-headerBg w-full md:hidden">
-      <ul className="text-headerText flex w-full flex-col items-start">
+    <nav className="w-full bg-headerBg md:hidden">
+      <ul className="flex w-full flex-col items-start text-headerText">
         <li className="w-full">
           <NavLink
             onClick={handleNavLinkClick}
@@ -77,7 +77,7 @@ function MobileNav({ setIsOpen }) {
         <li className="w-full">
           <NavLink
             onClick={handleNavLinkClick}
-            to="/office-of-the-readings/684929a313a538c92d5f3312"
+            to="/liturgy-of-the-hours"
             className={({ isActive }) =>
               `flex w-full gap-2 px-4 py-5 text-lg hover:text-yellow ${
                 isActive ? 'text-yellow' : ''
@@ -85,7 +85,7 @@ function MobileNav({ setIsOpen }) {
             }
           >
             <MdMenuBook size={28} />
-            Office of the Readings
+            Liturgy of the Hours
           </NavLink>
         </li>
 

@@ -10,7 +10,7 @@ import { MdLibraryBooks } from 'react-icons/md';
 function MainNav() {
   return (
     <nav>
-      <ul className="text-headerText flex w-full flex-col items-center">
+      <ul className="flex w-full flex-col items-center text-headerText">
         <li className="w-full">
           <NavLink
             to="/themes"
@@ -67,7 +67,7 @@ function MainNav() {
 
         <li className="w-full">
           <NavLink
-            to="/office-of-the-readings/684929a313a538c92d5f3312"
+            to="/liturgy-of-the-hours"
             className={({ isActive }) =>
               `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
                 isActive ? 'text-yellow' : ''
@@ -75,7 +75,7 @@ function MainNav() {
             }
           >
             <MdMenuBook size={28} />
-            Office of the Readings
+            Liturgy of the Hours
           </NavLink>
         </li>
 
