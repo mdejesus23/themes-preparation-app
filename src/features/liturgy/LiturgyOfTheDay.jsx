@@ -1,24 +1,5 @@
-import { useLiturgyOfTheDay } from './useLiturgyOfTheDay';
-import Loader from '../../ui/Loader';
-
-const today = new Date();
-
-const year = today.getFullYear();
-const month = today.getMonth() + 1;
-const day = today.getDate();
-
-function LiturgyOfTheDay() {
-  const { isPending, data, error } = useLiturgyOfTheDay(year, month, day);
-
-  if (isPending) return <Loader />;
-
-  if (error) {
-    console.error('Error fetching office of readings:', error);
-    return <p className="text-red-500">Failed to load liturgical calendar.</p>;
-  }
-
-  const { date, season, season_week, weekday, celebrations } = data.data;
-  const formattedDate = new Date(date.toString()).toLocaleDateString('en-US', {
+function LiturgyOfTheDay({ date, season, season_week, weekday, celebrations }) {
+  const formattedDate = new Date(date).toLocaleDateString(undefined, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

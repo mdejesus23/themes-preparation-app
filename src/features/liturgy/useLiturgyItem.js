@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { getBookById } from '../../services/apiBook';
+import { getLiturgyById } from '../../services/apiBook';
 
-export function useOfficeOfReadings(bookId) {
+export function useLiturgyItem(id) {
   const { isPending, data, error } = useQuery({
-    queryKey: ['office-of-the-readings', bookId],
-    queryFn: async () => getBookById(bookId),
+    queryKey: ['liturgy-item', id],
+    queryFn: async () => getLiturgyById(id),
+    enabled: !!id,
     onError: (err) => toast.error(err.message),
   });
 
