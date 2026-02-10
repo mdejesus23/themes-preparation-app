@@ -69,7 +69,7 @@ function LiturgyOfTheHours({ season, week }) {
               <th className="px-4 py-3">#</th>
               <th className="px-4 py-3">Title</th>
               <th className="px-4 py-3">Season</th>
-              <th className="hidden px-4 py-3 md:table-cell">Week</th>
+              <th className="px-4 py-3">Week</th>
               <th className="hidden px-4 py-3 md:table-cell">Day</th>
             </tr>
           </thead>
