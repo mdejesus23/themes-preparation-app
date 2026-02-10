@@ -85,9 +85,7 @@ function LiturgyOfTheHours({ season, week }) {
                 </td>
                 <td className="px-4 py-3 font-medium">{reading.title}</td>
                 <td className="px-4 py-3">{reading.season}</td>
-                <td className="hidden px-4 py-3 md:table-cell">
-                  {reading.week}
-                </td>
+                <td className="px-4 py-3">{reading.week}</td>
                 <td className="hidden px-4 py-3 md:table-cell">
                   {reading.day}
                 </td>
