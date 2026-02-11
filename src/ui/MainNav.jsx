@@ -107,7 +107,9 @@ function MainNav() {
           </NavLink>
         </li>
 
-        <Logout />
+        <span className="inline md:hidden">
+          <Logout />
+        </span>
       </ul>
     </nav>
   );
