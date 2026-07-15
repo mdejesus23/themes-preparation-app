@@ -12,16 +12,22 @@ function Button({
 }) {
   const styles = {
     primary:
-      'w-full rounded-sm border-2 border-none bg-yellow px-4 py-2 font-semibold text-dark transition-colors duration-300 hover:bg-lightYellow',
+      'w-full rounded-lg border-none bg-green px-4 py-2.5 font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-lightGreen disabled:opacity-60',
     secondary:
-      'flex items-center gap-2 rounded-sm border-2 border-none bg-yellow px-4 py-2 font-semibold text-dark transition-colors duration-300 hover:bg-lightYellow',
+      'flex items-center justify-center gap-2 rounded-lg border-none bg-green px-4 py-2.5 font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-lightGreen disabled:opacity-60',
+    dark: 'flex w-full items-center justify-center gap-2 rounded-lg border-none bg-dark px-4 py-2.5 font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-black',
     tertiary:
-      'text-center w-full rounded-xl border-2 border border-borderColor px-4 py-2 font-semibold text-textPrimary transition-colors duration-300 hover:bg-grey hover:text-white',
-    close: 'underline-offset-1 absolute top-2 right-2 text-2xl text-textPrimary',
-    categorySelector: `text-sm xl:text-lg h-12 w-full p-1 md:p-3 text-center hover:bg-yellow hover:text-dark ${active ? 'bg-yellow text-dark' : 'text-textPrimary'}`,
-    danger: 'bg-red-600 text-white rounded-md py-2 px-3 hover:bg-red-700',
-    cancel: 'bg-bgSecondary border border-borderColor text-textPrimary rounded-md py-2 px-3 hover:bg-bgPrimary',
-    link: 'flex w-full items-center gap-4 border-none bg-none p-3 text-left text-lg text-sm font-semibold text-textPrimary underline transition-all hover:bg-bgSecondary',
+      'text-center w-full rounded-lg border border-borderColor bg-bgPrimary px-4 py-2.5 font-semibold text-textPrimary transition-colors duration-200 hover:bg-bgSecondary',
+    outline:
+      'flex items-center justify-center gap-2 rounded-lg border border-borderColor bg-bgPrimary px-4 py-2.5 font-semibold text-textPrimary transition-colors duration-200 hover:bg-bgSecondary',
+    close:
+      'underline-offset-1 absolute top-2 right-2 text-2xl text-textSecondary hover:text-textPrimary',
+    categorySelector: `whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-colors ${active ? 'bg-green text-white' : 'text-textSecondary hover:bg-sidebarActive hover:text-sidebarActiveText'}`,
+    danger:
+      'flex items-center justify-center gap-2 rounded-lg bg-red-600 px-3 py-2 font-semibold text-white transition-colors hover:bg-red-700',
+    cancel:
+      'rounded-lg border border-borderColor bg-bgPrimary px-3 py-2 font-semibold text-textPrimary transition-colors hover:bg-bgSecondary',
+    link: 'flex w-full items-center gap-2 border-none bg-none p-3 text-left text-sm font-semibold text-green underline transition-all hover:text-lightGreen',
     link2:
       'flex w-full items-center gap-4 border-none bg-none p-3 text-left text-sm text-textPrimary transition-all hover:bg-bgSecondary',
   };

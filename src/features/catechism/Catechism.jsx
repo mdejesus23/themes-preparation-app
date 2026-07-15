@@ -235,7 +235,7 @@ function Catechism() {
                       className="flex items-center justify-between gap-4 border-b border-borderColor pb-2"
                     >
                       <button
-                        className="text-left text-textSecondary hover:text-blue-600 dark:hover:text-blue-400"
+                        className="text-left text-textSecondary hover:text-green"
                         onClick={() => goToBookmark(bookmark.cfi)}
                       >
                         {bookmark.name}
@@ -274,7 +274,7 @@ function Catechism() {
               <li key={index}>
                 <button
                   onClick={() => goToChapter(item.href)}
-                  className="w-full rounded-md px-3 py-2 text-left text-sm text-blue-600 transition-colors hover:bg-bgPrimary dark:text-blue-400"
+                  className="w-full rounded-md px-3 py-2 text-left text-sm text-green transition-colors hover:bg-bgPrimary"
                 >
                   {item.label}
                 </button>
@@ -295,7 +295,7 @@ function Catechism() {
               <li key={index}>
                 <button
                   onClick={() => goToChapter(item.href)}
-                  className="w-full rounded-md px-3 py-2 text-left text-sm text-blue-600 transition-colors hover:bg-bgPrimary dark:text-blue-400"
+                  className="w-full rounded-md px-3 py-2 text-left text-sm text-green transition-colors hover:bg-bgPrimary"
                 >
                   {item.label}
                 </button>

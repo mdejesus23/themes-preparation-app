@@ -4,9 +4,14 @@ import UserSettings from '../features/user/UserSettings';
 function User() {
   return (
     <>
-      <h1 className="font-headfont text-3xl font-bold md:text-4xl">
-        Account Settings
-      </h1>
+      <div className="mb-6">
+        <h1 className="font-headfont text-2xl font-bold text-textPrimary md:text-3xl">
+          Account Settings
+        </h1>
+        <p className="mt-1 text-sm text-textSecondary">
+          Manage your profile and security.
+        </p>
+      </div>
       <UserSettings />
       <UpdateUserDataForm />
     </>

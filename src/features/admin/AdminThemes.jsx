@@ -31,22 +31,29 @@ function AdminThemes() {
 
   return (
     <>
-      <Modal>
-        <Modal.Open opens="create-theme-form">
-          <button className="mt-8 flex items-center gap-1 rounded-md bg-yellow px-5 py-2 text-lg font-semibold text-white hover:text-dark hover:underline">
-            <HiDocumentPlus size={20} /> Add Theme
-          </button>
-        </Modal.Open>
+      <div className="mb-6 mt-4 flex justify-end">
+        <Modal>
+          <Modal.Open opens="create-theme-form">
+            <button className="flex items-center gap-2 rounded-lg bg-green px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-lightGreen">
+              <HiDocumentPlus size={18} /> Add Theme
+            </button>
+          </Modal.Open>
 
-        <Modal.Window name="create-theme-form">
-          <AddThemeForm />
-        </Modal.Window>
-      </Modal>
+          <Modal.Window name="create-theme-form">
+            <AddThemeForm />
+          </Modal.Window>
+        </Modal>
+      </div>
       {paginatedThemes.length === 0 ? (
-        <h2 className="mt-10 text-xl font-bold">No Themes Yet!</h2>
+        <div className="rounded-2xl border border-borderColor bg-bgPrimary p-10 text-center">
+          <h2 className="text-lg font-bold text-textPrimary">No Themes Yet!</h2>
+          <p className="mt-1 text-sm text-textSecondary">
+            Click &ldquo;Add Theme&rdquo; to create your first one.
+          </p>
+        </div>
       ) : (
         <>
-          <ul className="my-12 grid w-full grid-cols-1 gap-12 sm:grid-cols-2 xl:grid-cols-3">
+          <ul className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {paginatedThemes.map((theme, ind) => (
               <AdminThemeItem theme={theme} key={ind} />
             ))}

@@ -129,7 +129,7 @@ function BibleWidget() {
           zIndex: 9999,
           touchAction: 'none',
         }}
-        className="flex h-14 w-14 cursor-grab items-center justify-center rounded-full bg-yellow text-2xl text-dark shadow-lg transition-shadow hover:shadow-xl active:cursor-grabbing"
+        className="flex h-14 w-14 cursor-grab items-center justify-center rounded-full bg-green text-2xl text-white shadow-lg transition-shadow hover:shadow-xl active:cursor-grabbing"
         aria-label="Open Bible lookup"
       >
         <HiBookOpen />
@@ -142,13 +142,13 @@ function BibleWidget() {
           className="flex flex-col overflow-hidden rounded-lg border border-borderColor bg-bgPrimary shadow-2xl transition-colors duration-300"
         >
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-borderColor bg-yellow px-4 py-3">
-            <h3 className="font-headfont text-sm font-bold text-dark">
+          <div className="flex items-center justify-between border-b border-borderColor bg-green px-4 py-3">
+            <h3 className="font-headfont text-sm font-bold text-white">
               Bible Lookup
             </h3>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-lg text-dark hover:text-neutral-600"
+              className="text-lg text-white hover:text-white/80"
               aria-label="Close Bible lookup"
             >
               <HiXMark />
@@ -209,7 +209,7 @@ function BibleWidget() {
             <button
               type="submit"
               disabled={isPending || !verse.trim()}
-              className="rounded-md bg-yellow px-4 py-2 text-sm font-semibold text-dark transition-colors hover:bg-lightYellow disabled:opacity-50"
+              className="rounded-md bg-green px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-lightGreen disabled:opacity-50"
             >
               Go
             </button>

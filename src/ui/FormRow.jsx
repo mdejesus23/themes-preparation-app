@@ -4,7 +4,7 @@ function FormRow({ label, error, children, name }) {
       {label && (
         <label
           htmlFor={name}
-          className="font-bodyfont mb-2 block text-textPrimary"
+          className="font-bodyFont mb-2 block text-sm font-medium text-textPrimary"
         >
           {label}
         </label>

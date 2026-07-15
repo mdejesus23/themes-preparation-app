@@ -19,13 +19,15 @@ function AdminCatogirzeReadings({ themeId, readings }) {
       {readings.map((reading) => (
         <li
           key={reading._id}
-          className="mt-4 flex w-full items-center justify-between gap-x-1 rounded-xl border p-2"
+          className="mt-3 flex w-full items-center justify-between gap-x-1 rounded-xl border border-borderColor bg-bgPrimary p-3"
         >
-          <p className="font-bodyFont font-semibold">{reading.reading}</p>
+          <p className="font-bodyFont font-semibold text-textPrimary">
+            {reading.reading}
+          </p>
           <div className="flex items-center gap-x-2">
             <Modal>
               <Modal.Open opens="delete-reading">
-                <Button type="danger">
+                <Button design="danger">
                   <HiTrash />
                 </Button>
               </Modal.Open>

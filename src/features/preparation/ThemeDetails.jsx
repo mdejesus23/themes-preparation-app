@@ -1,30 +1,19 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { formatDate } from '../../utils/formatDate';
-import Button from '../../ui/Button';
-import CategorizeReadings from './CategorizeReadings';
+import { themeMeta } from '../../utils/placeholderImage';
+import ThemeReading from './ThemeReading';
 import CategoryMenu from '../../ui/CategoryMenu';
 import useThemeStore from '../../store/themeStore';
-import { HiMiniArrowDownTray, HiMagnifyingGlass } from 'react-icons/hi2';
+import {
+  HiMiniArrowDownTray,
+  HiOutlineArrowSmallRight,
+  HiCheck,
+} from 'react-icons/hi2';
 import Papa from 'papaparse';
-import { HiOutlineArrowSmallRight } from 'react-icons/hi2';
-import Modal from '../../ui/Modal';
-import { useBibleReading } from './useBibleReadings';
-import Loader from '../../ui/Loader';
 
 function ThemeDetails() {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
-  const [isAllReadingsIsDone, setIsAllReadingsIsDone] = useState(false);
-  const [searchVerse, setSearchVerse] = useState('');
-  const [submittedVerse, setSubmittedVerse] = useState('');
-
-  // Only fetch when submittedVerse is set
-  const {
-    isPending: isSearching,
-    data: verseData,
-    error: searchError,
-  } = useBibleReading(submittedVerse || undefined);
   const navigate = useNavigate();
   const { themeId } = useParams();
   const themeWithReadings = useThemeStore((state) => state.themeWithReadings);
@@ -32,14 +21,12 @@ function ThemeDetails() {
     (state) => state.markAllReadingsDone,
   );
   const { readings, title, createdAt, _id: id } = themeWithReadings;
-  // console.log('themeWithReadings', themeWithReadings);
+  const meta = themeMeta(id || title);
 
-  useEffect(() => {
-    // Check if all readings are done
-    const allDone = readings.every((reading) => reading.isDone);
-
-    setIsAllReadingsIsDone(allDone);
-  }, [readings]); // Dependency array to run whenever 'readings' changes
+  const doneCount = readings.filter((r) => r.isDone).length;
+  const total = readings.length;
+  const isAllReadingsIsDone = total > 0 && doneCount === total;
+  const progressPct = total ? Math.round((doneCount / total) * 100) : 0;
 
   useEffect(() => {
     if (themeId !== id) {
@@ -47,29 +34,16 @@ function ThemeDetails() {
     }
   }, [themeId, id, navigate]);
 
-  const historical = readings.filter(
-    (reading) => reading.category === 'Historical',
-  );
-
-  const prophetical = readings.filter(
-    (reading) => reading.category === 'Prophetical',
-  );
-  const epistle = readings.filter((reading) => reading.category === 'Epistle');
-  const gospel = readings.filter((reading) => reading.category === 'Gospel');
-
-  const showAllReadings = isCategoryShow === 'all';
-  const showHistoricalReadings = isCategoryShow === 'historical';
-  const showPropheticalReadings = isCategoryShow === 'prophetical';
-  const showEpistleReadings = isCategoryShow === 'epistle';
-  const showGospelReadings = isCategoryShow === 'gospel';
+  const filtered =
+    isCategoryShow === 'all'
+      ? readings
+      : readings.filter((r) => r.category.toLowerCase() === isCategoryShow);
 
   const handleCsvExport = () => {
-    // Restructure the data
     const categories = ['Historical', 'Prophetical', 'Epistle', 'Gospel'];
     const structuredData = [];
-
-    // Find the maximum number of readings in any category
     const maxRows = Math.max(
+      0,
       ...categories.map(
         (cat) => readings.filter((r) => r.category === cat).length,
       ),
@@ -85,12 +59,10 @@ function ThemeDetails() {
       });
       structuredData.push(row);
     }
-    // console.log('structuredData', structuredData);
     const csv = Papa.unparse(structuredData);
-    const blog = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
-    const url = URL.createObjectURL(blog);
-
+    const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     link.setAttribute('download', `${title}.csv`);
     link.style.visibility = 'hidden';
@@ -100,60 +72,127 @@ function ThemeDetails() {
   };
 
   return (
-    <>
-      <div className="w-full">
-        <h1 className="text-center font-headfont text-3xl font-bold text-textPrimary md:text-4xl">
-          {title}
-        </h1>
-
-        <p className="text-center text-xs text-textSecondary">
-          {formatDate(createdAt)}
-        </p>
-        <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
-        <div className="mt-5 flex justify-center gap-2">
-          <Button onClick={markAllReadingsDone} design="secondary">
-            Mark All Done
-          </Button>
-          <Button design="secondary" onClick={handleCsvExport}>
-            Export
-            <HiMiniArrowDownTray />
-          </Button>
-
-          <div
-            className={`${isAllReadingsIsDone === false ? 'hidden' : 'flex'}`}
-          >
-            <Button
-              to={`reading-votes`}
-              design="secondary"
-              disabled={!isAllReadingsIsDone}
-            >
-              <HiOutlineArrowSmallRight />
-            </Button>
+    <div className="w-full">
+      {/* Header */}
+      <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="font-headfont text-2xl font-bold text-textPrimary md:text-3xl">
+            {title}
+          </h1>
+          <p className="mt-1 text-sm text-textSecondary">
+            {formatDate(createdAt)} &middot; {meta.year} &middot; {meta.color}
+          </p>
+        </div>
+        <div className="min-w-[180px]">
+          <div className="mb-1 flex items-center justify-between text-xs font-medium text-textSecondary">
+            <span>Readings Progress</span>
+            <span>
+              {doneCount} / {total}
+            </span>
+          </div>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-progressTrack">
+            <div
+              className="h-full rounded-full bg-progressFill transition-all"
+              style={{ width: `${progressPct}%` }}
+            />
           </div>
         </div>
+      </div>
 
-        <div className="my-11 grid w-full border-spacing-1 grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {showAllReadings && (
-            <>
-              {' '}
-              <CategorizeReadings readings={historical} />
-              <CategorizeReadings readings={prophetical} />
-              <CategorizeReadings readings={epistle} />
-              <CategorizeReadings readings={gospel} />
-            </>
-          )}
+      {/* Tabs */}
+      <CategoryMenu
+        setIsCategoryShow={setIsCategoryShow}
+        active={isCategoryShow}
+      />
 
-          {showHistoricalReadings && (
-            <CategorizeReadings readings={historical} />
-          )}
-          {showPropheticalReadings && (
-            <CategorizeReadings readings={prophetical} />
-          )}
-          {showEpistleReadings && <CategorizeReadings readings={epistle} />}
-          {showGospelReadings && <CategorizeReadings readings={gospel} />}
+      {/* Mobile: stacked cards */}
+      <div className="mt-5 sm:hidden">
+        {filtered.length > 0 ? (
+          <ul className="flex flex-col gap-3">
+            {filtered.map((reading) => (
+              <ThemeReading key={reading._id} reading={reading} variant="card" />
+            ))}
+          </ul>
+        ) : (
+          <p className="rounded-2xl border border-borderColor bg-bgPrimary py-10 text-center text-textSecondary">
+            No readings in this category.
+          </p>
+        )}
+      </div>
+
+      {/* Desktop: table */}
+      <div className="mt-5 hidden overflow-hidden rounded-2xl border border-borderColor bg-bgPrimary shadow-sm sm:block">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[560px] border-collapse text-sm">
+            <thead>
+              <tr className="border-b border-borderColor bg-bgSecondary text-left text-xs font-semibold uppercase tracking-wide text-textSecondary">
+                <th className="py-3 pl-4 pr-3 font-semibold">Reading</th>
+                <th className="hidden px-3 py-3 font-semibold sm:table-cell">
+                  Reference
+                </th>
+                <th className="px-3 py-3 font-semibold">Category</th>
+                <th className="px-3 py-3 font-semibold">Status</th>
+                <th className="py-3 pl-3 pr-4 text-right font-semibold">Vote</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.length > 0 ? (
+                filtered.map((reading) => (
+                  <ThemeReading key={reading._id} reading={reading} />
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="py-10 text-center text-textSecondary"
+                  >
+                    No readings in this category.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
-    </>
+
+      {/* Actions */}
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <button
+          onClick={markAllReadingsDone}
+          className="flex w-full items-center justify-center gap-2 rounded-lg border border-borderColor bg-bgPrimary px-4 py-2.5 text-sm font-semibold text-textPrimary transition-colors hover:bg-bgSecondary sm:w-auto sm:justify-start"
+        >
+          <HiCheck size={18} /> Mark All Done
+        </button>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <button
+            onClick={handleCsvExport}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-borderColor bg-bgPrimary px-4 py-2.5 text-sm font-semibold text-textPrimary transition-colors hover:bg-bgSecondary sm:w-auto"
+          >
+            <HiMiniArrowDownTray size={18} /> Export Readings (CSV)
+          </button>
+          {isAllReadingsIsDone ? (
+            <Link
+              to="reading-votes"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-green px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-lightGreen sm:w-auto"
+            >
+              Proceed to Reading Votes <HiOutlineArrowSmallRight size={18} />
+            </Link>
+          ) : (
+            <button
+              disabled
+              className="flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-green px-4 py-2.5 text-sm font-semibold text-white opacity-50 sm:w-auto"
+            >
+              Proceed to Reading Votes <HiOutlineArrowSmallRight size={18} />
+            </button>
+          )}
+        </div>
+      </div>
+      {!isAllReadingsIsDone && (
+        <p className="mt-2 text-right text-xs text-textSecondary">
+          Mark all readings done to proceed to voting.
+        </p>
+      )}
+    </div>
   );
 }
 

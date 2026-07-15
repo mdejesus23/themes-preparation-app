@@ -3,7 +3,7 @@ import colors from 'tailwindcss/colors';
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  darkMode: 'class', // Enable class-based dark mode
+  darkMode: false, // Light-only design
   theme: {
     extend: {},
     colors: {
@@ -20,11 +20,21 @@ export default {
       red: colors.red,
       blue: 'var(--custom-blue)',
       neutral: colors.neutral, // Used mainly for text color
-      // Header colors that don't change with theme
+      // Light shell (sidebar / header)
       headerBg: 'var(--header-bg)',
       headerText: 'var(--header-text)',
       headerGrey: 'var(--header-grey)',
-      // New theme-aware colors for content
+      sidebarActive: 'var(--sidebar-active-bg)',
+      sidebarActiveText: 'var(--sidebar-active-text)',
+      // Status badges
+      badgeGreenBg: 'var(--badge-green-bg)',
+      badgeGreenText: 'var(--badge-green-text)',
+      badgeAmberBg: 'var(--badge-amber-bg)',
+      badgeAmberText: 'var(--badge-amber-text)',
+      // Progress bar
+      progressTrack: 'var(--progress-track)',
+      progressFill: 'var(--progress-fill)',
+      // Surface tokens
       bgPrimary: 'var(--bg-primary)',
       bgSecondary: 'var(--bg-secondary)',
       textPrimary: 'var(--text-primary)',

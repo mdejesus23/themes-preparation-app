@@ -1,42 +1,71 @@
-import Button from '../../ui/Button';
+import { HiChevronRight } from 'react-icons/hi2';
+import { HiOutlineBookOpen, HiOutlineClipboardDocumentCheck } from 'react-icons/hi2';
 import { formatDate } from '../../utils/formatDate';
+import { themeImage, themeMeta } from '../../utils/placeholderImage';
 import Modal from '../../ui/Modal';
 import PasscodeForm from './PasscodeForm';
 
 function ThemeItem({ theme }) {
-  const { title, createdAt, description } = theme;
-  return (
-    <li className="flex transform cursor-pointer flex-col items-center gap-y-5 rounded-xl border border-borderColor bg-bgPrimary p-6 shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl">
-      <span>
-        <svg
-          className="current-fill fill-textPrimary"
-          width="4rem"
-          height="4rem"
-          version="1.1"
-          viewBox="0 0 128 128"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="m85.129 119.36 5.5352-4.1367c0.50391-0.37891 1.1992-0.37891 1.7031 0l5.5352 4.1367v-21.539h-12.773z" />
-          <path d="m100.75 97.816h11.031v12.449h-11.031z" />
-          <path d="m22.449 8.6445c-3.4336 0-6.2266 2.7969-6.2266 6.2266v3.9102c1.625-1.5391 3.8164-2.4883 6.2266-2.4883h89.324v-7.6445z" />
-          <path d="m31.82 84.379v-65.25h-9.3711c-3.4336 0-6.2266 2.7969-6.2266 6.2266v61.516c1.625-1.5391 3.8164-2.4883 6.2266-2.4883z" />
-          <path d="m16.227 93.449v4.0117c1.625-1.5391 3.8164-2.4883 6.2266-2.4883h89.324v-7.7461h-89.324c-3.4336 0-6.2266 2.7891-6.2266 6.2266z" />
-          <path d="m16.227 104.04c0 3.4336 2.7969 6.2266 6.2266 6.2266h59.836v-12.449h-59.836c-3.4336 0-6.2266 2.7891-6.2266 6.2266z" />
-          <path d="m66.891 58.086v11.969h5.3516v-11.969c0-0.78516 0.63672-1.4219 1.4219-1.4219h11.969v-5.3516h-11.969c-0.78516 0-1.4219-0.63672-1.4219-1.4219v-11.969h-5.3516v11.969c0 0.78516-0.63672 1.4219-1.4219 1.4219h-11.969v5.3516h11.969c0.78125-0.003906 1.4219 0.62891 1.4219 1.4219z" />
-          <path d="m34.664 84.379h77.109v-65.25h-77.109zm15.984-34.488c0-0.78516 0.63672-1.4219 1.4219-1.4219h11.969v-11.969c0-0.78516 0.63672-1.4219 1.4219-1.4219h8.1953c0.78516 0 1.4219 0.63672 1.4219 1.4219v11.969h11.969c0.78516 0 1.4219 0.63672 1.4219 1.4219v8.1953c0 0.78516-0.63672 1.4219-1.4219 1.4219h-11.969v11.969c0 0.78516-0.63672 1.4219-1.4219 1.4219h-8.1953c-0.78516 0-1.4219-0.63672-1.4219-1.4219v-11.969h-11.969c-0.78516 0-1.4219-0.63672-1.4219-1.4219z" />
-        </svg>
-      </span>
-      <h2 className="text-center font-headfont text-2xl font-semibold text-textPrimary">
-        {title}
-      </h2>
-      <p className="mt-[-1rem] text-xs text-textSecondary">
-        {formatDate(createdAt)}
-      </p>
-      <p className="font-bodyFont text-textPrimary">{description}</p>
+  const { title, createdAt, description, id, _id } = theme;
+  const key = id || _id || title;
+  const meta = themeMeta(key);
+  const badgeTone =
+    meta.status.tone === 'amber'
+      ? 'bg-badgeAmberBg text-badgeAmberText'
+      : 'bg-badgeGreenBg text-badgeGreenText';
 
+  return (
+    <li>
       <Modal>
         <Modal.Open opens="passcode-form">
-          <Button design="secondary">Use this theme</Button>
+          <article className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-borderColor bg-bgPrimary shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
+            {/* Image + status badge */}
+            <div className="relative h-40 w-full overflow-hidden">
+              <img
+                src={themeImage(key)}
+                alt={title}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <span
+                className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm ${badgeTone}`}
+              >
+                {meta.status.label}
+              </span>
+            </div>
+
+            {/* Body */}
+            <div className="flex flex-1 flex-col p-5">
+              <p className="text-xs font-medium text-textSecondary">
+                {formatDate(createdAt)}
+              </p>
+              <h3 className="mt-1 font-headfont text-lg font-bold text-textPrimary">
+                {title}
+              </h3>
+              <p className="mt-0.5 text-xs font-medium text-textSecondary">
+                {meta.year} &middot; {meta.color}
+              </p>
+              <p className="mt-3 line-clamp-2 flex-1 text-sm italic text-textSecondary">
+                &ldquo;{description}&rdquo;
+              </p>
+
+              {/* Footer meta */}
+              <div className="mt-4 flex items-center justify-between border-t border-borderColor pt-3 text-xs font-medium text-textSecondary">
+                <span className="flex items-center gap-3">
+                  <span className="flex items-center gap-1">
+                    <HiOutlineBookOpen size={15} /> {meta.readingsCount} Readings
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <HiOutlineClipboardDocumentCheck size={15} />{' '}
+                    {meta.resultsCount} Results
+                  </span>
+                </span>
+                <HiChevronRight
+                  size={18}
+                  className="text-textSecondary transition-transform group-hover:translate-x-0.5 group-hover:text-green"
+                />
+              </div>
+            </div>
+          </article>
         </Modal.Open>
 
         <Modal.Window name="passcode-form">

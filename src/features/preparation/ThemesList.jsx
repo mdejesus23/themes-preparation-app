@@ -40,13 +40,15 @@ function ThemesList() {
 
   return (
     <>
-      <ul className="my-12 grid h-full w-full grid-cols-1 gap-6 sm:grid-cols-2 md:mb-0 xl:grid-cols-3 xl:gap-12">
+      <ul className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {paginatedThemes && paginatedThemes.length > 0 ? (
           paginatedThemes.map((theme, ind) => (
             <ThemeItem theme={theme} key={ind} />
           ))
         ) : (
-          <li>No themes available.</li>
+          <li className="col-span-full rounded-2xl border border-borderColor bg-bgPrimary p-10 text-center text-textSecondary">
+            No themes available.
+          </li>
         )}
       </ul>
 

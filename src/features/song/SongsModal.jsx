@@ -23,7 +23,7 @@ function SongDetail({ songId, onBack }) {
       <div className="mb-4">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-blue-500 hover:underline"
+          className="flex items-center gap-2 text-green hover:underline"
         >
           <HiArrowLeft size={16} />
           Back to list
@@ -124,7 +124,7 @@ function SongsModal() {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Search title..."
-            className="w-full rounded-sm border border-grey bg-lightGrey px-4 py-2 text-dark focus:outline-none focus:ring-2 focus:ring-yellow"
+            className="w-full rounded-lg border border-borderColor bg-bgPrimary px-4 py-2 text-textPrimary placeholder:text-textSecondary focus:border-green focus:outline-none focus:ring-1 focus:ring-green"
           />
 
           <button
@@ -147,7 +147,7 @@ function SongsModal() {
         <select
           value={category}
           onChange={(e) => handleChangeCategory(e.target.value)}
-          className="w-full rounded border border-grey bg-lightGrey px-4 py-2 text-dark focus:outline-none focus:ring-2 focus:ring-yellow"
+          className="w-full rounded-lg border border-borderColor bg-bgPrimary px-4 py-2 text-textPrimary focus:border-green focus:outline-none focus:ring-1 focus:ring-green"
         >
           <option value="">All Categories</option>
           <option value="pre-catechumenate">Pre-catechumenate</option>
@@ -166,7 +166,7 @@ function SongsModal() {
               className="grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b pb-3 last:border-b-0"
             >
               {/* Song Number */}
-              <span className="text-gray-400 w-6 text-right text-sm">
+              <span className="text-textSecondary w-6 text-right text-sm">
                 #{(page - 1) * SONGS_PER_PAGE + index + 1}
               </span>
 
@@ -174,19 +174,19 @@ function SongsModal() {
               <button
                 type="button"
                 onClick={() => handleSongClick(song._id)}
-                className="truncate text-left text-base font-medium text-yellow hover:underline"
+                className="truncate text-left text-base font-medium text-green hover:underline"
               >
                 {song.title}
               </button>
 
               {/* Category */}
-              <span className="text-gray-600 truncate text-right text-sm">
+              <span className="text-textSecondary truncate text-right text-sm">
                 {song.category}
               </span>
             </div>
           ))
         ) : (
-          <div className="text-gray-500 text-center">No songs found.</div>
+          <div className="text-textSecondary text-center">No songs found.</div>
         )}
       </div>
 
@@ -194,7 +194,7 @@ function SongsModal() {
         <button
           onClick={() => handlePageChange(Math.max(page - 1, 1))}
           disabled={page === 1}
-          className="bg-gray-200 rounded px-4 py-2 disabled:opacity-50"
+          className="bg-bgSecondary border border-borderColor text-textPrimary rounded px-4 py-2 disabled:opacity-50"
         >
           Prev
         </button>
@@ -204,7 +204,7 @@ function SongsModal() {
         <button
           onClick={() => handlePageChange(Math.min(page + 1, totalPages))}
           disabled={page === totalPages}
-          className="bg-gray-200 rounded px-4 py-2 disabled:opacity-50"
+          className="bg-bgSecondary border border-borderColor text-textPrimary rounded px-4 py-2 disabled:opacity-50"
         >
           Next
         </button>

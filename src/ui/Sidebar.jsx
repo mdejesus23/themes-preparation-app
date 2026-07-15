@@ -1,18 +1,19 @@
 import MainNav from './MainNav';
-// import useUserStore from '../../store/userStore';
-import ThemeToggle from './ThemeToggle';
+import Logo from './Logo';
+import UserMenu from './UserMenu';
 
 function Sidebar() {
   return (
-    <aside className="sticky top-0 hidden min-h-screen w-52 flex-col bg-headerBg md:flex lg:w-72">
-      <div className="flex w-full items-center justify-center gap-x-4 bg-headerGrey p-4">
-        <img className="w-14 lg:w-16" src="/bibleLogo.png" alt="logo" />
-        <span className="font-headfont text-xl font-semibold text-headerText lg:text-2xl">
-          Prep App
-        </span>
-        <ThemeToggle />
+    <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-borderColor bg-headerBg md:flex lg:w-72">
+      <div className="flex items-center border-b border-borderColor px-5 py-4">
+        <Logo />
       </div>
+
       <MainNav />
+
+      <div className="border-t border-borderColor p-3">
+        <UserMenu variant="card" />
+      </div>
     </aside>
   );
 }

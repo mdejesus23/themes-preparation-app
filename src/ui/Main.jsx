@@ -1,11 +1,16 @@
 function Main({ type, children }) {
-  // const styles = {
-  //   primary:
-  //     'flex-1 h-screen overflow-y-auto px-2 lg:px-12 py-8 lg:py-12 min-h-screen w-full flex flex-col items-center',
-  //   secondary: '',
-  // };
+  // "primary" = left-aligned dashboard content (inside AppLayout, next to the
+  // sidebar). Anything else = centered column (public / auth shell).
+  if (type === 'primary') {
+    return (
+      <main className="page-surface relative min-h-screen w-full flex-1 px-4 pb-24 pt-6 text-textPrimary md:px-8 md:pb-12 md:pt-8">
+        <div className="mx-auto w-full max-w-6xl">{children}</div>
+      </main>
+    );
+  }
+
   return (
-    <main className="relative flex h-full min-h-screen w-full flex-1 flex-col items-center overflow-y-auto bg-bgPrimary px-4 py-8 text-textPrimary transition-colors duration-300 lg:px-12 lg:py-12">
+    <main className="page-surface relative flex min-h-screen w-full flex-1 flex-col items-center px-4 py-8 text-textPrimary lg:px-12 lg:py-12">
       {children}
     </main>
   );

@@ -4,55 +4,61 @@
 
 @layer base {
   :root {
-    --custom-dark: #1c252c;
-    --custom-yellow: #ffa05c;
-    --custom-light-yellow: #fcb37e;
+    /* ===== Brand palette — warm cream + liturgical green + gold ===== */
+    --custom-dark: #2b2b2b; /* deep slate (headings, dark buttons) */
+    --custom-yellow: #c9a227; /* gold accent — logo mark, badges */
+    --custom-light-yellow: #b8912015; /* soft gold tint */
     --custom-white: #ffffff;
-    --custom-grey: #494f55;
-    --custom-light-grey: #f6f8f9;
-    --custom-backdrop: rgba(0, 0, 0, 0.5);
-    --custom-green: #13954c;
-    --custom-light-green: #5bcd7f;
+    --custom-grey: #6b7280;
+    --custom-light-grey: #f2ede1;
+    --custom-backdrop: rgba(43, 43, 43, 0.45);
+    --custom-green: #4a8055; /* primary action green */
+    --custom-light-green: #3c6b46; /* green hover (darker) */
     --custom-red: #c7342a;
-    --custom-blue: #5FDDFF;
+    --custom-blue: #4a8055;
 
-    /* Header colors - stay the same in both modes */
-    --header-bg: #1c252c;
-    --header-text: #ffffff;
-    --header-grey: #494f55;
+    /* ===== Light shell — sidebar & header are now light ===== */
+    --header-bg: #ffffff;
+    --header-text: #2b2b2b;
+    --header-grey: #faf8f2;
 
-    /* Light mode backgrounds and text */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f6f8f9;
-    --text-primary: #1c252c;
-    --text-secondary: #494f55;
-    --border-color: #e5e7eb;
-  }
+    /* Sidebar active / hover tints */
+    --sidebar-active-bg: #eef4ee;
+    --sidebar-active-text: #3c6b46;
 
-  .dark {
-    /* Keep header colors the same */
-    --header-bg: #1c252c;
-    --header-text: #ffffff;
-    --header-grey: #494f55;
+    /* Status badge tints */
+    --badge-green-bg: #e6f0e8;
+    --badge-green-text: #3c6b46;
+    --badge-amber-bg: #f6ecd2;
+    --badge-amber-text: #a07d14;
 
-    /* Dark mode backgrounds and text for content areas */
-    --bg-primary: #1a202c;
-    --bg-secondary: #2d3748;
-    --text-primary: #f7fafc;
-    --text-secondary: #e2e8f0;
-    --border-color: #4a5568;
+    /* Progress bar */
+    --progress-track: #ece7db;
+    --progress-fill: #4a8055;
+
+    /* ===== Surfaces — cream page, white cards, slate text ===== */
+    --bg-primary: #ffffff; /* cards, forms, inputs */
+    --bg-secondary: #f7f4ec; /* page background (warm cream) */
+    --text-primary: #2b2b2b;
+    --text-secondary: #6b7280;
+    --border-color: #ece7db;
   }
 }
-@layer components {
-  /* .input {
-    @apply border-stone-200 placeholder:text-stone-400 focus:ring-yellow-400 rounded-full border px-4 py-2 text-sm transition-all duration-300 focus:outline-none focus:ring md:px-6 md:py-3;
-  } */
 
+/* Warm parchment texture for cream page backgrounds */
+.page-surface {
+  background-color: var(--bg-secondary);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(43, 43, 43, 0.03) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+@layer components {
   /* https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
   .loader {
     width: 45px;
     aspect-ratio: 0.75;
-    --c: no-repeat linear-gradient(var(--text-primary) 0 0);
+    --c: no-repeat linear-gradient(var(--custom-green) 0 0);
     background:
       var(--c) 0% 50%,
       var(--c) 50% 50%,
@@ -89,7 +95,7 @@
   }
 }
 
-/* Office of Readings HTML content styles */
+/* Reading / Catechism HTML content styles */
 .reading-content {
   font-family: Georgia, serif;
   font-size: 18px;
@@ -125,16 +131,16 @@
 }
 
 .styled-modal::-webkit-scrollbar {
-  width: 6px; /* Set the width of the scrollbar */
+  width: 6px;
 }
 .styled-modal::-webkit-scrollbar-track {
-  background: var(--bg-secondary); /* Background of the scrollbar track */
+  background: var(--bg-secondary);
   border-radius: 10px;
 }
 .styled-modal::-webkit-scrollbar-thumb {
-  background: var(--border-color); /* Color of the scrollbar thumb */
-  border-radius: 10px; /* Rounded corners for the thumb */
+  background: var(--border-color);
+  border-radius: 10px;
 }
 .styled-modal::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary); /* Change thumb color on hover */
+  background: var(--text-secondary);
 }

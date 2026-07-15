@@ -44,7 +44,7 @@ function AddBookmarkForm({
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <h2 className="text-gray-700 text-lg font-semibold">Add Bookmark</h2>
+      <h2 className="text-textPrimary text-lg font-semibold">Add Bookmark</h2>
 
       <input
         ref={inputRef}
@@ -57,7 +57,7 @@ function AddBookmarkForm({
         }}
         onChange={changeHandler}
         value={bookmarksName}
-        className="border-gray-300 rounded border p-2 text-neutral-800"
+        className="border-borderColor rounded border p-2 text-neutral-800"
       />
 
       {bookmarksError && (

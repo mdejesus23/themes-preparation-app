@@ -4,41 +4,42 @@ import bibleVerses from '../data/bibleVerses';
 import { HiArrowPath } from 'react-icons/hi2';
 
 function Signup() {
-  // State to manage the current Bible verse
   const [currentVerse, setCurrentVerse] = useState(
     bibleVerses[Math.floor(Math.random() * bibleVerses.length)],
   );
 
-  // Function to get a new random verse
   const handleNewVerse = () => {
-    const newVerse =
-      bibleVerses[Math.floor(Math.random() * bibleVerses.length)];
-    setCurrentVerse(newVerse);
+    setCurrentVerse(
+      bibleVerses[Math.floor(Math.random() * bibleVerses.length)],
+    );
   };
 
   return (
-    <div className="mx-auto flex w-full flex-col items-center justify-center">
-      <img
-        className="mx-auto max-w-56 object-cover"
-        src="/bibleLogo.png"
-        alt="banner"
-      />
+    <div className="mx-auto flex w-full max-w-5xl flex-col items-stretch gap-8 py-6 md:flex-row">
+      {/* Verse / image panel */}
+      <aside className="relative flex min-h-[220px] w-full flex-col justify-end overflow-hidden rounded-2xl border border-borderColor shadow-sm md:w-1/2">
+        <img
+          src="/placeholders/basilica.svg"
+          alt="Basilica"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-black/10" />
+        <div className="relative p-8 text-white">
+          <p className="mb-2 text-lg font-semibold">{currentVerse.reference}</p>
+          <p className="text-sm italic opacity-90">{currentVerse.text}</p>
+          <button
+            onClick={handleNewVerse}
+            className="mt-4 flex items-center gap-2 rounded-lg bg-white/15 px-3 py-1.5 text-sm backdrop-blur transition-colors hover:bg-white/25"
+          >
+            <HiArrowPath size={16} /> Change verse
+          </button>
+        </div>
+      </aside>
 
-      {/* Display the current Bible verse */}
-      <div className="my-4 text-center">
-        <p className="text-lg font-semibold text-textPrimary">
-          {currentVerse.reference}
-        </p>
-        <p className="text-sm italic text-textSecondary">{currentVerse.text}</p>
-        <button
-          onClick={handleNewVerse}
-          className="mt-4 rounded px-4 py-2 text-textPrimary transition-colors hover:text-yellow"
-        >
-          <HiArrowPath size={20} />
-        </button>
+      {/* Form panel */}
+      <div className="flex w-full items-center justify-center md:w-1/2">
+        <SignupForm />
       </div>
-
-      <SignupForm />
     </div>
   );
 }

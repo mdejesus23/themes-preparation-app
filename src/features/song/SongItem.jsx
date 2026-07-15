@@ -1,7 +1,7 @@
 import { useSong } from './useSong';
 import Loader from '../../ui/Loader';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { HiArrowSmallLeft } from 'react-icons/hi2';
 
 function SongItem() {
   const { songId } = useParams();
@@ -20,23 +20,25 @@ function SongItem() {
   const song = data?.data;
 
   return (
-    <div>
+    <div className="w-full">
       <div className="mb-4">
         <button
           onClick={() => navigate(-1)}
-          className="text-blue-500 hover:underline"
+          className="flex items-center gap-1 rounded-lg border border-borderColor bg-bgPrimary px-3 py-2 text-sm font-medium text-textPrimary transition-colors hover:bg-bgSecondary"
         >
-          Go Back
+          <HiArrowSmallLeft size={18} /> Go Back
         </button>
       </div>
       {song ? (
-        <div className="flex flex-col items-center justify-center">
-          <h2 className="mb-4 text-center text-2xl font-bold text-textPrimary">{song.title}</h2>
+        <div className="mx-auto max-w-2xl overflow-hidden rounded-2xl border border-borderColor bg-bgPrimary shadow-sm">
           <img
             src={song.imageUrl}
             alt={song.title}
-            className="mb-4 w-full rounded-lg"
+            className="max-h-[70vh] w-full object-contain"
           />
+          <h2 className="p-5 text-center font-headfont text-xl font-bold text-textPrimary">
+            {song.title}
+          </h2>
         </div>
       ) : (
         <div className="text-textPrimary">No song found.</div>

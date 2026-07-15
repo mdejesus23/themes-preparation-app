@@ -75,9 +75,9 @@ function UserSettings() {
   const votedReadings = user.votedReadings || [];
 
   return (
-    <div className="container mx-auto mt-10 flex w-full flex-col items-center">
+    <div className="mx-auto flex w-full flex-col items-center">
       {/* Header Section */}
-      <div className="mx-auto my-14 w-full rounded-lg border border-borderColor bg-bgSecondary p-6 shadow-lg sm:w-4/5 md:w-[70%] lg:w-[50%] xl:w-[40%]">
+      <div className="mx-auto mb-6 w-full max-w-lg rounded-2xl border border-borderColor bg-bgPrimary p-6 shadow-sm">
         <h2 className="mb-6 text-center text-2xl font-semibold text-textPrimary">
           Welcome, {user.username}!
         </h2>
@@ -133,7 +133,7 @@ function UserSettings() {
       </div>
 
       {/* Voted Readings Section */}
-      <div className="mx-auto my-14 w-full rounded-lg border border-borderColor bg-bgSecondary p-6 shadow-lg sm:w-4/5 md:w-[70%] lg:w-[50%] xl:w-[40%]">
+      <div className="mx-auto mb-6 w-full max-w-lg rounded-2xl border border-borderColor bg-bgPrimary p-6 shadow-sm">
         <h3 className="text-lg font-medium text-textPrimary">
           Your Voted Readings
         </h3>
@@ -143,7 +143,7 @@ function UserSettings() {
             <div className="mt-4">
               <Modal>
                 <Modal.Open opens="reset-votes">
-                  <button className="rounded bg-red-800 px-4 py-2 text-white shadow-md transition hover:bg-red-600">
+                  <button className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700">
                     Reset My Reading Votes
                   </button>
                 </Modal.Open>

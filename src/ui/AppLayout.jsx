@@ -1,26 +1,26 @@
 import { Outlet } from 'react-router-dom';
 import Main from './Main';
-import Logout from '../features/authentication/Logout';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
+import MobileNav from './MobileNav';
 import ScrollToTopButton from './ScrollTotop';
 import BibleWidget from './BibleWidget';
 
 function AppLayout() {
   return (
-    <div className="bg-bgPrimary transition-colors duration-300">
-      <Header />
-      <div className="min-h-screens flex h-full w-full md:mb-0">
-        <Sidebar />
+    <div className="flex min-h-screen bg-bgSecondary">
+      <Sidebar />
+      <div className="flex min-w-0 flex-1 flex-col">
+        <Header />
         <Main type="primary">
-          <Logout />
           <Outlet />
           <Footer />
         </Main>
-        <ScrollToTopButton />
-        <BibleWidget />
       </div>
+      <MobileNav />
+      <ScrollToTopButton />
+      <BibleWidget />
     </div>
   );
 }
