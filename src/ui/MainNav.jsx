@@ -1,116 +1,40 @@
 import { NavLink } from 'react-router-dom';
-import { FaRegUser } from 'react-icons/fa';
-import Logout from '../features/authentication/Logout';
-import { MdLibraryMusic } from 'react-icons/md';
-import { MdMenuBook } from 'react-icons/md';
-import { MdListAlt } from 'react-icons/md';
-import { MdFormatListBulleted } from 'react-icons/md';
-import { MdLibraryBooks } from 'react-icons/md';
+import { navGroups } from './navConfig';
 
-function MainNav() {
+function MainNav({ onNavigate }) {
   return (
-    <nav>
-      <ul className="flex w-full flex-col items-center text-headerText">
-        <li className="w-full">
-          <NavLink
-            to="/themes"
-            className={({ isActive }) =>
-              `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdListAlt size={28} />
-            All themes
-          </NavLink>
-        </li>
-        <li className="w-full">
-          <NavLink
-            to="/admin-themes"
-            className={({ isActive }) =>
-              `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdListAlt size={28} />
-            My themes
-          </NavLink>
-        </li>
-        <li className="w-full">
-          <NavLink
-            to="/admin-results"
-            className={({ isActive }) =>
-              `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdFormatListBulleted size={28} />
-            My results
-          </NavLink>
-        </li>
-
-        <li className="w-full">
-          <NavLink
-            to="/songs"
-            className={({ isActive }) =>
-              `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdLibraryMusic size={28} />
-            Song Book
-          </NavLink>
-        </li>
-
-        <li className="w-full">
-          <NavLink
-            to="/liturgy-of-the-hours"
-            className={({ isActive }) =>
-              `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdMenuBook size={28} />
-            Liturgy of the Hours
-          </NavLink>
-        </li>
-
-        <li className="w-full">
-          <NavLink
-            to="/catechism-of-the-catholic-church/68b45c9e3d17dcca0c489c85"
-            className={({ isActive }) =>
-              `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdLibraryBooks size={32} />
-            CCC
-          </NavLink>
-        </li>
-
-        <li className="w-full">
-          <NavLink
-            to="/admin-user"
-            className={({ isActive }) =>
-              `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <FaRegUser size={28} />
-            <span>User Settings</span>
-          </NavLink>
-        </li>
-
-        <span className="inline md:hidden">
-          <Logout />
-        </span>
-      </ul>
+    <nav className="flex-1 overflow-y-auto px-3 py-4">
+      {navGroups.map((group) => (
+        <div key={group.label} className="mb-5 last:mb-0">
+          <p className="px-3 pb-1.5 text-[0.7rem] font-semibold uppercase tracking-wider text-textSecondary/70">
+            {group.label}
+          </p>
+          <ul className="flex flex-col gap-0.5">
+            {group.items.map((item) => {
+              const Icon = item.icon;
+              return (
+                <li key={item.label}>
+                  <NavLink
+                    to={item.to}
+                    end={item.end}
+                    onClick={onNavigate}
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                        isActive
+                          ? 'bg-sidebarActive text-sidebarActiveText'
+                          : 'text-textSecondary hover:bg-bgSecondary hover:text-textPrimary'
+                      }`
+                    }
+                  >
+                    <Icon size={19} className="shrink-0" />
+                    <span className="truncate">{item.label}</span>
+                  </NavLink>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
     </nav>
   );
 }

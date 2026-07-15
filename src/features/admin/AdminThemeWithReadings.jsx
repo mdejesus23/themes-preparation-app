@@ -51,13 +51,16 @@ function AdminThemeWithReadings() {
 
   return (
     <div className="w-full">
-      <h1 className="text-center font-headfont text-3xl font-bold md:text-4xl">
+      <h1 className="font-headfont text-2xl font-bold text-textPrimary md:text-3xl">
         {myThemesWithReadings.title}
       </h1>
-      <p className="text-center text-xs text-grey">
+      <p className="mb-5 mt-1 text-sm text-textSecondary">
         {formatDate(myThemesWithReadings.createdAt)}
       </p>
-      <CategoryMenu setIsCategoryShow={setIsCategoryShow} />
+      <CategoryMenu
+        setIsCategoryShow={setIsCategoryShow}
+        active={isCategoryShow}
+      />
 
       <div className="my-10 flex items-center justify-center">
         <Modal>

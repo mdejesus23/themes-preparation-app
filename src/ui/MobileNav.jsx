@@ -1,129 +1,81 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaRegUser } from 'react-icons/fa';
-import Logout from '../features/authentication/Logout';
-import { MdLibraryMusic } from 'react-icons/md';
-import { MdMenuBook } from 'react-icons/md';
-import { MdListAlt } from 'react-icons/md';
-import { MdFormatListBulleted } from 'react-icons/md';
-import { MdLibraryBooks } from 'react-icons/md';
+import {
+  HiOutlineSquares2X2,
+  HiOutlineChartBar,
+  HiOutlineMusicalNote,
+  HiOutlineEllipsisHorizontal,
+  HiXMark,
+} from 'react-icons/hi2';
+import MainNav from './MainNav';
+import UserMenu from './UserMenu';
+import Logo from './Logo';
 
-function MobileNav({ setIsOpen }) {
-  const handleNavLinkClick = () => {
-    // Close the mobile menu when any nav link is clicked
-    setIsOpen((prev) => !prev);
-  };
+const tabs = [
+  { to: '/themes', label: 'Themes', icon: HiOutlineSquares2X2, end: true },
+  { to: '/themes', label: 'Votes', icon: HiOutlineChartBar },
+  { to: '/songs', label: 'Songs', icon: HiOutlineMusicalNote },
+];
+
+function MobileNav() {
+  const [moreOpen, setMoreOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-headerBg md:hidden">
-      <ul className="flex w-full flex-col items-start text-headerText">
-        <li className="w-full">
-          <NavLink
-            onClick={handleNavLinkClick}
-            to="/themes"
-            className={({ isActive }) =>
-              `flex w-full gap-2 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdListAlt size={28} />
-            All themes
-          </NavLink>
-        </li>
-        <li className="w-full">
-          <NavLink
-            onClick={handleNavLinkClick}
-            to="/admin-themes"
-            className={({ isActive }) =>
-              `flex w-full gap-2 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdListAlt size={28} />
-            My themes
-          </NavLink>
-        </li>
-        <li className="w-full">
-          <NavLink
-            onClick={handleNavLinkClick}
-            to="/admin-results"
-            className={({ isActive }) =>
-              `flex w-full gap-2 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdFormatListBulleted size={28} />
-            My results
-          </NavLink>
-        </li>
+    <>
+      {/* Slide-up full nav drawer */}
+      {moreOpen && (
+        <div className="fixed inset-0 z-40 md:hidden">
+          <div
+            className="absolute inset-0 bg-backdropColor"
+            onClick={() => setMoreOpen(false)}
+          />
+          <div className="absolute inset-x-0 bottom-0 max-h-[80vh] overflow-y-auto rounded-t-2xl border-t border-borderColor bg-headerBg pb-4">
+            <div className="flex items-center justify-between border-b border-borderColor px-5 py-4">
+              <Logo />
+              <button
+                onClick={() => setMoreOpen(false)}
+                className="rounded-full p-1 text-textSecondary hover:bg-bgSecondary"
+              >
+                <HiXMark size={24} />
+              </button>
+            </div>
+            <MainNav onNavigate={() => setMoreOpen(false)} />
+            <div className="border-t border-borderColor px-3 pt-3">
+              <UserMenu variant="card" />
+            </div>
+          </div>
+        </div>
+      )}
 
-        <li className="w-full">
-          <NavLink
-            onClick={handleNavLinkClick}
-            to="/songs"
-            className={({ isActive }) =>
-              `flex w-full gap-2 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdLibraryMusic size={28} />
-            Song Book
-          </NavLink>
-        </li>
-
-        <li className="w-full">
-          <NavLink
-            onClick={handleNavLinkClick}
-            to="/liturgy-of-the-hours"
-            className={({ isActive }) =>
-              `flex w-full gap-2 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdMenuBook size={28} />
-            Liturgy of the Hours
-          </NavLink>
-        </li>
-
-        <li className="w-full">
-          <NavLink
-            onClick={handleNavLinkClick}
-            to="/catechism-of-the-catholic-church/68b45c9e3d17dcca0c489c85"
-            className={({ isActive }) =>
-              `flex w-full items-center gap-4 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <MdLibraryBooks size={32} />
-            CCC
-          </NavLink>
-        </li>
-
-        <li className="w-full">
-          <NavLink
-            onClick={handleNavLinkClick}
-            to="/admin-user"
-            className={({ isActive }) =>
-              `flex w-full gap-2 px-4 py-5 text-lg hover:text-yellow ${
-                isActive ? 'text-yellow' : ''
-              }`
-            }
-          >
-            <FaRegUser size={28} />
-            <span>User Settings</span>
-          </NavLink>
-        </li>
-
-        <li className="relative mt-28 w-full">
-          <Logout />
-        </li>
-      </ul>
-    </nav>
+      {/* Fixed bottom tab bar */}
+      <nav className="fixed inset-x-0 bottom-0 z-30 flex items-stretch border-t border-borderColor bg-headerBg md:hidden">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          return (
+            <NavLink
+              key={tab.label}
+              to={tab.to}
+              end={tab.end}
+              className={({ isActive }) =>
+                `flex flex-1 flex-col items-center gap-0.5 py-2 text-[0.7rem] font-medium transition-colors ${
+                  isActive ? 'text-green' : 'text-textSecondary'
+                }`
+              }
+            >
+              <Icon size={22} />
+              {tab.label}
+            </NavLink>
+          );
+        })}
+        <button
+          onClick={() => setMoreOpen(true)}
+          className="flex flex-1 flex-col items-center gap-0.5 py-2 text-[0.7rem] font-medium text-textSecondary"
+        >
+          <HiOutlineEllipsisHorizontal size={22} />
+          More
+        </button>
+      </nav>
+    </>
   );
 }
 

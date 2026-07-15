@@ -1,39 +1,45 @@
 import Button from './Button';
 
-function CategoryMenu({ setIsCategoryShow }) {
+const CATEGORIES = [
+  { key: 'all', label: 'All Readings' },
+  { key: 'historical', label: 'Historical' },
+  { key: 'prophetical', label: 'Prophetical' },
+  { key: 'epistle', label: 'Epistle' },
+  { key: 'gospel', label: 'Gospel' },
+];
+
+function CategoryMenu({ setIsCategoryShow, active = 'all' }) {
   return (
-    <div className="mx-auto mt-6 flex w-full items-center justify-between overflow-hidden rounded-md border border-borderColor bg-bgSecondary font-semibold text-textPrimary md:w-[60%] xl:w-[50%]">
-      <Button
-        onClick={() => setIsCategoryShow('all')}
-        design="categorySelector"
-      >
-        All
-      </Button>
-      <Button
-        onClick={() => setIsCategoryShow('historical')}
-        design="categorySelector"
-      >
-        Historical
-      </Button>
-      <Button
-        onClick={() => setIsCategoryShow('prophetical')}
-        design="categorySelector"
-      >
-        Prophetical
-      </Button>
-      <Button
-        onClick={() => setIsCategoryShow('epistle')}
-        design="categorySelector"
-      >
-        Epistle
-      </Button>
-      <Button
-        onClick={() => setIsCategoryShow('gospel')}
-        design="categorySelector"
-      >
-        Gospel
-      </Button>
-    </div>
+    <>
+      {/* Mobile: dropdown */}
+      <div className="sm:hidden">
+        <select
+          value={active}
+          onChange={(e) => setIsCategoryShow(e.target.value)}
+          className="w-full rounded-xl border border-borderColor bg-bgPrimary px-4 py-2.5 text-sm font-semibold text-textPrimary focus:border-green focus:outline-none focus:ring-1 focus:ring-green"
+        >
+          {CATEGORIES.map((cat) => (
+            <option key={cat.key} value={cat.key}>
+              {cat.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Desktop: pill row */}
+      <div className="hidden w-full items-center gap-1.5 overflow-x-auto rounded-xl border border-borderColor bg-bgSecondary p-1.5 sm:flex">
+        {CATEGORIES.map((cat) => (
+          <Button
+            key={cat.key}
+            onClick={() => setIsCategoryShow(cat.key)}
+            design="categorySelector"
+            active={active === cat.key}
+          >
+            {cat.label}
+          </Button>
+        ))}
+      </div>
+    </>
   );
 }
 

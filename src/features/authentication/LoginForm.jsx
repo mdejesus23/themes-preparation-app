@@ -29,7 +29,7 @@ function LoginForm() {
     loginUser(data, {
       onSuccess: (data) => {
         const user = {
-          emai: data.data.user.email,
+          email: data.data.user.email,
           username: data.data.user.username,
           votedReadingIds: data.data.user.votedReadingIds,
           votedReadings: data.data.user.votedReadings,
@@ -91,7 +91,7 @@ function LoginForm() {
         </button>
       </FormRow>
       <div className="mb-2">
-        <Button to="/forgot-password" type="link">
+        <Button to="/forgot-password" design="link">
           Forgot password?
         </Button>
       </div>
