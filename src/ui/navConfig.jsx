@@ -21,7 +21,12 @@ export const navGroups = [
   {
     label: 'Preparation',
     items: [
-      { to: '/themes', label: 'All Themes', icon: HiOutlineSquares2X2, end: true },
+      {
+        to: '/themes',
+        label: 'All Themes',
+        icon: HiOutlineSquares2X2,
+        end: true,
+      },
       { to: '/themes', label: 'Reading Votes', icon: HiOutlineChartBar },
     ],
   },
