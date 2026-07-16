@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 function Logo({ to = '/themes', compact = false }) {
   return (
     <NavLink to={to} className="flex items-center gap-3">
-      <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow/15 text-yellow">
+      <span className="bg-yellow/15 flex h-10 w-10 items-center justify-center rounded-lg text-yellow">
         <svg
           width="24"
           height="24"
