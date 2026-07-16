@@ -21,7 +21,7 @@ function Logo({ to = '/themes', compact = false }) {
           <path d="M12 1.2v1.2" />
         </svg>
       </span>
-      <span className="flex flex-col leading-tight">
+      <span className="flex hidden flex-col leading-tight lg:flex">
         <span className="font-headfont text-base font-bold text-textPrimary">
           Themes
         </span>
