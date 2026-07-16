@@ -9,7 +9,7 @@ import { useLogoutUser } from '../features/authentication/useUserLogout';
 // Avatar + name card with a dropdown (Account Settings / Logout).
 // `variant="card"` renders the full sidebar footer card; `variant="avatar"`
 // renders a compact avatar button for the header bar.
-function UserMenu({ variant = 'card' }) {
+function UserMenu({ variant = 'card', placement = variant === 'card' ? 'up' : 'down' }) {
   const [open, setOpen] = useState(false);
   const user = useUserStore((state) => state.user);
   const { logoutUser } = useLogoutUser();
@@ -61,7 +61,7 @@ function UserMenu({ variant = 'card' }) {
       {open && (
         <div
           className={`absolute z-30 w-52 overflow-hidden rounded-xl border border-borderColor bg-bgPrimary py-1 shadow-lg ${
-            variant === 'card' ? 'bottom-full left-0 mb-2' : 'right-0 top-full mt-2'
+            placement === 'up' ? 'bottom-full left-0 mb-2' : 'right-0 top-full mt-2'
           }`}
         >
           {email && (

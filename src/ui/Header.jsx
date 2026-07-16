@@ -16,7 +16,7 @@ function Header() {
         </div>
         <div className="hidden md:block">
           <h2 className="font-headfont text-base font-semibold text-textPrimary">
-            Peace be with you, {firstName}! 🙏
+            Shalom, {firstName}!
           </h2>
           <p className="text-sm text-textSecondary">
             Prepare well, celebrate better.
