@@ -1,21 +1,29 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { HiBars3, HiXMark } from 'react-icons/hi2';
-import { MdLogin, MdMenuBook, MdLibraryMusic, MdLibraryBooks } from 'react-icons/md';
+import {
+  HiBars3,
+  HiXMark,
+  HiOutlineMusicalNote,
+  HiOutlineClock,
+  HiOutlineAcademicCap,
+  HiOutlineArrowRightOnRectangle,
+} from 'react-icons/hi2';
 import Logo from './Logo';
 import { CCC_BOOK_ID } from './navConfig';
 
+// Icons mirror the authenticated sidebar (see navConfig.jsx) so the public
+// and in-app navigation feel like one system.
 const links = [
-  { to: '/song-book', label: 'Song Book', icon: MdLibraryMusic },
+  { to: '/song-book', label: 'Song Book', icon: HiOutlineMusicalNote },
   {
     to: '/public/liturgy-of-the-hours',
     label: 'Liturgy of the Hours',
-    icon: MdMenuBook,
+    icon: HiOutlineClock,
   },
   {
     to: `/public/catechism-of-the-catholic-church/${CCC_BOOK_ID}`,
     label: 'CCC',
-    icon: MdLibraryBooks,
+    icon: HiOutlineAcademicCap,
   },
 ];
 
@@ -25,32 +33,37 @@ function PublicHeader() {
   return (
     <>
       <header className="sticky top-0 z-20 border-b border-borderColor bg-headerBg px-4 py-3">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
           <Logo to="/login" />
 
           <nav className="hidden md:block">
             <ul className="flex items-center gap-2 text-sm">
-              {links.map((l) => (
-                <li key={l.label}>
-                  <NavLink
-                    to={l.to}
-                    className={({ isActive }) =>
-                      `rounded-lg px-3 py-2 font-medium transition-colors ${
-                        isActive
-                          ? 'bg-sidebarActive text-sidebarActiveText'
-                          : 'text-textSecondary hover:bg-bgSecondary hover:text-textPrimary'
-                      }`
-                    }
-                  >
-                    {l.label}
-                  </NavLink>
-                </li>
-              ))}
+              {links.map((l) => {
+                const Icon = l.icon;
+                return (
+                  <li key={l.label}>
+                    <NavLink
+                      to={l.to}
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 rounded-lg px-3 py-2 font-medium transition-colors ${
+                          isActive
+                            ? 'bg-sidebarActive text-sidebarActiveText'
+                            : 'text-textSecondary hover:bg-bgSecondary hover:text-textPrimary'
+                        }`
+                      }
+                    >
+                      <Icon size={19} className="shrink-0" />
+                      {l.label}
+                    </NavLink>
+                  </li>
+                );
+              })}
               <li>
                 <NavLink
                   to="/login"
-                  className="ml-1 rounded-lg bg-green px-4 py-2 font-semibold text-white transition-colors hover:bg-lightGreen"
+                  className="ml-1 flex items-center gap-2 rounded-lg bg-green px-4 py-2 font-semibold text-white transition-colors hover:bg-lightGreen"
                 >
+                  <HiOutlineArrowRightOnRectangle size={19} className="shrink-0" />
                   Log in
                 </NavLink>
               </li>
@@ -85,7 +98,7 @@ function PublicHeader() {
                       }`
                     }
                   >
-                    <Icon size={26} />
+                    <Icon size={22} className="shrink-0" />
                     {l.label}
                   </NavLink>
                 </li>
@@ -97,7 +110,7 @@ function PublicHeader() {
                 to="/login"
                 className="flex w-full items-center gap-4 px-5 py-4 text-base font-semibold text-green hover:bg-bgSecondary"
               >
-                <MdLogin size={26} />
+                <HiOutlineArrowRightOnRectangle size={22} className="shrink-0" />
                 Log in
               </NavLink>
             </li>

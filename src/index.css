@@ -48,49 +48,32 @@
 /* Warm parchment texture for cream page backgrounds */
 .page-surface {
   background-color: var(--bg-secondary);
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(43, 43, 43, 0.03) 1px, transparent 0);
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(43, 43, 43, 0.03) 1px,
+    transparent 0
+  );
   background-size: 22px 22px;
 }
 
 @layer components {
   /* https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
   .loader {
-    width: 45px;
-    aspect-ratio: 0.75;
-    --c: no-repeat linear-gradient(var(--custom-green) 0 0);
-    background:
-      var(--c) 0% 50%,
-      var(--c) 50% 50%,
-      var(--c) 100% 50%;
-    background-size: 20% 50%;
-    animation: loading 1s infinite linear;
+    width: 50px;
+    padding: 8px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--custom-green);
+    --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+    -webkit-mask: var(--_m);
+    mask: var(--_m);
+    -webkit-mask-composite: source-out;
+    mask-composite: subtract;
+    animation: s3 1s infinite linear;
   }
-
-  @keyframes loading {
-    20% {
-      background-position:
-        0% 0%,
-        50% 50%,
-        100% 50%;
-    }
-    40% {
-      background-position:
-        0% 100%,
-        50% 0%,
-        100% 50%;
-    }
-    60% {
-      background-position:
-        0% 50%,
-        50% 100%,
-        100% 0%;
-    }
-    80% {
-      background-position:
-        0% 50%,
-        50% 50%,
-        100% 100%;
+  @keyframes s3 {
+    to {
+      transform: rotate(1turn);
     }
   }
 }
