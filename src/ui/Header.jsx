@@ -19,7 +19,7 @@ function Header() {
             Shalom, {firstName}!
           </h2>
           <p className="text-sm text-textSecondary">
-            Prepare well, celebrate better.
+            Peace I leave with you; my peace I give you.
           </p>
         </div>
       </div>
