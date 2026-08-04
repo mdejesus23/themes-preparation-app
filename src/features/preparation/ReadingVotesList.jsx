@@ -74,7 +74,7 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
       </div>
 
       {/* Stat cards */}
-      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mb-6 grid grid-cols-1 gap-3 xs:grid-cols-2 sm:grid-cols-3 sm:gap-4">
         <StatCard
           icon={<HiOutlineUsers size={20} />}
           label="Total Members"
@@ -98,8 +98,33 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
         active={isCategoryShow}
       />
 
-      {/* Votes table */}
-      <div className="mt-5 overflow-hidden rounded-2xl border border-borderColor bg-bgPrimary shadow-sm">
+      {/* Mobile: stacked cards */}
+      <div className="mt-5 sm:hidden">
+        {filtered.length > 0 ? (
+          <ul className="flex flex-col gap-3">
+            {filtered.map((reading) => (
+              <ReadingVoteItem
+                key={reading._id || reading.id}
+                reading={reading}
+                maxVotes={maxVotes}
+                finalReadings={finalReadings}
+                setFirstReading={setFirstReading}
+                setSecondReading={setSecondReading}
+                setThirdReading={setThirdReading}
+                setGospel={setGospel}
+                variant="card"
+              />
+            ))}
+          </ul>
+        ) : (
+          <p className="rounded-2xl border border-borderColor bg-bgPrimary py-10 text-center text-textSecondary">
+            No readings in this category.
+          </p>
+        )}
+      </div>
+
+      {/* Desktop: votes table */}
+      <div className="mt-5 hidden overflow-hidden rounded-2xl border border-borderColor bg-bgPrimary shadow-sm sm:block">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[620px] border-collapse text-sm">
             <thead>
@@ -136,29 +161,33 @@ function ReadingVotesList({ themeWithReadingsVotes }) {
       </div>
 
       {/* Actions */}
-      <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
-        <Modal>
-          <Modal.Open opens="songsm">
-            <Button design="outline">Song Book</Button>
-          </Modal.Open>
-          <Modal.Window name="songsm">
-            <SongsModal />
-          </Modal.Window>
-        </Modal>
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+        <div className="w-full sm:w-auto">
+          <Modal>
+            <Modal.Open opens="songsm">
+              <Button design="outline">Song Book</Button>
+            </Modal.Open>
+            <Modal.Window name="songsm">
+              <SongsModal />
+            </Modal.Window>
+          </Modal>
+        </div>
 
-        <Modal>
-          <Modal.Open opens="result-form">
-            <Button design="secondary">Save Final Result</Button>
-          </Modal.Open>
-          <Modal.Window name="result-form">
-            <ResultForm
-              finalReadings={finalReadings}
-              title={themeWithReadingsVotes.title}
-              draftResult={draftResult}
-              onDraftChange={setDraftResult}
-            />
-          </Modal.Window>
-        </Modal>
+        <div className="w-full sm:w-auto">
+          <Modal>
+            <Modal.Open opens="result-form">
+              <Button design="secondary">Save Final Result</Button>
+            </Modal.Open>
+            <Modal.Window name="result-form">
+              <ResultForm
+                finalReadings={finalReadings}
+                title={themeWithReadingsVotes.title}
+                draftResult={draftResult}
+                onDraftChange={setDraftResult}
+              />
+            </Modal.Window>
+          </Modal>
+        </div>
       </div>
     </div>
   );

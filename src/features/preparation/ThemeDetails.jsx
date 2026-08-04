@@ -8,9 +8,19 @@ import useThemeStore from '../../store/themeStore';
 import {
   HiMiniArrowDownTray,
   HiOutlineArrowSmallRight,
+  HiOutlineListBullet,
   HiCheck,
 } from 'react-icons/hi2';
 import Papa from 'papaparse';
+
+// CSV export columns: the four liturgical categories plus a catch-all for
+// readings that have no recognised category yet.
+const CATEGORIES = ['Historical', 'Prophetical', 'Epistle', 'Gospel'];
+const UNSORTED = 'Unsorted';
+
+// Quote every field so spreadsheets keep a reading like "1 Cor 15:24" in a
+// single cell instead of splitting it on the spaces.
+const CSV_CONFIG = { quotes: true };
 
 function ThemeDetails() {
   const [isCategoryShow, setIsCategoryShow] = useState('all');
@@ -39,36 +49,58 @@ function ThemeDetails() {
       ? readings
       : readings.filter((r) => r.category.toLowerCase() === isCategoryShow);
 
-  const handleCsvExport = () => {
-    const categories = ['Historical', 'Prophetical', 'Epistle', 'Gospel'];
-    const structuredData = [];
-    const maxRows = Math.max(
-      0,
-      ...categories.map(
-        (cat) => readings.filter((r) => r.category === cat).length,
-      ),
-    );
-
-    for (let i = 0; i < maxRows; i++) {
-      const row = {};
-      categories.forEach((category) => {
-        const filteredReadings = readings.filter(
-          (r) => r.category === category,
-        );
-        row[category] = filteredReadings[i]?.reading || '';
-      });
-      structuredData.push(row);
-    }
-    const csv = Papa.unparse(structuredData);
+  const downloadCsv = (csv, filename) => {
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', `${title}.csv`);
+    link.setAttribute('download', filename);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  // Sorted export: one column per category, readings laid out side by side.
+  const handleCsvExport = () => {
+    const grouped = Object.fromEntries(
+      [...CATEGORIES, UNSORTED].map((col) => [col, []]),
+    );
+    readings.forEach((r) => {
+      const col = CATEGORIES.includes(r.category) ? r.category : UNSORTED;
+      grouped[col].push(r.reading || '');
+    });
+
+    // Only surface the catch-all column when a reading actually landed in it.
+    const columns = grouped[UNSORTED].length
+      ? [...CATEGORIES, UNSORTED]
+      : CATEGORIES;
+
+    const maxRows = Math.max(0, ...columns.map((col) => grouped[col].length));
+    const structuredData = [];
+    for (let i = 0; i < maxRows; i++) {
+      structuredData.push(columns.map((col) => grouped[col][i] || ''));
+    }
+
+    // Explicit fields keep the header row intact even when a column is empty.
+    const csv = Papa.unparse(
+      { fields: columns, data: structuredData },
+      CSV_CONFIG,
+    );
+    downloadCsv(csv, `${title}.csv`);
+  };
+
+  // Unsorted export: every reading in a single column, in theme order.
+  const handleUnsortedCsvExport = () => {
+    const csv = Papa.unparse(
+      {
+        fields: ['Reading'],
+        data: readings.map((r) => [(r.reading || '').trim()]),
+      },
+      CSV_CONFIG,
+    );
+    downloadCsv(csv, `${title} (unsorted).csv`);
   };
 
   return (
@@ -168,7 +200,14 @@ function ThemeDetails() {
             onClick={handleCsvExport}
             className="flex w-full items-center justify-center gap-2 rounded-lg border border-borderColor bg-bgPrimary px-4 py-2.5 text-sm font-semibold text-textPrimary transition-colors hover:bg-bgSecondary sm:w-auto"
           >
-            <HiMiniArrowDownTray size={18} /> Export Readings (CSV)
+            <HiMiniArrowDownTray size={18} /> Export Sorted (CSV)
+          </button>
+          <button
+            onClick={handleUnsortedCsvExport}
+            title="Export all readings in a single column"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-borderColor bg-bgPrimary px-4 py-2.5 text-sm font-semibold text-textPrimary transition-colors hover:bg-bgSecondary sm:w-auto"
+          >
+            <HiOutlineListBullet size={18} /> Export Unsorted (CSV)
           </button>
           {isAllReadingsIsDone ? (
             <Link
