@@ -4,6 +4,7 @@ import Main from './Main';
 // import Header from './Header';
 import PublicHeader from './PublicHeader';
 import Footer from './Footer';
+import PublicMobileNav from './PublicMobileNav';
 import ScrollToTopButton from './ScrollTotop';
 
 function PublicAppLayout() {
@@ -17,6 +18,7 @@ function PublicAppLayout() {
         </Main>
         <ScrollToTopButton />
       </div>
+      <PublicMobileNav />
     </div>
   );
 }
