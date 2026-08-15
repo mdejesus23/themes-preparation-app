@@ -10,7 +10,7 @@ function Main({ type, children }) {
   }
 
   return (
-    <main className="page-surface relative flex min-h-screen w-full flex-1 flex-col items-center px-4 py-8 text-textPrimary lg:px-12 lg:py-12">
+    <main className="page-surface relative flex min-h-screen w-full flex-1 flex-col items-center px-4 pb-24 pt-8 text-textPrimary md:pb-12 lg:px-12 lg:pt-12">
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center">
         {children}
       </div>
