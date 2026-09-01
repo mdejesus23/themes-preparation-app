@@ -1,5 +1,8 @@
 import { HiChevronRight } from 'react-icons/hi2';
-import { HiOutlineBookOpen, HiOutlineClipboardDocumentCheck } from 'react-icons/hi2';
+import {
+  HiOutlineBookOpen,
+  HiOutlineClipboardDocumentCheck,
+} from 'react-icons/hi2';
 import { formatDate } from '../../utils/formatDate';
 import { themeImage, themeMeta } from '../../utils/placeholderImage';
 import Modal from '../../ui/Modal';
@@ -52,7 +55,8 @@ function ThemeItem({ theme }) {
               <div className="mt-4 flex items-center justify-between border-t border-borderColor pt-3 text-xs font-medium text-textSecondary">
                 <span className="flex items-center gap-3">
                   <span className="flex items-center gap-1">
-                    <HiOutlineBookOpen size={15} /> {meta.readingsCount} Readings
+                    <HiOutlineBookOpen size={15} /> {meta.readingsCount}{' '}
+                    Readings
                   </span>
                   <span className="flex items-center gap-1">
                     <HiOutlineClipboardDocumentCheck size={15} />{' '}
