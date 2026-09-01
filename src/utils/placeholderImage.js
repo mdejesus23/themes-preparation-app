@@ -23,8 +23,13 @@ function hashKey(key) {
   return Math.abs(h);
 }
 
+// Themes use a single neutral (colorless) placeholder so the cards don't
+// suggest a liturgical colour that isn't in the data yet.
+const NEUTRAL_IMAGE = '/placeholders/theme-neutral.svg';
+
+// eslint-disable-next-line no-unused-vars
 export function themeImage(key) {
-  return THEME_IMAGES[hashKey(key) % THEME_IMAGES.length];
+  return NEUTRAL_IMAGE;
 }
 
 export function songImage(key) {
