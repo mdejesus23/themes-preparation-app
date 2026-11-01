@@ -10,6 +10,33 @@ import Loader from '../../ui/Loader';
 import { useDeleteResult } from './useDeleteResult';
 import Pagination from '../../ui/Pagination';
 
+const RESULT_ROWS = [
+  { name: 'entranceSong', label: 'Entrance Song', notes: 'entranceSongNotes' },
+  { name: 'firstReading', label: 'First Reading', notes: 'firstReadingNotes' },
+  { name: 'firstPsalm', label: 'First Psalm', notes: 'firstPsalmNotes' },
+  { name: 'secondReading', label: 'Second Reading', notes: 'secondReadingNotes' },
+  { name: 'secondPsalm', label: 'Second Psalm', notes: 'secondPsalmNotes' },
+  { name: 'thirdReading', label: 'Third Reading', notes: 'thirdReadingNotes' },
+  { name: 'thirdPsalm', label: 'Third Psalm', notes: 'thirdPsalmNotes' },
+  { name: 'gospel', label: 'Gospel', notes: 'gospelNotes' },
+  { name: 'finalSong', label: 'Final Song', notes: 'finalNotes' },
+];
+
+function ResultNotes({ notes }) {
+  if (!notes) return null;
+
+  return (
+    <details className="mt-1 text-xs">
+      <summary className="cursor-pointer select-none font-medium text-textSecondary hover:text-textPrimary">
+        Notes
+      </summary>
+      <p className="mt-1 whitespace-pre-line rounded-sm bg-bgSecondary p-2 text-textPrimary">
+        {notes}
+      </p>
+    </details>
+  );
+}
+
 function Results() {
   const { isPending, data, error } = useAdminResults();
   const { isDeleting, deleteResult } = useDeleteResult();
@@ -36,20 +63,7 @@ function Results() {
     <>
       <ul className="my-12 grid w-full grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3">
         {paginatedThemes.map((item) => {
-          const {
-            _id: id,
-            title,
-            createdAt,
-            entranceSong,
-            firstReading,
-            firstPsalm,
-            secondReading,
-            secondPsalm,
-            thirdReading,
-            thirdPsalm,
-            gospel,
-            finalSong,
-          } = item;
+          const { _id: id, title, titleNotes, createdAt } = item;
 
           return (
             <li
@@ -65,6 +79,7 @@ function Results() {
                   <p className="text-xs text-textSecondary">
                     {formatDate(createdAt)}
                   </p>
+                  <ResultNotes notes={titleNotes} />
                 </div>
                 <Modal>
                   <Menus>
@@ -99,42 +114,24 @@ function Results() {
               <div className="p-4">
                 <table className="w-full text-left text-sm text-textPrimary">
                   <tbody>
-                    <tr className="border-b border-borderColor">
-                      <td className="py-2 font-semibold">Entrance Song:</td>
-                      <td className="py-2 text-textSecondary">{entranceSong || 'N/A'}</td>
-                    </tr>
-                    <tr className="border-b border-borderColor">
-                      <td className="py-2 font-semibold">First Reading:</td>
-                      <td className="py-2 text-textSecondary">{firstReading || 'N/A'}</td>
-                    </tr>
-                    <tr className="border-b border-borderColor">
-                      <td className="py-2 font-semibold">First Psalm:</td>
-                      <td className="py-2 text-textSecondary">{firstPsalm || 'N/A'}</td>
-                    </tr>
-                    <tr className="border-b border-borderColor">
-                      <td className="py-2 font-semibold">Second Reading:</td>
-                      <td className="py-2 text-textSecondary">{secondReading || 'N/A'}</td>
-                    </tr>
-                    <tr className="border-b border-borderColor">
-                      <td className="py-2 font-semibold">Second Psalm:</td>
-                      <td className="py-2 text-textSecondary">{secondPsalm || 'N/A'}</td>
-                    </tr>
-                    <tr className="border-b border-borderColor">
-                      <td className="py-2 font-semibold">Third Reading:</td>
-                      <td className="py-2 text-textSecondary">{thirdReading || 'N/A'}</td>
-                    </tr>
-                    <tr className="border-b border-borderColor">
-                      <td className="py-2 font-semibold">Third Psalm:</td>
-                      <td className="py-2 text-textSecondary">{thirdPsalm || 'N/A'}</td>
-                    </tr>
-                    <tr className="border-b border-borderColor">
-                      <td className="py-2 font-semibold">Gospel:</td>
-                      <td className="py-2 text-textSecondary">{gospel || 'N/A'}</td>
-                    </tr>
-                    <tr>
-                      <td className="py-2 font-semibold">Final Song:</td>
-                      <td className="py-2 text-textSecondary">{finalSong || 'N/A'}</td>
-                    </tr>
+                    {RESULT_ROWS.map(({ name, label, notes }, i) => (
+                      <tr
+                        key={name}
+                        className={
+                          i < RESULT_ROWS.length - 1
+                            ? 'border-b border-borderColor'
+                            : undefined
+                        }
+                      >
+                        <td className="py-2 align-top font-semibold">
+                          {label}:
+                        </td>
+                        <td className="py-2 text-textSecondary">
+                          {item[name] || 'N/A'}
+                          <ResultNotes notes={item[notes]} />
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

@@ -1,13 +1,67 @@
 import Form from '../../ui/Form';
 import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
+import Textarea from '../../ui/Textarea';
 import Button from '../../ui/Button';
 import { useForm, useWatch } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useCreateResult } from './useCreateResult';
 import { useEditResult } from './useEditResult';
+
+// source: where a new result gets its initial value from
+// notes: the field's matching notes field in the result schema
+const FIELDS = [
+  { name: 'title', label: 'Title', source: 'title', notes: 'titleNotes' },
+  { name: 'entranceSong', label: 'Entrance Song', source: 'draft', notes: 'entranceSongNotes' },
+  { name: 'firstReading', label: 'First Reading', source: 'reading', notes: 'firstReadingNotes' },
+  { name: 'firstPsalm', label: 'First Psalm', source: 'draft', notes: 'firstPsalmNotes' },
+  { name: 'secondReading', label: 'Second Reading', source: 'reading', notes: 'secondReadingNotes' },
+  { name: 'secondPsalm', label: 'Second Psalm', source: 'draft', notes: 'secondPsalmNotes' },
+  { name: 'thirdReading', label: 'Third Reading', source: 'reading', notes: 'thirdReadingNotes' },
+  { name: 'thirdPsalm', label: 'Third Psalm', source: 'draft', notes: 'thirdPsalmNotes' },
+  { name: 'gospel', label: 'Gospel Reading', source: 'reading', notes: 'gospelNotes' },
+  { name: 'finalSong', label: 'Final Song', source: 'draft', notes: 'finalNotes' },
+];
+
+// Fields that persist in the parent's draft while the modal is closed
+const DRAFT_FIELDS = [
+  ...FIELDS.filter((field) => field.source === 'draft').map(
+    (field) => field.name,
+  ),
+  ...FIELDS.map((field) => field.notes),
+];
+
+function NotesField({ id, label, defaultOpen, disabled, register }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <div className="mt-2">
+      <button
+        type="button"
+        onClick={() => setIsOpen((open) => !open)}
+        aria-expanded={isOpen}
+        aria-controls={id}
+        className="text-xs font-medium text-textSecondary hover:text-textPrimary"
+      >
+        {isOpen ? '− Hide notes' : '+ Add notes'}
+      </button>
+      {isOpen && (
+        <div className="mt-2">
+          <Textarea
+            disabled={disabled}
+            id={id}
+            name={id}
+            rows={3}
+            placeholder={`Notes for ${label.toLowerCase()}`}
+            register={{ ...register(id) }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
 
 function ResultForm({
   onCloseModal,
@@ -22,20 +76,23 @@ function ResultForm({
   const isWorking = isCreating || isEditing;
   const navigate = useNavigate();
 
-  const {
-    _id: editId,
-    title: resultTitle,
-    entranceSong,
-    firstReading,
-    firstPsalm,
-    secondReading,
-    secondPsalm,
-    thirdReading,
-    thirdPsalm,
-    gospel,
-    finalSong,
-  } = resultToEdit;
+  const { _id: editId } = resultToEdit;
   const isEditSession = Boolean(editId);
+
+  function getDefaultValue({ name, source }) {
+    if (isEditSession) return resultToEdit[name] || '';
+    if (source === 'title') return title || '';
+    if (source === 'reading') return finalReadings?.[name] || '';
+    return draftResult[name] || '';
+  }
+
+  const notesSource = isEditSession ? resultToEdit : draftResult;
+  const defaultValues = Object.fromEntries(
+    FIELDS.flatMap((field) => [
+      [field.name, getDefaultValue(field)],
+      [field.notes, notesSource[field.notes] || ''],
+    ]),
+  );
 
   const {
     register,
@@ -43,50 +100,19 @@ function ResultForm({
     reset,
     control,
     formState: { errors },
-  } = useForm({
-    defaultValues: isEditSession
-      ? {
-          title: resultTitle,
-          entranceSong: entranceSong,
-          firstReading: firstReading,
-          firstPsalm: firstPsalm,
-          secondReading: secondReading,
-          secondPsalm: secondPsalm,
-          thirdReading: thirdReading,
-          thirdPsalm: thirdPsalm,
-          gospel: gospel,
-          finalSong: finalSong,
-        }
-      : {
-          title: title,
-          entranceSong: draftResult.entranceSong || '',
-          firstReading: finalReadings?.firstReading || '',
-          firstPsalm: draftResult.firstPsalm || '',
-          secondReading: finalReadings?.secondReading || '',
-          secondPsalm: draftResult.secondPsalm || '',
-          thirdReading: finalReadings?.thirdReading || '',
-          thirdPsalm: draftResult.thirdPsalm || '',
-          gospel: finalReadings?.gospel || '',
-          finalSong: draftResult.finalSong || '',
-        },
-  });
+  } = useForm({ defaultValues });
 
   // Watch specific fields that need to persist
-  const watchedFields = useWatch({
-    control,
-    name: ['entranceSong', 'firstPsalm', 'secondPsalm', 'thirdPsalm', 'finalSong'],
-  });
+  const watchedFields = useWatch({ control, name: DRAFT_FIELDS });
 
   // Sync draft fields back to parent when they change
   useEffect(() => {
     if (onDraftChange && !isEditSession) {
-      onDraftChange({
-        entranceSong: watchedFields[0] || '',
-        firstPsalm: watchedFields[1] || '',
-        secondPsalm: watchedFields[2] || '',
-        thirdPsalm: watchedFields[3] || '',
-        finalSong: watchedFields[4] || '',
-      });
+      onDraftChange(
+        Object.fromEntries(
+          DRAFT_FIELDS.map((name, i) => [name, watchedFields[i] || '']),
+        ),
+      );
     }
   }, [watchedFields, onDraftChange, isEditSession]);
 
@@ -113,184 +139,35 @@ function ResultForm({
   }
 
   return (
-    // <p>test</p>
     <Form onSubmit={handleSubmit(onSubmit)} type="tertiary">
-      <FormRow name="title" label="Title" error={errors?.title?.message}>
-        <Input
-          disabled={isWorking}
-          type="text"
-          id="title"
-          name="title"
-          placeholder="Theme title "
-          register={{
-            ...register('title', {
-              required: 'This field is required',
-            }),
-          }}
-        />
-      </FormRow>
-      <FormRow
-        name="entranceSong"
-        label="Theme entranceSong"
-        error={errors?.entranceSong?.message}
-      >
-        <Input
-          disabled={isWorking}
-          type="text"
-          id="entranceSong"
-          name="entranceSong"
-          placeholder="Theme entranceSong"
-          register={{
-            ...register('entranceSong', {
-              required: 'This field is required',
-            }),
-          }}
-        />
-      </FormRow>
-      <FormRow
-        name="firstReading"
-        label="First Reading"
-        error={errors?.firstReading?.message}
-      >
-        <Input
-          disabled={isWorking}
-          type="text"
-          id="firstReading"
-          name="firstReading"
-          placeholder="First Reading"
-          register={{
-            ...register('firstReading', {
-              required: 'This field is required',
-            }),
-          }}
-        />
-      </FormRow>
-      <FormRow
-        name="firstPsalm"
-        label="First psalm"
-        error={errors?.firstPsalm?.message}
-      >
-        <Input
-          disabled={isWorking}
-          type="text"
-          id="firstPsalm"
-          name="firstPsalm"
-          placeholder="First psalm"
-          register={{
-            ...register('firstPsalm', {
-              required: 'This field is required',
-            }),
-          }}
-        />
-      </FormRow>
-      <FormRow
-        name="secondReading"
-        label="Second Reading"
-        error={errors?.secondReading?.message}
-      >
-        <Input
-          disabled={isWorking}
-          type="text"
-          id="secondReading"
-          name="secondReading"
-          placeholder="Second Reading"
-          register={{
-            ...register('secondReading', {
-              required: 'This field is required',
-            }),
-          }}
-        />
-      </FormRow>
-      <FormRow
-        name="secondPsalm"
-        label="Second psalm"
-        error={errors?.secondPsalm?.message}
-      >
-        <Input
-          disabled={isWorking}
-          type="text"
-          id="secondPsalm"
-          name="secondPsalm"
-          placeholder="Second psalm"
-          register={{
-            ...register('secondPsalm', {
-              required: 'This field is required',
-            }),
-          }}
-        />
-      </FormRow>
-      <FormRow
-        name="thirdReading"
-        label="third Reading"
-        error={errors?.thirdReading?.message}
-      >
-        <Input
-          disabled={isWorking}
-          type="text"
-          id="thirdReading"
-          name="thirdReading"
-          placeholder="third Reading"
-          register={{
-            ...register('thirdReading', {
-              required: 'This field is required',
-            }),
-          }}
-        />
-      </FormRow>
-      <FormRow
-        name="thirdPsalm"
-        label="third psalm"
-        error={errors?.thirdPsalm?.message}
-      >
-        <Input
-          disabled={isWorking}
-          type="text"
-          id="thirdPsalm"
-          name="thirdPsalm"
-          placeholder="third psalm"
-          register={{
-            ...register('thirdPsalm', {
-              required: 'This field is required',
-            }),
-          }}
-        />
-      </FormRow>
-      <FormRow
-        name="gospel"
-        label="Gospel Reading"
-        error={errors?.gospel?.message}
-      >
-        <Input
-          disabled={isWorking}
-          type="text"
-          id="gospel"
-          name="gospel"
-          placeholder="Gospel Reading"
-          register={{
-            ...register('gospel', {
-              required: 'This field is required',
-            }),
-          }}
-        />
-      </FormRow>
-      <FormRow
-        name="finalSong"
-        label="Final Song"
-        error={errors?.finalSong?.message}
-      >
-        <Input
-          disabled={isWorking}
-          type="text"
-          id="finalSong"
-          name="finalSong"
-          placeholder="Gospel Reading"
-          register={{
-            ...register('finalSong', {
-              required: 'This field is required',
-            }),
-          }}
-        />
-      </FormRow>
+      {FIELDS.map(({ name, label, notes }) => (
+        <FormRow
+          key={name}
+          name={name}
+          label={label}
+          error={errors?.[name]?.message}
+        >
+          <Input
+            disabled={isWorking}
+            type="text"
+            id={name}
+            name={name}
+            placeholder={label}
+            register={{
+              ...register(name, {
+                required: 'This field is required',
+              }),
+            }}
+          />
+          <NotesField
+            id={notes}
+            label={label}
+            defaultOpen={Boolean(defaultValues[notes])}
+            disabled={isWorking}
+            register={register}
+          />
+        </FormRow>
+      ))}
       <div>
         <Button type="submit" design="primary">
           Create Preparation Result
