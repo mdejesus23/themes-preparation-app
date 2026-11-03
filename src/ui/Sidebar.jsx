@@ -1,6 +1,6 @@
 import MainNav from './MainNav';
 import Logo from './Logo';
-import UserMenu from './UserMenu';
+// import UserMenu from './UserMenu';
 
 function Sidebar() {
   return (

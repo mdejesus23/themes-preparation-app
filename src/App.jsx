@@ -71,7 +71,10 @@ function App() {
                 <Route path="songs" element={<Songs />} />
                 <Route path="songs/:songId" element={<Song />} />
                 <Route path="liturgy-of-the-hours" element={<Liturgy />} />
-                <Route path="liturgy-of-the-hours/:liturgyId" element={<LiturgyItemPage />} />
+                <Route
+                  path="liturgy-of-the-hours/:liturgyId"
+                  element={<LiturgyItemPage />}
+                />
                 <Route
                   path="catechism-of-the-catholic-church/:bookId"
                   element={<CatechismOfTheCatholicChurch />}

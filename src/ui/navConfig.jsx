@@ -6,7 +6,6 @@ import {
   HiOutlineCog6Tooth,
   HiOutlineMusicalNote,
   HiOutlineClock,
-  HiOutlineAcademicCap,
   HiOutlineEnvelope,
   HiOutlineDocumentText,
   HiOutlineShieldCheck,
@@ -31,12 +30,12 @@ export const publicLinks = [
     shortLabel: 'Breviary',
     icon: HiOutlineClock,
   },
-  {
-    to: `/public/catechism-of-the-catholic-church/${CCC_BOOK_ID}`,
-    label: 'CCC',
-    shortLabel: 'CCC',
-    icon: HiOutlineBookOpen,
-  },
+  // {
+  //   to: `/public/catechism-of-the-catholic-church/${CCC_BOOK_ID}`,
+  //   label: 'CCC',
+  //   shortLabel: 'CCC',
+  //   icon: HiOutlineBookOpen,
+  // },
 ];
 
 // Grouped navigation used by the sidebar. Each group renders a small
@@ -79,11 +78,11 @@ export const navGroups = [
         label: 'Office of Readings',
         icon: HiOutlineClock,
       },
-      {
-        to: `/catechism-of-the-catholic-church/${CCC_BOOK_ID}`,
-        label: 'Catechism',
-        icon: HiOutlineBookOpen,
-      },
+      // {
+      //   to: `/catechism-of-the-catholic-church/${CCC_BOOK_ID}`,
+      //   label: 'Catechism',
+      //   icon: HiOutlineBookOpen,
+      // },
     ],
   },
   {
