@@ -25,11 +25,17 @@ export async function getLiturgyById(id) {
   }
 }
 
-export async function getAllLiturgies(page = 1, season = '', week = '') {
+export async function getAllLiturgies(
+  page = 1,
+  season = '',
+  week = '',
+  search = '',
+) {
   try {
     let url = `/api/v1/liturgy-of-hours/filter?sort=order&limit=20&page=${page}`;
-    if (season) url += `&season=${season}`;
-    if (week) url += `&week=${week}`;
+    if (season) url += `&season=${encodeURIComponent(season)}`;
+    if (week) url += `&week=${encodeURIComponent(week)}`;
+    if (search) url += `&search=${encodeURIComponent(search)}`;
 
     const response = await api.get(url);
 
