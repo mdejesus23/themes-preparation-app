@@ -22,6 +22,10 @@ export function useVoteReading(themeId) {
       queryClient.invalidateQueries({
         queryKey: ['user'],
       });
+      // Admins can also vote from the admin theme page.
+      queryClient.invalidateQueries({
+        queryKey: ['admin-themes', themeId],
+      });
     },
     onError: (err) => toast.error(err.response.data.message),
   });
