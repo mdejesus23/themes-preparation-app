@@ -12,20 +12,21 @@ import {
 const SEARCH_DEBOUNCE_MS = 400;
 
 const SEASONS = [
+  'Ordinary Time',
   'Advent',
   'Christmas',
   'Lent',
   'Paschal Time',
-  'Ordinary Time',
 ];
 
 function LiturgyOfTheHours({ season, week }) {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const [seasonState, setSeasonState] = useState(season || '');
+  const [seasonState, setSeasonState] = useState('');
   const [weekState, setWeekState] = useState(week || '');
-  const [searchInput, setSearchInput] = useState('');
-  const [search, setSearch] = useState('');
+  const initialSearch = week ? String(week) : '';
+  const [searchInput, setSearchInput] = useState(initialSearch);
+  const [search, setSearch] = useState(initialSearch);
 
   // Debounce the search input so we don't hit the API on every keystroke
   useEffect(() => {
@@ -107,7 +108,7 @@ function LiturgyOfTheHours({ season, week }) {
             onChange={handleSeasonChange}
             className="rounded-lg border border-borderColor bg-bgPrimary px-3 py-2 text-sm text-textPrimary outline-none transition-colors hover:border-textSecondary focus:border-blue"
           >
-            <option value="">All Seasons</option>
+            <option value="">Choose Seasons</option>
             {SEASONS.map((s) => (
               <option key={s} value={s}>
                 {s}

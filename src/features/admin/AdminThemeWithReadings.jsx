@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { HiOutlinePlus } from 'react-icons/hi2';
+import { HiOutlinePlus, HiOutlineArrowPath } from 'react-icons/hi2';
 import { formatDate } from '../../utils/formatDate';
-import { themeMeta } from '../../utils/placeholderImage';
 import AdminThemeReading from './AdminThemeReading';
 import AddReadingForm from './AddReadingForm';
 import CategoryMenu from '../../ui/CategoryMenu';
@@ -10,19 +9,49 @@ import Button from '../../ui/Button';
 import Modal from '../../ui/Modal';
 import Loader from '../../ui/Loader';
 import { useAdminThemesWithReadings } from './useAdminThemesWithReadings';
+import ResultBuilder from './ResultBuilder';
+import { useReadingOrder } from './useReadingOrder';
+import {
+  EMPTY_FINAL_READINGS,
+  assignReading,
+  slotOfVerse,
+} from './resultSlots';
+
+// Stable fallback so useReadingOrder's memo doesn't recompute every render.
+const EMPTY_LIST = [];
 
 function AdminThemeWithReadings() {
   const { themeId } = useParams();
   const { isPending, data, error } = useAdminThemesWithReadings(themeId);
   const [isCategoryShow, setIsCategoryShow] = useState('all');
+  const [finalReadings, setFinalReadings] = useState(EMPTY_FINAL_READINGS);
+  // Song/psalm/notes fields typed in the result form, kept while it's closed.
+  const [draftResult, setDraftResult] = useState({});
+
+  const handleAssign = useCallback(
+    (slotKey, verse) =>
+      setFinalReadings((prev) => assignReading(prev, slotKey, verse)),
+    [],
+  );
+  const handleClear = useCallback(
+    (slotKey) => setFinalReadings((prev) => ({ ...prev, [slotKey]: null })),
+    [],
+  );
+
+  const myThemesWithReadings = data?.data;
+  const {
+    orderedReadings: readings,
+    moveReading,
+    stepReading,
+    resetOrder,
+    isCustomOrder,
+  } = useReadingOrder(themeId, myThemesWithReadings?.readings ?? EMPTY_LIST);
 
   if (isPending) return <Loader />;
 
   if (error) return <p className="text-textPrimary">{error.message}</p>;
 
-  const myThemesWithReadings = data?.data;
-  const { readings = [], title, createdAt } = myThemesWithReadings ?? {};
-  const meta = themeMeta(myThemesWithReadings?.id || title);
+  const { title, createdAt } = myThemesWithReadings ?? {};
 
   const total = readings.length;
   // The admin endpoint may or may not include tallies; only show the column
@@ -37,6 +66,22 @@ function AdminThemeWithReadings() {
 
   const columnCount = showVotes ? 4 : 3;
 
+  // Props shared by the card and row renderings of one reading, including its
+  // position in the full sequence and arrow moves within the visible list.
+  const visibleIds = filtered.map((r) => r._id);
+  const readingProps = (reading, index) => ({
+    reading,
+    themeId,
+    showVotes,
+    selectedSlot: slotOfVerse(finalReadings, reading.reading),
+    onAssign: handleAssign,
+    sequence: readings.indexOf(reading) + 1,
+    onMove: moveReading,
+    onStep: (direction) => stepReading(reading._id, direction, visibleIds),
+    canMoveUp: index > 0,
+    canMoveDown: index < filtered.length - 1,
+  });
+
   return (
     <div className="w-full">
       {/* Header */}
@@ -46,7 +91,7 @@ function AdminThemeWithReadings() {
             {title}
           </h1>
           <p className="mt-1 text-sm text-textSecondary">
-            {formatDate(createdAt)} &middot; {meta.year} &middot; {meta.color}
+            {formatDate(createdAt)}
           </p>
         </div>
         <div className="flex items-center gap-6 rounded-xl border border-borderColor bg-bgPrimary px-4 py-2.5 shadow-sm">
@@ -69,6 +114,15 @@ function AdminThemeWithReadings() {
         </div>
       </div>
 
+      <ResultBuilder
+        title={title}
+        finalReadings={finalReadings}
+        onAssign={handleAssign}
+        onClear={handleClear}
+        draftResult={draftResult}
+        onDraftChange={setDraftResult}
+      />
+
       {/* Tabs */}
       <CategoryMenu
         setIsCategoryShow={setIsCategoryShow}
@@ -79,12 +133,10 @@ function AdminThemeWithReadings() {
       <div className="mt-5 sm:hidden">
         {filtered.length > 0 ? (
           <ul className="flex flex-col gap-3">
-            {filtered.map((reading) => (
+            {filtered.map((reading, index) => (
               <AdminThemeReading
                 key={reading._id}
-                reading={reading}
-                themeId={themeId}
-                showVotes={showVotes}
+                {...readingProps(reading, index)}
                 variant="card"
               />
             ))}
@@ -114,12 +166,10 @@ function AdminThemeWithReadings() {
             </thead>
             <tbody>
               {filtered.length > 0 ? (
-                filtered.map((reading) => (
+                filtered.map((reading, index) => (
                   <AdminThemeReading
                     key={reading._id}
-                    reading={reading}
-                    themeId={themeId}
-                    showVotes={showVotes}
+                    {...readingProps(reading, index)}
                   />
                 ))
               ) : (
@@ -139,9 +189,21 @@ function AdminThemeWithReadings() {
 
       {/* Actions */}
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-textSecondary">
-          Showing {filtered.length} of {total} readings
-        </p>
+        <div className="flex items-center gap-3">
+          <p className="text-xs text-textSecondary">
+            Showing {filtered.length} of {total} readings &middot; drag to
+            reorder
+          </p>
+          {isCustomOrder && (
+            <button
+              type="button"
+              onClick={resetOrder}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-textSecondary hover:text-green"
+            >
+              <HiOutlineArrowPath size={14} /> Reset order
+            </button>
+          )}
+        </div>
         <Modal>
           <Modal.Open opens="add-reading-form">
             <Button design="secondary">
