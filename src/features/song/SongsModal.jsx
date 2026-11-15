@@ -3,6 +3,7 @@ import Button from '../../ui/Button';
 import { useSongs } from './useSongs';
 import { useSong } from './useSong';
 import Loader from '../../ui/Loader';
+import Pagination from '../../ui/Pagination';
 import { SONGS_PER_PAGE } from '../../data/constant';
 import { HiArrowPath, HiArrowLeft } from 'react-icons/hi2';
 
@@ -190,25 +191,11 @@ function SongsModal() {
         )}
       </div>
 
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-        <button
-          onClick={() => handlePageChange(Math.max(page - 1, 1))}
-          disabled={page === 1}
-          className="bg-bgSecondary border border-borderColor text-textPrimary rounded px-4 py-2 disabled:opacity-50"
-        >
-          Prev
-        </button>
-        <span className="text-sm">
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={() => handlePageChange(Math.min(page + 1, totalPages))}
-          disabled={page === totalPages}
-          className="bg-bgSecondary border border-borderColor text-textPrimary rounded px-4 py-2 disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      <Pagination
+        currentPage={Number(currentPage) || page}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }

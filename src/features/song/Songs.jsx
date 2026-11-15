@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, NavLink } from 'react-router-dom';
-import { HiMagnifyingGlass, HiArrowPath, HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
+import { HiMagnifyingGlass, HiArrowPath } from 'react-icons/hi2';
 import { useSongs } from './useSongs';
 import Loader from '../../ui/Loader';
+import Pagination from '../../ui/Pagination';
 import { SONGS_PER_PAGE } from '../../data/constant';
 import useUserStore from '../../store/useUserStore';
 import { songImage } from '../../utils/placeholderImage';
@@ -147,27 +148,12 @@ function SongBook() {
       )}
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="mt-8 flex items-center justify-center gap-4">
-          <button
-            onClick={() => handlePageChange(Math.max(page - 1, 1))}
-            disabled={page === 1}
-            className="flex items-center gap-1 rounded-lg border border-borderColor bg-bgPrimary px-4 py-2 text-sm font-medium text-textPrimary transition-colors hover:bg-bgSecondary disabled:opacity-40"
-          >
-            <HiChevronLeft size={16} /> Prev
-          </button>
-          <span className="text-sm text-textSecondary">
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={() => handlePageChange(Math.min(page + 1, totalPages))}
-            disabled={page === totalPages}
-            className="flex items-center gap-1 rounded-lg border border-borderColor bg-bgPrimary px-4 py-2 text-sm font-medium text-textPrimary transition-colors hover:bg-bgSecondary disabled:opacity-40"
-          >
-            Next <HiChevronRight size={16} />
-          </button>
-        </div>
-      )}
+      <Pagination
+        currentPage={Number(currentPage) || page}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        className="mt-8"
+      />
     </div>
   );
 }
