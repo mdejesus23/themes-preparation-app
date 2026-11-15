@@ -2,12 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLiturgyOfTheHours } from './useLiturgyOfTheHours';
 import Loader from '../../ui/Loader';
-import {
-  HiArrowSmallRight,
-  HiArrowSmallLeft,
-  HiMagnifyingGlass,
-  HiXMark,
-} from 'react-icons/hi2';
+import Pagination from '../../ui/Pagination';
+import { HiMagnifyingGlass, HiXMark } from 'react-icons/hi2';
 
 const SEARCH_DEBOUNCE_MS = 400;
 
@@ -171,29 +167,12 @@ function LiturgyOfTheHours({ season, week }) {
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between px-1">
-            <button
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-              className="flex items-center gap-1 rounded-lg border border-borderColor bg-bgPrimary px-4 py-2 text-sm text-textPrimary transition-colors hover:bg-borderColor active:scale-95 disabled:opacity-40"
-            >
-              <HiArrowSmallLeft size={18} />
-              Previous
-            </button>
-
-            <span className="text-sm text-textSecondary">
-              Page {page} of {totalPages}
-            </span>
-
-            <button
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-              className="flex items-center gap-1 rounded-lg border border-borderColor bg-bgPrimary px-4 py-2 text-sm text-textPrimary transition-colors hover:bg-borderColor active:scale-95 disabled:opacity-40"
-            >
-              Next
-              <HiArrowSmallRight size={18} />
-            </button>
-          </div>
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+            className=""
+          />
         </>
       )}
     </div>
