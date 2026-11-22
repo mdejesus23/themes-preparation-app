@@ -8,7 +8,7 @@ export function useLiturgyOfTheHours(
   week = '',
   search = '',
 ) {
-  const { isPending, isFetching, data, error } = useQuery({
+  const { isPending, isFetching, isPlaceholderData, data, error } = useQuery({
     queryKey: ['liturgy-of-the-hours', page, season, week, search],
     queryFn: async () => getAllLiturgies(page, season, week, search),
     // Keep showing the previous results while a new search/page loads
@@ -16,5 +16,5 @@ export function useLiturgyOfTheHours(
     onError: (err) => toast.error(err.message),
   });
 
-  return { isPending, isFetching, data, error };
+  return { isPending, isFetching, isPlaceholderData, data, error };
 }
