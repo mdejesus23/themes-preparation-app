@@ -6,6 +6,7 @@ import PublicHeader from './PublicHeader';
 import Footer from './Footer';
 import PublicMobileNav from './PublicMobileNav';
 import ScrollToTopButton from './ScrollTotop';
+import BibleWidget from './BibleWidget';
 
 function PublicAppLayout() {
   return (
@@ -19,6 +20,7 @@ function PublicAppLayout() {
         <ScrollToTopButton />
       </div>
       <PublicMobileNav />
+      <BibleWidget />
     </div>
   );
 }
