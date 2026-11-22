@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLiturgyOfTheHours } from './useLiturgyOfTheHours';
 import Loader from '../../ui/Loader';
@@ -6,6 +6,8 @@ import Pagination from '../../ui/Pagination';
 import { HiMagnifyingGlass, HiXMark } from 'react-icons/hi2';
 
 const SEARCH_DEBOUNCE_MS = 400;
+// Readings per page, as returned by the API
+const PAGE_SIZE = 20;
 
 const SEASONS = [
   'Ordinary Time',
@@ -23,6 +25,7 @@ function LiturgyOfTheHours({ season, week }) {
   const initialSearch = week ? String(week) : '';
   const [searchInput, setSearchInput] = useState(initialSearch);
   const [search, setSearch] = useState(initialSearch);
+  const tableTopRef = useRef(null);
 
   // Debounce the search input so we don't hit the API on every keystroke
   useEffect(() => {
@@ -36,12 +39,8 @@ function LiturgyOfTheHours({ season, week }) {
     return () => clearTimeout(timer);
   }, [searchInput, search]);
 
-  const { isPending, isFetching, data, error } = useLiturgyOfTheHours(
-    page,
-    seasonState,
-    weekState,
-    search,
-  );
+  const { isPending, isFetching, isPlaceholderData, data, error } =
+    useLiturgyOfTheHours(page, seasonState, weekState, search);
 
   if (error) {
     console.error('Error fetching liturgy of the hours:', error);
@@ -120,7 +119,10 @@ function LiturgyOfTheHours({ season, week }) {
         <>
           {/* Table */}
           <div
-            className={`overflow-x-auto rounded-lg border border-borderColor transition-opacity ${isFetching ? 'opacity-60' : ''}`}
+            ref={tableTopRef}
+            tabIndex={-1}
+            aria-busy={isFetching}
+            className={`scroll-mt-24 overflow-x-auto rounded-lg border border-borderColor outline-none transition-opacity ${isFetching ? 'opacity-60' : ''}`}
           >
             <table className="w-full text-left text-sm">
               <thead className="border-b border-borderColor bg-bgSecondary text-xs uppercase text-textSecondary">
@@ -140,7 +142,7 @@ function LiturgyOfTheHours({ season, week }) {
                     className="cursor-pointer bg-bgPrimary text-textPrimary transition-colors hover:bg-bgSecondary"
                   >
                     <td className="px-4 py-3 text-textSecondary">
-                      {(page - 1) * 20 + index + 1}
+                      {(page - 1) * PAGE_SIZE + index + 1}
                     </td>
                     <td className="px-4 py-3 font-medium">{reading.title}</td>
                     <td className="px-4 py-3">{reading.season}</td>
@@ -171,7 +173,12 @@ function LiturgyOfTheHours({ season, week }) {
             currentPage={page}
             totalPages={totalPages}
             onPageChange={setPage}
-            className=""
+            className="mt-2"
+            totalItems={totalDocuments}
+            pageSize={PAGE_SIZE}
+            itemLabel="readings"
+            scrollTarget={tableTopRef}
+            disabled={isPlaceholderData}
           />
         </>
       )}

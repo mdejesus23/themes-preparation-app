@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import Button from '../../ui/Button';
-import { useSongs } from './useSongs';
+import { useInfiniteSongs } from './useSongs';
 import { useSong } from './useSong';
 import Loader from '../../ui/Loader';
-import Pagination from '../../ui/Pagination';
 import { SONGS_PER_PAGE } from '../../data/constant';
 import { HiArrowPath, HiArrowLeft } from 'react-icons/hi2';
 
@@ -49,14 +48,21 @@ function SongDetail({ songId, onBack }) {
 }
 
 function SongsModal() {
-  const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [selectedSongId, setSelectedSongId] = useState(null);
 
-  const { isPending, data, error } = useSongs({
-    page,
+  const {
+    isPending,
+    isFetching,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+    songs,
+    totalItems,
+    error,
+  } = useInfiniteSongs({
     limit: SONGS_PER_PAGE,
     search,
     category,
@@ -69,25 +75,18 @@ function SongsModal() {
   function handleSearchSubmit(e) {
     e.preventDefault();
     setSearch(inputValue.trim());
-    setPage(1);
   }
 
   function handleChangeCategory(newCategory) {
     setCategory(newCategory);
     setSearch('');
     setInputValue('');
-    setPage(1);
   }
 
   function handleReset() {
     setSearch('');
     setCategory('');
     setInputValue('');
-    setPage(1);
-  }
-
-  function handlePageChange(newPage) {
-    setPage(newPage);
   }
 
   function handleSongClick(songId) {
@@ -111,7 +110,8 @@ function SongsModal() {
     return <div className="text-red-500">Failed to load songs.</div>;
   }
 
-  const { data: songs, currentPage, totalPages } = data;
+  // Filters changed and the new list is still loading (old list kept on screen)
+  const isRefreshing = isFetching && !isFetchingNextPage;
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
@@ -159,16 +159,21 @@ function SongsModal() {
       </div>
 
       {/* songs list */}
-      <div className="my-12 w-full max-w-3xl space-y-4">
-        {songs && songs.length > 0 ? (
+      <div
+        aria-busy={isRefreshing}
+        className={`mt-12 w-full max-w-3xl space-y-4 transition-opacity ${
+          isRefreshing ? 'opacity-60' : ''
+        }`}
+      >
+        {songs.length > 0 ? (
           songs.map((song, index) => (
             <div
               key={song._id}
               className="grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b pb-3 last:border-b-0"
             >
               {/* Song Number */}
-              <span className="text-textSecondary w-6 text-right text-sm">
-                #{(page - 1) * SONGS_PER_PAGE + index + 1}
+              <span className="w-6 text-right text-sm text-textSecondary">
+                #{index + 1}
               </span>
 
               {/* Song Title */}
@@ -181,21 +186,37 @@ function SongsModal() {
               </button>
 
               {/* Category */}
-              <span className="text-textSecondary truncate text-right text-sm">
+              <span className="truncate text-right text-sm text-textSecondary">
                 {song.category}
               </span>
             </div>
           ))
         ) : (
-          <div className="text-textSecondary text-center">No songs found.</div>
+          <div className="text-center text-textSecondary">No songs found.</div>
         )}
       </div>
 
-      <Pagination
-        currentPage={Number(currentPage) || page}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {songs.length > 0 && (
+        <div className="mb-4 mt-8 flex flex-col items-center gap-3">
+          <p aria-live="polite" className="text-sm text-textSecondary">
+            Showing{' '}
+            <span className="font-medium text-textPrimary">{songs.length}</span>{' '}
+            of{' '}
+            <span className="font-medium text-textPrimary">{totalItems}</span>{' '}
+            songs
+          </p>
+          {hasNextPage && (
+            <Button
+              design="outline"
+              type="button"
+              onClick={() => fetchNextPage()}
+              disabled={isFetching}
+            >
+              {isFetchingNextPage ? 'Loading…' : 'Load more'}
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

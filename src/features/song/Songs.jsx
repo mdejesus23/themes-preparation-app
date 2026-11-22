@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSearchParams, NavLink } from 'react-router-dom';
 import { HiMagnifyingGlass, HiArrowPath } from 'react-icons/hi2';
 import { useSongs } from './useSongs';
@@ -25,8 +25,9 @@ function SongBook() {
   const category = searchParams.get('category') || '';
 
   const [inputValue, setInputValue] = useState(search);
+  const listTopRef = useRef(null);
 
-  const { isPending, data, error } = useSongs({
+  const { isPending, isPlaceholderData, data, error } = useSongs({
     page,
     limit: SONGS_PER_PAGE,
     search,
@@ -66,10 +67,14 @@ function SongBook() {
     return <div className="text-red-500">Failed to load songs.</div>;
   }
 
-  const { data: songs, currentPage, totalPages } = data;
+  const { data: songs, totalPages, totalDocuments } = data;
 
   return (
-    <div className="w-full">
+    <div
+      ref={listTopRef}
+      tabIndex={-1}
+      className="w-full scroll-mt-24 outline-none"
+    >
       {/* Search + filter toolbar */}
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
         <form onSubmit={handleSearchSubmit} className="relative flex-1">
@@ -109,7 +114,12 @@ function SongBook() {
 
       {/* Card grid */}
       {songs && songs.length > 0 ? (
-        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <ul
+          aria-busy={isPlaceholderData}
+          className={`grid grid-cols-2 gap-4 transition-opacity sm:grid-cols-3 lg:grid-cols-4 ${
+            isPlaceholderData ? 'opacity-60' : ''
+          }`}
+        >
           {songs.map((song) => (
             <li key={song._id}>
               <NavLink
@@ -149,10 +159,15 @@ function SongBook() {
 
       {/* Pagination */}
       <Pagination
-        currentPage={Number(currentPage) || page}
+        currentPage={page}
         totalPages={totalPages}
         onPageChange={handlePageChange}
         className="mt-8"
+        totalItems={totalDocuments}
+        pageSize={SONGS_PER_PAGE}
+        itemLabel="songs"
+        scrollTarget={listTopRef}
+        disabled={isPlaceholderData}
       />
     </div>
   );
