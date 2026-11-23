@@ -86,7 +86,7 @@ function SongBook() {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Search psalms or songs..."
+            placeholder="Search title or lyrics..."
             className="w-full rounded-lg border border-borderColor bg-bgPrimary py-2.5 pl-10 pr-10 text-sm text-textPrimary placeholder:text-textSecondary focus:border-green focus:outline-none focus:ring-1 focus:ring-green"
           />
           <button
